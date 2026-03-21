@@ -11,6 +11,7 @@ emi = "1.1.10+1.21"
 jei = "19.9.1.125"
 top = "1.21_neo-12.0.4-6"
 lombok = "1.18.36"
+datagenUtils = "1.2.4" # My (Traister101) datagen lib. Includes TFC datagen helpers, recomended
 # Stupid dependecies
 jadeFileId = "5591256"
 weather2FileId = "6634565"
@@ -27,7 +28,9 @@ emi = { group = "dev.emi", name = "emi-neoforge", version.ref = "emi" }
 top = { group = "mcjty.theoneprobe", name = "theoneprobe", version.ref = "top" }
 jade = { group = "curse.maven", name = "jade-324717", version.ref = "jadeFileId" }
 weather2 = { group = "curse.maven", name = "weather-2-237746", version.ref = "weather2FileId" }
-
+# Datagen libs
+datagenUtils = { group = "mod.traister101.datagenutils", name = "Datagen-Utils-1.21.1", version.ref = "datagenUtils" }
+# Test libs
 junit-platform = { group = "org.junit.platform", name = "junit-platform-launcher", version.ref = "junit-platform-launcher" }
 junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junit-jupiter" }
 

@@ -169,11 +169,21 @@ repositories {
         forRepository { maven { url = uri("https://www.cursemaven.com") } }
         filter { includeGroup("curse.maven") }
     }
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "up Maven"
+                url = uri("https://maven.uuid.gg/releases")
+            }
+        }
+        filter { includeGroup("mod.traister101.datagenutils") }
+    }
 }
 
 dependencies {
     // datagen can use mod code
     datagenImplementation(project(":"))
+    datagenImplementation(libs.datagenUtils)
 
     // Lombok
     compileOnly(libs.lombok)
