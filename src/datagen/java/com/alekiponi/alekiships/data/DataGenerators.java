@@ -54,7 +54,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
-@EventBusSubscriber(modid = AlekiShips.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = AlekiShips.MOD_ID)
 public final class DataGenerators {
 
     @SubscribeEvent

@@ -6,7 +6,7 @@ parchmentMinecraft = "1.21"
 modDevGradle = "2.0.78"
 # Dependencies
 minecraft = "1.21.1"
-neoforge = "21.1.168"
+neoforge = "21.1.197"
 emi = "1.1.10+1.21"
 jei = "19.9.1.125"
 top = "1.21_neo-12.0.4-6"
