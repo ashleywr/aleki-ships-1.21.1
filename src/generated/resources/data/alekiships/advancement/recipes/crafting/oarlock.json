@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_stick": {
+    "has_iron_ingot": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:stick"
+            "items": "minecraft:iron_ingot"
           }
         ]
       },
@@ -13,31 +13,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "alekiships:crafting/oar"
+        "recipe": "alekiships:oarlock"
       },
       "trigger": "minecraft:recipe_unlocked"
-    },
-    "has_wooden_slab": {
-      "conditions": {
-        "items": [
-          {
-            "items": "#minecraft:wooden_slabs"
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
     }
   },
   "requirements": [
     [
       "has_the_recipe",
-      "has_stick",
-      "has_wooden_slab"
+      "has_iron_ingot"
     ]
   ],
   "rewards": {
     "recipes": [
-      "alekiships:crafting/oar"
+      "alekiships:oarlock"
     ]
   }
 }

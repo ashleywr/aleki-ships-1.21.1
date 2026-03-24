@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "alekiships:crafting/watercraft_frame_flat"
+        "recipe": "alekiships:watercraft_frame_angled"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "alekiships:crafting/watercraft_frame_flat"
+      "alekiships:watercraft_frame_angled"
     ]
   }
 }

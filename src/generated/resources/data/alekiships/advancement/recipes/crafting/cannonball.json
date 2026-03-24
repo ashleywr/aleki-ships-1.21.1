@@ -1,21 +1,31 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_iron_block": {
+    "has_gunpowder": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:iron_block"
+            "items": "minecraft:gunpowder"
           }
         ]
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_iron_nugget": {
+    "has_iron_ingot": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:iron_nugget"
+            "items": "minecraft:iron_ingot"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_paper": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:paper"
           }
         ]
       },
@@ -23,32 +33,22 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "alekiships:crafting/cannon"
+        "recipe": "alekiships:cannonball"
       },
       "trigger": "minecraft:recipe_unlocked"
-    },
-    "has_wooden_slab": {
-      "conditions": {
-        "items": [
-          {
-            "items": "#minecraft:wooden_slabs"
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
     }
   },
   "requirements": [
     [
       "has_the_recipe",
-      "has_iron_block",
-      "has_wooden_slab",
-      "has_iron_nugget"
+      "has_iron_ingot",
+      "has_paper",
+      "has_gunpowder"
     ]
   ],
   "rewards": {
     "recipes": [
-      "alekiships:crafting/cannon"
+      "alekiships:cannonball"
     ]
   }
 }

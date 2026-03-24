@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_scaffolding": {
+    "has_stick": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:scaffolding"
+            "items": "minecraft:stick"
           }
         ]
       },
@@ -13,20 +13,31 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "alekiships:crafting/watercraft_frame_angled"
+        "recipe": "alekiships:oar"
       },
       "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_wooden_slab": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#minecraft:wooden_slabs"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     }
   },
   "requirements": [
     [
       "has_the_recipe",
-      "has_scaffolding"
+      "has_stick",
+      "has_wooden_slab"
     ]
   ],
   "rewards": {
     "recipes": [
-      "alekiships:crafting/watercraft_frame_angled"
+      "alekiships:oar"
     ]
   }
 }

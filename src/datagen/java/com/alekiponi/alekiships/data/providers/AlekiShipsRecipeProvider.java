@@ -1,5 +1,7 @@
 package com.alekiponi.alekiships.data.providers;
 
+import mod.traister101.datagenutils.data.recipe.CraftingRecipeBuilder;
+
 import com.alekiponi.alekiships.AlekiShips;
 import com.alekiponi.alekiships.common.AlekiShipsRegistries;
 import com.alekiponi.alekiships.common.block.AlekiShipsBlocks;
@@ -9,7 +11,6 @@ import com.alekiponi.alekiships.common.recipe.EntityMultiblockRecipe;
 import com.alekiponi.alekiships.common.recipe.entity.ConstructionSloopResult;
 import com.alekiponi.alekiships.common.recipe.entity.RowboatResult;
 import com.alekiponi.alekiships.common.recipe.ingredient.block.matcher.PropertyMatcher;
-import com.alekiponi.alekiships.data.recipes.CraftingRecipeBuilder;
 import com.alekiponi.alekiships.data.util.EntityMultiblockHelper;
 import com.alekiponi.alekiships.util.OverworldWood;
 import com.alekiponi.alekiships.util.Wood;
