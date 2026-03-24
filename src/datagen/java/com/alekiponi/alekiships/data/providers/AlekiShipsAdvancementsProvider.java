@@ -19,11 +19,4 @@ public final class AlekiShipsAdvancementsProvider {
                 // Ensure you update #addTranslations if you add a new generator
                 List.of(new AlekiShipsAdvancementGenerator()));
     }
-
-    /**
-     * Adds translations for all advancements
-     */
-    public static void addTranslations(final AlekiShipsLanguageProvider.TranslationWriter translationWriter) {
-        AlekiShipsAdvancementGenerator.addTranslations(translationWriter);
-    }
 }

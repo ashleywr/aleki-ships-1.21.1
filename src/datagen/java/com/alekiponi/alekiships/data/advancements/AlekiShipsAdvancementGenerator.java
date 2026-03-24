@@ -2,7 +2,6 @@ package com.alekiponi.alekiships.data.advancements;
 
 import com.alekiponi.alekiships.AlekiShips;
 import com.alekiponi.alekiships.common.item.AlekiShipsItems;
-import com.alekiponi.alekiships.data.providers.AlekiShipsLanguageProvider;
 import com.alekiponi.alekiships.util.advancements.AlekiShipsAdvancements;
 
 import net.minecraft.advancements.Advancement;
@@ -37,24 +36,6 @@ public class AlekiShipsAdvancementGenerator implements AdvancementProvider.Advan
     private static final String SLOOP_COMPLETED_DESCRIPTION = "alekiships.advancements.sloop_completed.description";
     private static final String FULL_BROADSIDE_TITLE = "alekiships.advancements.full_broadside.title";
     private static final String FULL_BROADSIDE_DESCRIPTION = "alekiships.advancements.full_broadside.description";
-
-    // TODO, theres a better way to do this fix me when we compile
-    public static void addTranslations(final AlekiShipsLanguageProvider.TranslationWriter translationWriter) {
-        translationWriter.add(CANNON_TITLE, "Incoming Cannon Event");
-        translationWriter.add(CANNON_DESCRIPTION, "Craft a cannon");
-        translationWriter.add(ROWBOAT_COMPLETED_TITLE, "The Montlake Cut");
-        translationWriter.add(ROWBOAT_COMPLETED_DESCRIPTION, "Build a Rowboat");
-        translationWriter.add(RIDE_BARREL_TITLE, "Lost at Sea");
-        translationWriter.add(RIDE_BARREL_DESCRIPTION, "Ride a barrel");
-        translationWriter.add(FULL_BROADSIDE_TITLE, "Master and Commander");
-        translationWriter.add(FULL_BROADSIDE_DESCRIPTION, "Fire a new broadside");
-        translationWriter.add(ARMOR_STAND_ON_BOAT_TITLE, "Wilson!!!!!!!");
-        translationWriter.add(ARMOR_STAND_ON_BOAT_DESCRIPTION, "Place an inanimate companion on a boat");
-        translationWriter.add(SLOOP_COMPLETED_TITLE, "Yesler's Wharf");
-        translationWriter.add(SLOOP_COMPLETED_DESCRIPTION, "Build a Sloop");
-        translationWriter.add(DYE_SHIP_BLACK_TITLE, "The best pirate I've ever seen");
-        translationWriter.add(DYE_SHIP_BLACK_DESCRIPTION, "Name a black ship The Black Pearl");
-    }
 
     @Override
     public void generate(final HolderLookup.Provider registries, final Consumer<AdvancementHolder> writer,

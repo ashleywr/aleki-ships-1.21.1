@@ -95,7 +95,7 @@ public final class DataGenerators {
                 AlekiShipsAdvancementsProvider.create(packOutput, lookupProvider, existingFileHelper));
         generator.addProvider(event.includeServer(), new AlekiShipsDataMapProvider(packOutput, lookupProvider));
 
-        generator.addProvider(event.includeClient(), new AlekiShipsLanguageProvider(packOutput));
+        generator.addProvider(event.includeClient(), new AlekiShipsLanguageProvider(packOutput, lookupProvider));
         generator.addProvider(event.includeClient(), new AlekiShipsItemModelProvider(packOutput, existingFileHelper));
         generator.addProvider(event.includeClient(), new AlekiShipsBlockStateProvider(packOutput, existingFileHelper));
         generator.addProvider(event.includeClient(),

@@ -1,7 +1,9 @@
 package com.alekiponi.alekiships.data.providers;
 
 import com.google.common.collect.Iterators;
-import snownee.jade.api.IJadeProvider;
+import mod.traister101.datagenutils.data.EnhancedLanguageProvider;
+import mod.traister101.datagenutils.data.language.*;
+import mod.traister101.datagenutils.data.waila.JadeLanguageSubProvider;
 
 import com.alekiponi.alekiships.AlekiShips;
 import com.alekiponi.alekiships.client.IngameOverlays;
@@ -10,6 +12,7 @@ import com.alekiponi.alekiships.common.block.AlekiShipsBlocks;
 import com.alekiponi.alekiships.common.entity.AlekiShipsEntities;
 import com.alekiponi.alekiships.common.entity.vehicle.ConstructionSloopVariant;
 import com.alekiponi.alekiships.common.item.AlekiShipsItems;
+import com.alekiponi.alekiships.common.item.AlekiShipsTabs;
 import com.alekiponi.alekiships.common.recipe.AlekiShipsRecipeTypes;
 import com.alekiponi.alekiships.common.recipe.EntityMultiblockRecipe;
 import com.alekiponi.alekiships.common.sounds.AlekiShipsJukeboxSongs;
@@ -20,35 +23,37 @@ import com.alekiponi.alekiships.compat.waila.compartment.*;
 import com.alekiponi.alekiships.compat.waila.compartment.vehicle.ConstructionEntityProvider;
 import com.alekiponi.alekiships.compat.waila.compartment.vehicle.VehicleEntityDamageProvider;
 import com.alekiponi.alekiships.data.DataGenHelper;
-import com.alekiponi.alekiships.data.SmartLanguageProvider;
 import com.alekiponi.alekiships.util.*;
 
-import net.minecraft.Util;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.JukeboxSong;
 import net.minecraft.world.level.block.Block;
 
-import net.neoforged.neoforge.registries.DeferredHolder;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
-import javax.annotation.Nullable;
-import java.util.Locale;
+public class AlekiShipsLanguageProvider extends EnhancedLanguageProvider {
 
-public class AlekiShipsLanguageProvider extends SmartLanguageProvider {
-
-    public AlekiShipsLanguageProvider(final PackOutput output) {
-        super(output, AlekiShips.MOD_ID, "en_us");
+    public AlekiShipsLanguageProvider(final PackOutput output,
+            final CompletableFuture<HolderLookup.Provider> registries) {
+        super(output, registries, AlekiShips.MOD_ID, "en_us",
+                List.of(new Items(), new Blocks(), new CreativeTabs(), new Entities(), new Jade(),
+                        new JukeboxSongLanguageProvider(AlekiShips.MOD_ID) {
+                            @Override
+                            protected void addTranslations(final LanguageOutput<ResourceKey<JukeboxSong>> output) {
+                                output.add(AlekiShipsJukeboxSongs.PIRATE_CRAFTING, "Captain Thrack - Pirate Crafting");
+                            }
+                        }));
     }
 
     @Override
     protected void addTranslations() {
-        this.addTranslationsForBlocks();
-        this.addTranslationsForItems();
-        this.addTranslationsForEntities();
         this.addTranslationsForConfig();
-
-        this.add("creativetab.alekiships_tab", "aleki's Nifty Ships");
 
         this.add(IngameOverlays.EJECT_PASSENGERS_KEY, "Press %s + %s to eject");
         this.add(EntityMultiblockRecipe.SUCCESSFULLY_ASSEMBLED, "Successfully assembled %s");
@@ -67,113 +72,13 @@ public class AlekiShipsLanguageProvider extends SmartLanguageProvider {
                     this.add(FrameMaterial.getDescriptionId(id), name);
                 });
 
-        this.addTranslationsForJade();
         this.addTranslationsForJei();
-
-        AlekiShipsAdvancementsProvider.addTranslations(this::add);
-    }
-
-    private void addTranslationsForBlocks() {
-        this.addBlock(AlekiShipsBlocks.WOODEN_BOAT_FRAME_ANGLED, "Wooden Sloped Shipwright's Scaffolding");
-        this.addBlock(AlekiShipsBlocks.WOODEN_BOAT_FRAME_FLAT, "Wooden Flat Shipwright's Scaffolding");
-        this.addBlock(AlekiShipsBlocks.BOAT_FRAME_ANGLED, "Sloped Shipwright's Scaffolding");
-        this.addBlock(AlekiShipsBlocks.BOAT_FRAME_FLAT, "Flat Shipwright's Scaffolding");
-        this.addBlock(AlekiShipsBlocks.OARLOCK, "Oarlock");
-        this.addBlock(AlekiShipsBlocks.CLEAT, "Cleat");
-    }
-
-    private void addTranslationsForItems() {
-        this.addItem(AlekiShipsItems.CANNON, "Cannon");
-        this.addItem(AlekiShipsItems.CANNONBALL, "Cannonball");
-        this.addItem(AlekiShipsItems.ANCHOR, "Anchor");
-        this.addItem(AlekiShipsItems.SLOOP_ICON_ONLY, "Sloop (ICON ONLY)");
-        this.addItem(AlekiShipsItems.ROWBOAT_ICON_ONLY, "Rowboat (ICON ONLY)");
-        this.addItem(AlekiShipsItems.OAR, "Oar");
-
-        this.add(Util.makeDescriptionId("jukebox_song", AlekiShipsJukeboxSongs.PIRATE_CRAFTING.location()),
-                "Captain Thrack - Pirate Crafting");
-        this.addItem(AlekiShipsItems.MUSIC_DISC_PIRATE_CRAFTING, "Music Disc");
-    }
-
-    private void addTranslationsForEntities() {
-        // Vehicles
-        this.addEntityType(AlekiShipsEntities.ROWBOAT, "%s Rowboat");
-        this.addEntityType(AlekiShipsEntities.SLOOP, "%s Sloop");
-        this.addEntityType(AlekiShipsEntities.CONSTRUCTION_SLOOP, "%s Construction Sloop");
-
-        // Misc
-        this.addEntityType(AlekiShipsEntities.VEHICLE_PART, "Vehicle Part");
-        this.addEntityType(AlekiShipsEntities.VEHICLE_CLEAT_ENTITY, "Cleat");
-        this.addEntityType(AlekiShipsEntities.WINDLASS_SWITCH_ENTITY, "Windlass");
-        this.addEntityType(AlekiShipsEntities.SAIL_SWITCH_ENTITY, "Sail");
-        this.addEntityType(AlekiShipsEntities.VEHICLE_COLLIDER_ENTITY, "Vehicle");
-        this.addEntityType(AlekiShipsEntities.CONSTRUCTION_ENTITY, "Construction Entity");
-        this.addEntityType(AlekiShipsEntities.MAST_ENTITY, "Mast");
-        this.addEntityType(AlekiShipsEntities.ANCHOR_ENTITY, "Anchor");
-
-        this.addEntityType(AlekiShipsEntities.CANNONBALL_ENTITY, "Cannonball");
-        this.addEntityType(AlekiShipsEntities.CANNON_ENTITY, "Cannon");
-
-        // Compartments
-        this.addEntityType(AlekiShipsEntities.EMPTY_COMPARTMENT_ENTITY, "Empty Compartment");
-        this.addEntityType(AlekiShipsEntities.BLOCK_COMPARTMENT_ENTITY, "Block Compartment");
-        this.addEntityType(AlekiShipsEntities.BARREL_COMPARTMENT_ENTITY, "Barrel Compartment");
-        this.addEntityType(AlekiShipsEntities.CHEST_COMPARTMENT_ENTITY, "Chest Compartment");
-        this.addEntityType(AlekiShipsEntities.ENDER_CHEST_COMPARTMENT_ENTITY, "Ender Chest Compartment");
-        this.addEntityType(AlekiShipsEntities.SHULKER_BOX_COMPARTMENT_ENTITY, "Shulker Box Compartment");
-        this.addEntityType(AlekiShipsEntities.FURNACE_COMPARTMENT_ENTITY, "Furnace Compartment");
-        this.addEntityType(AlekiShipsEntities.BLAST_FURNACE_COMPARTMENT_ENTITY, "Blast Furnace Compartment");
-        this.addEntityType(AlekiShipsEntities.SMOKER_COMPARTMENT_ENTITY, "Smoker Compartment");
-        this.addEntityType(AlekiShipsEntities.BREWING_STAND_COMPARTMENT_ENTITY, "Brewing Stand Compartment");
-        this.addEntityType(AlekiShipsEntities.WORKBENCH_COMPARTMENT_ENTITY, "Workbench Compartment");
-        this.addEntityType(AlekiShipsEntities.STONECUTTER_COMPARTMENT_ENTITY, "Stonecutter Compartment");
-        this.addEntityType(AlekiShipsEntities.CARTOGRAPHY_TABLE_COMPARTMENT_ENTITY, "Cartography Table Compartment");
-        this.addEntityType(AlekiShipsEntities.SMITHING_TABLE_COMPARTMENT_ENTITY, "Smithing Table Compartment");
-        this.addEntityType(AlekiShipsEntities.GRINDSTONE_COMPARTMENT_ENTITY, "Grindstone Compartment");
-        this.addEntityType(AlekiShipsEntities.LOOM_COMPARTMENT_ENTITY, "Loom Compartment");
-        this.addEntityType(AlekiShipsEntities.NOTE_BLOCK_COMPARTMENT_ENTITY, "Note Block Compartment");
-        this.addEntityType(AlekiShipsEntities.JUKEBOX_COMPARTMENT_ENTITY, "Jukebox Compartment");
     }
 
     private void addTranslationsForConfig() {
         // It feels like there should be a better way to do this so that we stay in sync with changes to the config :|
         this.add("alekiships.config.server.windAffectsBoatsWithNoAnchor", "Wind Affects Boats With No Anchor");
         this.add("alekiships.config.client.tillerControlScheme", "Tiller Control Scheme");
-    }
-
-    private void addTranslationsForJade() {
-        this.jade(JukeboxCompartmentProvider.INSTANCE, "Jukebox Compartment");
-        this.jade(NoteBlockCompartmentProvider.INSTANCE, "Note Block Compartment");
-        this.jade(FurnaceCompartmentProvider.INSTANCE, "Furnace Compartment");
-        this.jade(BrewingStandCompartmentProvider.INSTANCE, "Brewing Stand Compartment");
-        this.jade(BlockCompartmentProvider.INSTANCE, "Block Compartment");
-        this.jade(ConstructionEntityProvider.INSTANCE, "Construction Entity");
-        this.jade(VehicleEntityDamageProvider.INSTANCE, "Vehicle Entity Damage");
-        this.jadeConfig(VehicleEntityDamageProvider.DECIMAL_PLACES, "Decimal Places");
-        this.jadeConfig(VehicleEntityDamageProvider.DISPLAY_TYPE, "Display Type");
-        this.jadeEnumConfig(VehicleEntityDamageProvider.DISPLAY_TYPE, VehicleEntityDamageProvider.DisplayType.DAMAGE, "Damage",
-                "Display the damage done to vehicles as a percentage of overall health");
-        this.jadeEnumConfig(VehicleEntityDamageProvider.DISPLAY_TYPE, VehicleEntityDamageProvider.DisplayType.DAMAGE_ABSOLUTE,
-                "Damage Absolute",
-                "Display the damage done to vehicles as an absolute value including the total damage that can be done");
-        this.jadeEnumConfig(VehicleEntityDamageProvider.DISPLAY_TYPE, VehicleEntityDamageProvider.DisplayType.HEALTH, "Health",
-                "Display the health of vehicles as a percentage");
-        this.jadeEnumConfig(VehicleEntityDamageProvider.DISPLAY_TYPE, VehicleEntityDamageProvider.DisplayType.HEALTH_ABSOLUTE,
-                "Health Absolute", "Display the health of vehicles as an absolute value including the total health");
-
-        this.jade(FrameBlockProvider.FLAT, "Frame Block");
-
-        this.add(BlockCompartmentProvider.COMPARTMENT_BLOCK_KEY, "%s Compartment");
-        this.add(ConstructionEntityProvider.INPUTS_REMAINING_KEY, "Inputs remaining: %s");
-        this.add(ConstructionEntityProvider.CURRENT_STAGE_KEY, "Current Stage: %s");
-        this.add(ConstructionEntityProvider.NEXT_STAGE_KEY, "Next Stage: %s");
-        this.add(VehicleEntityDamageProvider.DAMAGE_KEY, "Damage: %s%%");
-        this.add(VehicleEntityDamageProvider.DAMAGE_ABSOLUTE_KEY, "Damage: %s Total: %s");
-        this.add(VehicleEntityDamageProvider.HEALTH_KEY, "Health: %s%%");
-        this.add(VehicleEntityDamageProvider.HEALTH_ABSOLUTE_KEY, "Health: %s Total: %s");
-        this.add(VehicleEntityDamageProvider.WRECKED_KEY, "Wrecked!");
-        this.add(FrameBlockProvider.ANGLED.key, "%s Sloped Shipwright's Scaffolding");
-        this.add(FrameBlockProvider.FLAT.key, "%s Flat Shipwright's Scaffolding");
     }
 
     private void addTranslationsForJei() {
@@ -187,55 +92,135 @@ public class AlekiShipsLanguageProvider extends SmartLanguageProvider {
         this.add(VehicleRepairMaterialCategory.MAXIMUM_DAMAGE_ABSOLUTE_KEY, "Maximum Damage: %s");
     }
 
-    private void jade(final IJadeProvider provider, final String value) {
-        this.add("config.jade.plugin_" + provider.getUid().toLanguageKey(), value);
-    }
+    static class Blocks extends BlockLanguageProvider {
+        public Blocks() {super(AlekiShipsBlocks.BLOCKS);}
 
-    private void jadeConfig(final ResourceLocation configName, final String value) {
-        this.add("config.jade.plugin_" + configName.toLanguageKey(), value);
-    }
-
-    /**
-     * @param configName The config name
-     * @param enumValue  The enum value
-     * @param value      The localization of the enum
-     * @param desc       An optional description
-     */
-    private <E extends Enum<E>> void jadeEnumConfig(final ResourceLocation configName, final E enumValue,
-            final String value, final @Nullable String desc) {
-        final var key = "config.jade.plugin_" + configName.toLanguageKey() + "_" + enumValue.name()
-                .toLowerCase(Locale.ENGLISH);
-        this.add(key, value);
-        if (desc != null) {
-            this.add(key + "_desc", desc);
+        @Override
+        protected void addTranslations(final LanguageOutput<Block> output) {
+            output.add(AlekiShipsBlocks.WOODEN_BOAT_FRAME_ANGLED, "Wooden Sloped Shipwright's Scaffolding");
+            output.add(AlekiShipsBlocks.WOODEN_BOAT_FRAME_FLAT, "Wooden Flat Shipwright's Scaffolding");
+            output.add(AlekiShipsBlocks.BOAT_FRAME_ANGLED, "Sloped Shipwright's Scaffolding");
+            output.add(AlekiShipsBlocks.BOAT_FRAME_FLAT, "Flat Shipwright's Scaffolding");
+            output.simple(AlekiShipsBlocks.OARLOCK);
+            output.simple(AlekiShipsBlocks.CLEAT);
         }
     }
 
-    @Override
-    protected Iterable<Block> getKnownBlocks() {
-        return AlekiShipsBlocks.BLOCKS.getEntries()
-                .stream()
-                .<Block>map(DeferredHolder::get)::iterator;
+    static class Items extends ItemLanguageProvider {
+        public Items() {super(AlekiShipsItems.ITEMS);}
+
+        @Override
+        protected void addTranslations(final LanguageOutput<Item> output) {
+            output.simple(AlekiShipsItems.CANNON);
+            output.simple(AlekiShipsItems.CANNONBALL);
+            output.simple(AlekiShipsItems.ANCHOR);
+            output.add(AlekiShipsItems.SLOOP_ICON_ONLY, "Sloop (ICON ONLY)");
+            output.add(AlekiShipsItems.ROWBOAT_ICON_ONLY, "Rowboat (ICON ONLY)");
+            output.simple(AlekiShipsItems.OAR);
+            output.add(AlekiShipsItems.MUSIC_DISC_PIRATE_CRAFTING, "Music Disc");
+        }
     }
 
-    @Override
-    protected Iterable<Item> getKnownItems() {
-        return AlekiShipsItems.ITEMS.getEntries()
-                .stream()
-                .<Item>map(DeferredHolder::get)::iterator;
+    static class CreativeTabs extends CreativeTabLanguageProvider {
+        protected CreativeTabs() {
+            super(AlekiShipsTabs.CREATIVE_MODE_TABS,
+                    CreativeTabLanguageProvider.languageKey(id -> "creativetab." + id.getPath()));
+        }
+
+        @Override
+        protected void addTranslations(final LanguageOutput<CreativeModeTab> output) {
+            output.add(AlekiShipsTabs.ALEKISHIPS_TAB,"aleki's Nifty Ships");
+        }
     }
 
-    @Override
-    protected Iterable<EntityType<?>> getKnownEntityTypes() {
-        return AlekiShipsEntities.ENTITY_TYPES.getEntries()
-                .stream()
-                .<EntityType<?>>map(DeferredHolder::get)::iterator;
+    static class Entities extends EntityLanguageProvider {
+        public Entities() {super(AlekiShipsEntities.ENTITY_TYPES);}
+
+        @Override
+        protected void addTranslations(final LanguageOutput<EntityType<?>> output) {
+            // Vehicles
+            output.add(AlekiShipsEntities.ROWBOAT, "%s Rowboat");
+            output.add(AlekiShipsEntities.SLOOP, "%s Sloop");
+            output.add(AlekiShipsEntities.CONSTRUCTION_SLOOP, "%s Construction Sloop");
+
+            // Misc
+            output.add(AlekiShipsEntities.VEHICLE_PART, "Vehicle Part");
+            output.add(AlekiShipsEntities.VEHICLE_CLEAT_ENTITY, "Cleat");
+            output.add(AlekiShipsEntities.WINDLASS_SWITCH_ENTITY, "Windlass");
+            output.add(AlekiShipsEntities.SAIL_SWITCH_ENTITY, "Sail");
+            output.add(AlekiShipsEntities.VEHICLE_COLLIDER_ENTITY, "Vehicle");
+            output.add(AlekiShipsEntities.CONSTRUCTION_ENTITY, "Construction Entity");
+            output.add(AlekiShipsEntities.MAST_ENTITY, "Mast");
+            output.add(AlekiShipsEntities.ANCHOR_ENTITY, "Anchor");
+
+            output.simple(AlekiShipsEntities.CANNONBALL_ENTITY);
+            output.simple(AlekiShipsEntities.CANNON_ENTITY);
+
+            // Compartments
+            output.add(AlekiShipsEntities.EMPTY_COMPARTMENT_ENTITY, "Empty Compartment");
+            output.add(AlekiShipsEntities.BLOCK_COMPARTMENT_ENTITY, "Block Compartment");
+            output.add(AlekiShipsEntities.BARREL_COMPARTMENT_ENTITY, "Barrel Compartment");
+            output.add(AlekiShipsEntities.CHEST_COMPARTMENT_ENTITY, "Chest Compartment");
+            output.add(AlekiShipsEntities.ENDER_CHEST_COMPARTMENT_ENTITY, "Ender Chest Compartment");
+            output.add(AlekiShipsEntities.SHULKER_BOX_COMPARTMENT_ENTITY, "Shulker Box Compartment");
+            output.add(AlekiShipsEntities.FURNACE_COMPARTMENT_ENTITY, "Furnace Compartment");
+            output.add(AlekiShipsEntities.BLAST_FURNACE_COMPARTMENT_ENTITY, "Blast Furnace Compartment");
+            output.add(AlekiShipsEntities.SMOKER_COMPARTMENT_ENTITY, "Smoker Compartment");
+            output.add(AlekiShipsEntities.BREWING_STAND_COMPARTMENT_ENTITY, "Brewing Stand Compartment");
+            output.add(AlekiShipsEntities.WORKBENCH_COMPARTMENT_ENTITY, "Workbench Compartment");
+            output.add(AlekiShipsEntities.STONECUTTER_COMPARTMENT_ENTITY, "Stonecutter Compartment");
+            output.add(AlekiShipsEntities.CARTOGRAPHY_TABLE_COMPARTMENT_ENTITY, "Cartography Table Compartment");
+            output.add(AlekiShipsEntities.SMITHING_TABLE_COMPARTMENT_ENTITY, "Smithing Table Compartment");
+            output.add(AlekiShipsEntities.GRINDSTONE_COMPARTMENT_ENTITY, "Grindstone Compartment");
+            output.add(AlekiShipsEntities.LOOM_COMPARTMENT_ENTITY, "Loom Compartment");
+            output.add(AlekiShipsEntities.NOTE_BLOCK_COMPARTMENT_ENTITY, "Note Block Compartment");
+            output.add(AlekiShipsEntities.JUKEBOX_COMPARTMENT_ENTITY, "Jukebox Compartment");
+        }
     }
 
-    /**
-     * Used to allow translations used in advancements to be defined where the advancements are.
-     */
-    public interface TranslationWriter {
-        void add(String key, String value);
+    static class Jade extends JadeLanguageSubProvider {
+        protected Jade() {super(AlekiShips.MOD_ID);}
+
+        @Override
+        protected void addTranslations() {
+            this.provider(JukeboxCompartmentProvider.INSTANCE).name("Jukebox Compartment");
+            this.provider(NoteBlockCompartmentProvider.INSTANCE).name("Note Block Compartment");
+            this.provider(FurnaceCompartmentProvider.INSTANCE).name("Furnace Compartment");
+            this.provider(BrewingStandCompartmentProvider.INSTANCE).name("Brewing Stand Compartment");
+            this.provider(BlockCompartmentProvider.INSTANCE).name("Block Compartment");
+            this.provider(ConstructionEntityProvider.INSTANCE).name("Construction Entity");
+            this.provider(VehicleEntityDamageProvider.INSTANCE).name("Vehicle Entity Damage");
+            this.config(FrameBlockProvider.FLAT.getUid()).name("Frame Block");
+            this.config(VehicleEntityDamageProvider.DECIMAL_PLACES).name("Decimal Places");
+            this.enumConfig(VehicleEntityDamageProvider.DISPLAY_TYPE, VehicleEntityDamageProvider.DisplayType::values)
+                    .name("Display Type")
+                    .defineValues((displayType, valueBuilder) -> {
+                        switch (displayType) {
+                            case DAMAGE -> valueBuilder.name("Damage")
+                                    .description(
+                                            "Display the damage done to vehicles as a percentage of overall health");
+                            case DAMAGE_ABSOLUTE -> valueBuilder.name("Damage Absolute")
+                                    .description(
+                                            "Display the damage done to vehicles as an absolute value including the total damage that can be done");
+                            case HEALTH -> valueBuilder.name("Health")
+                                    .description("Display the health of vehicles as a percentage");
+                            case HEALTH_ABSOLUTE -> valueBuilder.name("Health Absolute")
+                                    .description(
+                                            "Display the health of vehicles as an absolute value including the total health");
+                        }
+                    });
+
+            this.add(BlockCompartmentProvider.COMPARTMENT_BLOCK_KEY, "%s Compartment");
+            this.add(ConstructionEntityProvider.INPUTS_REMAINING_KEY, "Inputs remaining: %s");
+            this.add(ConstructionEntityProvider.CURRENT_STAGE_KEY, "Current Stage: %s");
+            this.add(ConstructionEntityProvider.NEXT_STAGE_KEY, "Next Stage: %s");
+            this.add(VehicleEntityDamageProvider.DAMAGE_KEY, "Damage: %s%%");
+            this.add(VehicleEntityDamageProvider.DAMAGE_ABSOLUTE_KEY, "Damage: %s Total: %s");
+            this.add(VehicleEntityDamageProvider.HEALTH_KEY, "Health: %s%%");
+            this.add(VehicleEntityDamageProvider.HEALTH_ABSOLUTE_KEY, "Health: %s Total: %s");
+            this.add(VehicleEntityDamageProvider.WRECKED_KEY, "Wrecked!");
+            this.add(FrameBlockProvider.ANGLED.key, "%s Sloped Shipwright's Scaffolding");
+            this.add(FrameBlockProvider.FLAT.key, "%s Flat Shipwright's Scaffolding");
+        }
     }
 }
