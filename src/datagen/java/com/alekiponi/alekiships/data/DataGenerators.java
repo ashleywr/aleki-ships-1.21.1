@@ -94,19 +94,19 @@ public final class DataGenerators {
                 existingFileHelper);
         generator.addProvider(event.includeServer(), blockTags);
         generator.addProvider(event.includeServer(),
-                new AlekiShipsItemTagsProvider(packOutput, registries, blockTags.contentsGetter(),
-                        existingFileHelper));
+                new AlekiShipsItemTagsProvider(packOutput, registries, blockTags.contentsGetter(), existingFileHelper));
         generator.addProvider(event.includeServer(),
                 new AlekiShipsEntityTypeTagsProvider(packOutput, registries, existingFileHelper));
         generator.addProvider(event.includeServer(),
                 new AlekiShipsFluidTagsProvider(packOutput, registries, existingFileHelper));
         generator.addProvider(event.includeServer(), new AlekiShipsRecipeProvider(packOutput, registries));
         generator.addProvider(event.includeServer(), AlekiShipsLootTableProvider.create(packOutput, registries));
-        generator.addProvider(event.includeServer(),
+        final var advancementProvider = generator.addProvider(event.includeServer(),
                 AlekiShipsAdvancementsProvider.create(packOutput, registries, existingFileHelper));
         generator.addProvider(event.includeServer(), new AlekiShipsDataMapProvider(packOutput, registries));
 
-        generator.addProvider(event.includeClient(), new AlekiShipsLanguageProvider(packOutput, registries));
+        generator.addProvider(event.includeClient(), new AlekiShipsLanguageProvider(packOutput, registries))
+                .extraLanguage(advancementProvider);
         generator.addProvider(event.includeClient(), new AlekiShipsItemModelProvider(packOutput, existingFileHelper));
         generator.addProvider(event.includeClient(), new AlekiShipsBlockStateProvider(packOutput, existingFileHelper));
         generator.addProvider(event.includeClient(),

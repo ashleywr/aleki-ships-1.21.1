@@ -7,14 +7,14 @@
   },
   "display": {
     "description": {
-      "translate": "alekiships.advancements.rowboat_completed.description"
+      "translate": "advancements.alekiships.rowboat_completed.description"
     },
     "icon": {
       "count": 1,
       "id": "alekiships:rowboat_icon_only"
     },
     "title": {
-      "translate": "alekiships.advancements.rowboat_completed.title"
+      "translate": "advancements.alekiships.rowboat_completed.title"
     }
   },
   "requirements": [

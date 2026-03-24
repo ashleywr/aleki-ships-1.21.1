@@ -1,11 +1,12 @@
 package com.alekiponi.alekiships.data.providers;
 
+import mod.traister101.datagenutils.data.EnhancedAdvancementProvider;
+
 import com.alekiponi.alekiships.data.advancements.AlekiShipsAdvancementGenerator;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 
-import net.neoforged.neoforge.common.data.AdvancementProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.List;
@@ -13,10 +14,9 @@ import java.util.concurrent.CompletableFuture;
 
 public final class AlekiShipsAdvancementsProvider {
 
-    public static AdvancementProvider create(final PackOutput packOutput,
+    public static EnhancedAdvancementProvider create(final PackOutput packOutput,
             final CompletableFuture<HolderLookup.Provider> registries, final ExistingFileHelper existingFileHelper) {
-        return new AdvancementProvider(packOutput, registries, existingFileHelper,
-                // Ensure you update #addTranslations if you add a new generator
+        return new EnhancedAdvancementProvider(packOutput, registries, existingFileHelper,
                 List.of(new AlekiShipsAdvancementGenerator()));
     }
 }

@@ -7,7 +7,7 @@
   },
   "display": {
     "description": {
-      "translate": "alekiships.advancements.full_broadside.description"
+      "translate": "advancements.alekiships.full_broadside.description"
     },
     "frame": "challenge",
     "hidden": true,
@@ -16,7 +16,7 @@
       "id": "alekiships:cannonball"
     },
     "title": {
-      "translate": "alekiships.advancements.full_broadside.title"
+      "translate": "advancements.alekiships.full_broadside.title"
     }
   },
   "requirements": [

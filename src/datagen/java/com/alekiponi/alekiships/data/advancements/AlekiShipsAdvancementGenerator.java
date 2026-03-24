@@ -1,92 +1,105 @@
 package com.alekiponi.alekiships.data.advancements;
 
+import mod.traister101.datagenutils.data.AdvancementSubProvider;
+import mod.traister101.datagenutils.data.util.AdvancementBuilder;
+import mod.traister101.datagenutils.data.util.AdvancementOutput;
+import mod.traister101.datagenutils.data.util.SimpleDisplayInfo;
+
 import com.alekiponi.alekiships.AlekiShips;
 import com.alekiponi.alekiships.common.item.AlekiShipsItems;
 import com.alekiponi.alekiships.util.advancements.AlekiShipsAdvancements;
 
-import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
-import net.minecraft.advancements.AdvancementType;
-import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.data.advancements.AdvancementSubProvider;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 
-import net.neoforged.neoforge.common.data.AdvancementProvider;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import static net.minecraft.data.advancements.AdvancementSubProvider.createPlaceholder;
 
-import java.util.function.Consumer;
+public class AlekiShipsAdvancementGenerator implements AdvancementSubProvider {
 
-public class AlekiShipsAdvancementGenerator implements AdvancementProvider.AdvancementGenerator {
-
-    private static final AdvancementHolder SMELT_IRON = AdvancementSubProvider.createPlaceholder("story/smelt_iron");
-    private static final String CANNON_TITLE = "alekiships.advancements.cannon.title";
-    private static final String CANNON_DESCRIPTION = "alekiships.advancements.cannon.description";
-    private static final String ROWBOAT_COMPLETED_TITLE = "alekiships.advancements.rowboat_completed.title";
-    private static final String ROWBOAT_COMPLETED_DESCRIPTION = "alekiships.advancements.rowboat_completed.description";
-    private static final String RIDE_BARREL_TITLE = "alekiships.advancements.ride_barrel.title";
-    private static final String RIDE_BARREL_DESCRIPTION = "alekiships.advancements.ride_barrel.description";
-    private static final String DYE_SHIP_BLACK_TITLE = "alekiships.advancements.dye_ship_black.title";
-    private static final String DYE_SHIP_BLACK_DESCRIPTION = "alekiships.advancements.dye_ship_black.description";
-    private static final String ARMOR_STAND_ON_BOAT_TITLE = "alekiships.advancements.armor_stand_on_boat.title";
-    private static final String ARMOR_STAND_ON_BOAT_DESCRIPTION = "alekiships.advancements.armor_stand_on_boat.description";
-    private static final String SLOOP_COMPLETED_TITLE = "alekiships.advancements.sloop_completed.title";
-    private static final String SLOOP_COMPLETED_DESCRIPTION = "alekiships.advancements.sloop_completed.description";
-    private static final String FULL_BROADSIDE_TITLE = "alekiships.advancements.full_broadside.title";
-    private static final String FULL_BROADSIDE_DESCRIPTION = "alekiships.advancements.full_broadside.description";
+    private static final AdvancementHolder SMELT_IRON = createPlaceholder("story/smelt_iron");
 
     @Override
-    public void generate(final HolderLookup.Provider registries, final Consumer<AdvancementHolder> writer,
-            final ExistingFileHelper existingFileHelper) {
-        // Ensure you update #addTranslations when adding a new advancement
-        Advancement.Builder.advancement().parent(SMELT_IRON)
-                .display(AlekiShipsItems.CANNON.get(), Component.translatable(CANNON_TITLE),
-                        Component.translatable(CANNON_DESCRIPTION), null, AdvancementType.TASK, true, true, false)
-                .addCriterion("cannon", InventoryChangeTrigger.TriggerInstance.hasItems(AlekiShipsItems.CANNON.get()))
-                .save(writer, ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID, "cannon"), existingFileHelper);
+    public void generate(final AdvancementOutput output, final HolderLookup.Provider registries) {
+        AdvancementBuilder.childOf(SMELT_IRON)
+                .display(SimpleDisplayInfo.builder()
+                        .icon(AlekiShipsItems.CANNON)
+                        .title("Incoming Cannon Event")
+                        .description("Craft a cannon")
+                        .task()
+                        .toast()
+                        .announce())
+                .hasItems("has_cannon", AlekiShipsItems.CANNON)
+                .save(output, AlekiShips.location("cannon"));
 
-        final var rowboatCompleted = Advancement.Builder.advancement().parent(SMELT_IRON)
-                .display(AlekiShipsItems.ROWBOAT_ICON_ONLY.get(), Component.translatable(ROWBOAT_COMPLETED_TITLE),
-                        Component.translatable(ROWBOAT_COMPLETED_DESCRIPTION), null, AdvancementType.TASK, true, true,
-                        false).addCriterion("rowboat", AlekiShipsAdvancements.ROWBOAT_COMPLETED.criterion())
-                .save(writer, ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID, "rowboat_completed"),
-                        existingFileHelper);
+        final var rowboatCompleted = AdvancementBuilder.childOf(SMELT_IRON)
+                .display(SimpleDisplayInfo.builder()
+                        .icon(AlekiShipsItems.ROWBOAT_ICON_ONLY)
+                        .title("The Montlake Cut")
+                        .description("Build a Rowboat")
+                        .task()
+                        .toast()
+                        .announce())
+                .addCriterion("rowboat", AlekiShipsAdvancements.ROWBOAT_COMPLETED.criterion())
+                .save(output, AlekiShips.location("rowboat_completed"));
 
-        Advancement.Builder.advancement().parent(rowboatCompleted)
-                .display(Items.BARREL, Component.translatable(RIDE_BARREL_TITLE),
-                        Component.translatable(RIDE_BARREL_DESCRIPTION), null, AdvancementType.TASK, true, true, true)
+        AdvancementBuilder.childOf(rowboatCompleted)
+                .display(SimpleDisplayInfo.builder()
+                        .icon(Items.BARREL)
+                        .title("Lost at Sea")
+                        .description("Ride a barrel")
+                        .task()
+                        .toast()
+                        .announce()
+                        .hidden())
                 .addCriterion("barrel", AlekiShipsAdvancements.RIDE_BARREL.criterion())
-                .save(writer, ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID, "ride_barrel"),
-                        existingFileHelper);
+                .save(output, AlekiShips.location("ride_barrel"));
 
-        Advancement.Builder.advancement().parent(rowboatCompleted)
-                .display(AlekiShipsItems.CANNONBALL.get(), Component.translatable(FULL_BROADSIDE_TITLE),
-                        Component.translatable(FULL_BROADSIDE_DESCRIPTION), null, AdvancementType.CHALLENGE, true, true,
-                        true).addCriterion("broadside", AlekiShipsAdvancements.FULL_BROADSIDE.criterion())
-                .save(writer, ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID, "full_broadside"),
-                        existingFileHelper);
+        AdvancementBuilder.childOf(rowboatCompleted)
+                .display(SimpleDisplayInfo.builder()
+                        .icon(AlekiShipsItems.CANNONBALL)
+                        .title("Master and Commander")
+                        .description("Fire a new broadside")
+                        .challenge()
+                        .toast()
+                        .announce()
+                        .hidden())
+                .addCriterion("broadside", AlekiShipsAdvancements.FULL_BROADSIDE.criterion())
+                .save(output, AlekiShips.location("full_broadside"));
 
-        Advancement.Builder.advancement().parent(rowboatCompleted)
-                .display(Items.ARMOR_STAND, Component.translatable(ARMOR_STAND_ON_BOAT_TITLE),
-                        Component.translatable(ARMOR_STAND_ON_BOAT_DESCRIPTION), null, AdvancementType.CHALLENGE, true,
-                        true, true).addCriterion("armorstand", AlekiShipsAdvancements.ARMOR_STAND_ON_BOAT.criterion())
-                .save(writer, ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID, "armor_stand_on_boat"),
-                        existingFileHelper);
+        AdvancementBuilder.childOf(rowboatCompleted)
+                .display(SimpleDisplayInfo.builder()
+                        .icon(Items.ARMOR_STAND)
+                        .title("Wilson!!!!!!!")
+                        .description("Place an inanimate companion on a boat")
+                        .challenge()
+                        .toast()
+                        .announce()
+                        .hidden())
+                .addCriterion("armorstand", AlekiShipsAdvancements.ARMOR_STAND_ON_BOAT.criterion())
+                .save(output, AlekiShips.location("armor_stand_on_boat"));
 
-        final var sloopCompleted = Advancement.Builder.advancement().parent(rowboatCompleted)
-                .display(AlekiShipsItems.SLOOP_ICON_ONLY.get(), Component.translatable(SLOOP_COMPLETED_TITLE),
-                        Component.translatable(SLOOP_COMPLETED_DESCRIPTION), null, AdvancementType.TASK, true, true,
-                        false).addCriterion("sloop", AlekiShipsAdvancements.SLOOP_COMPLETED.criterion())
-                .save(writer, ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID, "sloop_completed"),
-                        existingFileHelper);
+        final var sloopCompleted = AdvancementBuilder.childOf(rowboatCompleted)
+                .display(SimpleDisplayInfo.builder()
+                        .icon(AlekiShipsItems.SLOOP_ICON_ONLY)
+                        .title("Yesler's Wharf")
+                        .description("Build a Sloop")
+                        .task()
+                        .toast()
+                        .announce())
+                .addCriterion("sloop", AlekiShipsAdvancements.SLOOP_COMPLETED.criterion())
+                .save(output, AlekiShips.location("sloop_completed"));
 
-        Advancement.Builder.advancement().parent(sloopCompleted)
-                .display(Items.SKELETON_SKULL, Component.translatable(DYE_SHIP_BLACK_TITLE),
-                        Component.translatable(DYE_SHIP_BLACK_DESCRIPTION), null, AdvancementType.CHALLENGE, true, true,
-                        true).addCriterion("dye", AlekiShipsAdvancements.DYE_SHIP_BLACK.criterion())
-                .save(writer, ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID, "dye_ship_black"),
-                        existingFileHelper);
+        AdvancementBuilder.childOf(sloopCompleted)
+                .display(SimpleDisplayInfo.builder()
+                        .icon(Items.SKELETON_SKULL)
+                        .title("The best pirate I've ever seen")
+                        .description("Name a black ship The Black Pearl")
+                        .challenge()
+                        .toast()
+                        .announce()
+                        .hidden())
+                .addCriterion("dye", AlekiShipsAdvancements.DYE_SHIP_BLACK.criterion())
+                .save(output, AlekiShips.location("dye_ship_black"));
     }
 }

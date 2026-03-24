@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:story/smelt_iron",
   "criteria": {
-    "cannon": {
+    "has_cannon": {
       "conditions": {
         "items": [
           {
@@ -14,19 +14,19 @@
   },
   "display": {
     "description": {
-      "translate": "alekiships.advancements.cannon.description"
+      "translate": "advancements.alekiships.cannon.description"
     },
     "icon": {
       "count": 1,
       "id": "alekiships:cannon"
     },
     "title": {
-      "translate": "alekiships.advancements.cannon.title"
+      "translate": "advancements.alekiships.cannon.title"
     }
   },
   "requirements": [
     [
-      "cannon"
+      "has_cannon"
     ]
   ],
   "sends_telemetry_event": true

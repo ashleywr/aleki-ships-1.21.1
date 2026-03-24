@@ -7,7 +7,7 @@
   },
   "display": {
     "description": {
-      "translate": "alekiships.advancements.dye_ship_black.description"
+      "translate": "advancements.alekiships.dye_ship_black.description"
     },
     "frame": "challenge",
     "hidden": true,
@@ -16,7 +16,7 @@
       "id": "minecraft:skeleton_skull"
     },
     "title": {
-      "translate": "alekiships.advancements.dye_ship_black.title"
+      "translate": "advancements.alekiships.dye_ship_black.title"
     }
   },
   "requirements": [
