@@ -30,7 +30,6 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.PackOutput;
 import net.minecraft.data.metadata.PackMetadataGenerator;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.network.chat.Component;
@@ -59,10 +58,10 @@ public final class DataGenerators {
 
     @SubscribeEvent
     public static void gatherData(final GatherDataEvent event) {
-        final DataGenerator generator = event.getGenerator();
-        final PackOutput packOutput = generator.getPackOutput();
+        final var generator = event.getGenerator();
+        final var packOutput = generator.getPackOutput();
 
-        generator.addProvider(true, new PackMetadataGenerator(packOutput))
+        event.addProvider(new PackMetadataGenerator(packOutput))
                 .add(PackMetadataSection.TYPE,
                         new PackMetadataSection(Component.literal("Aleki's Nifty Ships mod Resources/Data"), -1))
                 .add(GeneratingOverlayMetadataSection.NEOFORGE_TYPE, new GeneratingOverlayMetadataSection(
@@ -71,31 +70,43 @@ public final class DataGenerators {
                                         DetectedVersion.BUILT_IN.getPackVersion(PackType.SERVER_DATA)), Weather.MODID),
                                 new ModLoadedCondition(Weather.MODID)))));
 
-        final CompletableFuture<HolderLookup.Provider> lookupProvider = generator.addProvider(event.includeServer(),
-                new DatapackBuiltinEntriesProvider(packOutput, event.getLookupProvider(), datapackEntries(),
-                        Set.of(AlekiShips.MOD_ID))).getRegistryProvider();
+        event.createDatapackRegistryObjects(
+                new RegistrySetBuilder().add(Registries.JUKEBOX_SONG, AlekiShipsJukeboxSongs::bootstrap)
+                        .add(Registries.STRUCTURE, AlekiShipsStructures::bootstrap)
+                        .add(Registries.STRUCTURE_SET, AlekiShipsStructureSets::bootstrap)
+                        .add(Registries.TEMPLATE_POOL, AlekiShipsTemplatePools::bootstrap)
+                        .add(AlekiShipsRegistries.ENTITY_INPUT, EntityInput::bootstrap)
+                        .add(AlekiShipsRegistries.CONSTRUCTION_SLOOP_INPUT, ConstructionSloopInputs::bootstrapOverworld)
+                        .add(AlekiShipsRegistries.BOAT_MATERIAL, BoatMaterials::bootstrapOverworld)
+                        .add(AlekiShipsRegistries.FRAME_MATERIAL, FrameMaterial::bootstrapOverworld)
+                        .add(AlekiShipsRegistries.ROWBOAT_VARIANT, RowboatVariants::bootstrapOverworld)
+                        .add(AlekiShipsRegistries.SLOOP_VARIANT, SloopVariants::bootstrapOverworld)
+                        .add(AlekiShipsRegistries.CONSTRUCTION_SLOOP_VARIANT,
+                                ConstructionSloopVariants::bootstrapOverworld));
+
+        final var registries = event.getLookupProvider();
 
         final ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 
         generator.addProvider(event.includeServer(),
-                new AlekiShipsBiomeTagsProvider(packOutput, lookupProvider, existingFileHelper));
-        final AlekiShipsBlockTagsProvider blockTags = new AlekiShipsBlockTagsProvider(packOutput, lookupProvider,
+                new AlekiShipsBiomeTagsProvider(packOutput, registries, existingFileHelper));
+        final AlekiShipsBlockTagsProvider blockTags = new AlekiShipsBlockTagsProvider(packOutput, registries,
                 existingFileHelper);
         generator.addProvider(event.includeServer(), blockTags);
         generator.addProvider(event.includeServer(),
-                new AlekiShipsItemTagsProvider(packOutput, lookupProvider, blockTags.contentsGetter(),
+                new AlekiShipsItemTagsProvider(packOutput, registries, blockTags.contentsGetter(),
                         existingFileHelper));
         generator.addProvider(event.includeServer(),
-                new AlekiShipsEntityTypeTagsProvider(packOutput, lookupProvider, existingFileHelper));
+                new AlekiShipsEntityTypeTagsProvider(packOutput, registries, existingFileHelper));
         generator.addProvider(event.includeServer(),
-                new AlekiShipsFluidTagsProvider(packOutput, lookupProvider, existingFileHelper));
-        generator.addProvider(event.includeServer(), new AlekiShipsRecipeProvider(packOutput, lookupProvider));
-        generator.addProvider(event.includeServer(), AlekiShipsLootTableProvider.create(packOutput, lookupProvider));
+                new AlekiShipsFluidTagsProvider(packOutput, registries, existingFileHelper));
+        generator.addProvider(event.includeServer(), new AlekiShipsRecipeProvider(packOutput, registries));
+        generator.addProvider(event.includeServer(), AlekiShipsLootTableProvider.create(packOutput, registries));
         generator.addProvider(event.includeServer(),
-                AlekiShipsAdvancementsProvider.create(packOutput, lookupProvider, existingFileHelper));
-        generator.addProvider(event.includeServer(), new AlekiShipsDataMapProvider(packOutput, lookupProvider));
+                AlekiShipsAdvancementsProvider.create(packOutput, registries, existingFileHelper));
+        generator.addProvider(event.includeServer(), new AlekiShipsDataMapProvider(packOutput, registries));
 
-        generator.addProvider(event.includeClient(), new AlekiShipsLanguageProvider(packOutput, lookupProvider));
+        generator.addProvider(event.includeClient(), new AlekiShipsLanguageProvider(packOutput, registries));
         generator.addProvider(event.includeClient(), new AlekiShipsItemModelProvider(packOutput, existingFileHelper));
         generator.addProvider(event.includeClient(), new AlekiShipsBlockStateProvider(packOutput, existingFileHelper));
         generator.addProvider(event.includeClient(),
@@ -103,18 +114,18 @@ public final class DataGenerators {
 
         final var netherWoodsPack = generator.getBuiltinDatapack(event.includeServer(), AlekiShips.MOD_ID,
                 "nether_woods");
-        gatherNetherData(netherWoodsPack, lookupProvider);
+        gatherNetherData(netherWoodsPack, registries);
     }
 
     private static void gatherNetherData(final DataGenerator.PackGenerator netherWoodsPack,
-            final CompletableFuture<HolderLookup.Provider> builtInRegistries) {
+            final CompletableFuture<HolderLookup.Provider> registries) {
         netherWoodsPack.addProvider(PackMetadataGenerator::new)
                 .add(PackMetadataSection.TYPE,
                         new PackMetadataSection(Component.translatable(AlekiShips.NETHER_WOOD_PACK_KEY),
                                 DetectedVersion.BUILT_IN.getPackVersion(PackType.SERVER_DATA), Optional.empty()));
 
         final var netherRegistries = netherWoodsPack.addProvider(
-                        output -> new DatapackBuiltinEntriesProvider(output, builtInRegistries,
+                        output -> new DatapackBuiltinEntriesProvider(output, registries,
                                 new RegistrySetBuilder().add(AlekiShipsRegistries.CONSTRUCTION_SLOOP_INPUT,
                                                 ConstructionSloopInputs::bootstrapNether)
                                         .add(AlekiShipsRegistries.BOAT_MATERIAL, BoatMaterials::bootstrapNether)
@@ -148,17 +159,4 @@ public final class DataGenerators {
         });
     }
 
-    private static RegistrySetBuilder datapackEntries() {
-        return new RegistrySetBuilder().add(Registries.JUKEBOX_SONG, AlekiShipsJukeboxSongs::bootstrap)
-                .add(Registries.STRUCTURE, AlekiShipsStructures::bootstrap)
-                .add(Registries.STRUCTURE_SET, AlekiShipsStructureSets::bootstrap)
-                .add(Registries.TEMPLATE_POOL, AlekiShipsTemplatePools::bootstrap)
-                .add(AlekiShipsRegistries.ENTITY_INPUT, EntityInput::bootstrap)
-                .add(AlekiShipsRegistries.CONSTRUCTION_SLOOP_INPUT, ConstructionSloopInputs::bootstrapOverworld)
-                .add(AlekiShipsRegistries.BOAT_MATERIAL, BoatMaterials::bootstrapOverworld)
-                .add(AlekiShipsRegistries.FRAME_MATERIAL, FrameMaterial::bootstrapOverworld)
-                .add(AlekiShipsRegistries.ROWBOAT_VARIANT, RowboatVariants::bootstrapOverworld)
-                .add(AlekiShipsRegistries.SLOOP_VARIANT, SloopVariants::bootstrapOverworld)
-                .add(AlekiShipsRegistries.CONSTRUCTION_SLOOP_VARIANT, ConstructionSloopVariants::bootstrapOverworld);
-    }
 }
