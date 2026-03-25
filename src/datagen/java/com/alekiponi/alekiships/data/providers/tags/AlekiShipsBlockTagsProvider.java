@@ -1,5 +1,7 @@
 package com.alekiponi.alekiships.data.providers.tags;
 
+import mod.traister101.datagenutils.data.tags.EnhancedBlockTagsProvider;
+
 import com.alekiponi.alekiships.AlekiShips;
 import com.alekiponi.alekiships.common.block.AlekiShipsBlocks;
 import com.alekiponi.alekiships.util.AlekiShipsTags;
@@ -9,13 +11,12 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Blocks;
 
-import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.concurrent.CompletableFuture;
 import org.jetbrains.annotations.Nullable;
 
-public class AlekiShipsBlockTagsProvider extends BlockTagsProvider {
+public class AlekiShipsBlockTagsProvider extends EnhancedBlockTagsProvider {
 
     public AlekiShipsBlockTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider,
             @Nullable ExistingFileHelper existingFileHelper) {
@@ -24,7 +25,7 @@ public class AlekiShipsBlockTagsProvider extends BlockTagsProvider {
 
     @Override
     protected void addTags(final HolderLookup.Provider provider) {
-        this.tag(AlekiShipsTags.Blocks.PLANTS_THAT_GET_MOWED).add(Blocks.KELP);
+        this.tag(AlekiShipsTags.Blocks.PLANTS_THAT_GET_MOWED).name("Plants That Get Mowed").add(Blocks.KELP);
 
         // Vanilla mining tags
         this.tag(BlockTags.MINEABLE_WITH_AXE)

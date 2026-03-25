@@ -1,12 +1,14 @@
 package com.alekiponi.alekiships.data.providers.tags;
 
+import mod.traister101.datagenutils.data.tags.EnhancedItemTagsProvider;
+
 import com.alekiponi.alekiships.AlekiShips;
 import com.alekiponi.alekiships.common.item.AlekiShipsItems;
 import com.alekiponi.alekiships.util.AlekiShipsTags;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 
@@ -16,11 +18,11 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import java.util.concurrent.CompletableFuture;
 import org.jetbrains.annotations.Nullable;
 
-public class AlekiShipsItemTagsProvider extends ItemTagsProvider {
+public class AlekiShipsItemTagsProvider extends EnhancedItemTagsProvider {
 
     public AlekiShipsItemTagsProvider(final PackOutput packOutput,
             final CompletableFuture<HolderLookup.Provider> lookupProvider,
-            final CompletableFuture<TagLookup<Block>> blockTags,
+            final CompletableFuture<TagsProvider.TagLookup<Block>> blockTags,
             @Nullable final ExistingFileHelper existingFileHelper) {
         super(packOutput, lookupProvider, blockTags, AlekiShips.MOD_ID, existingFileHelper);
     }
