@@ -15,21 +15,10 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePrope
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
-
 @SuppressWarnings("unused")
 public final class DataGenHelper {
 
     private DataGenHelper() {
-    }
-
-    /**
-     * Takes a string like dark_oak and converts it to Dark Oak.
-     */
-    public static String langify(final String serializedName) {
-        return Arrays.stream(serializedName.split("_")).map(s -> Character.toUpperCase(s.charAt(0)) + s.substring(1))
-                .collect(Collectors.joining(" "));
     }
 
     public static <T extends Comparable<T> & StringRepresentable, C extends ConditionUserBuilder<? extends C>> C matchProperty(

@@ -1,6 +1,5 @@
 package com.alekiponi.alekiships.data.providers;
 
-import com.google.common.collect.Iterators;
 import mod.traister101.datagenutils.data.EnhancedLanguageProvider;
 import mod.traister101.datagenutils.data.language.*;
 import mod.traister101.datagenutils.data.waila.JadeLanguageSubProvider;
@@ -8,6 +7,7 @@ import mod.traister101.datagenutils.data.waila.JadeLanguageSubProvider;
 import com.alekiponi.alekiships.AlekiShips;
 import com.alekiponi.alekiships.client.IngameOverlays;
 import com.alekiponi.alekiships.commands.server.EntityMultiblockCommands;
+import com.alekiponi.alekiships.common.AlekiShipsRegistries;
 import com.alekiponi.alekiships.common.block.AlekiShipsBlocks;
 import com.alekiponi.alekiships.common.entity.AlekiShipsEntities;
 import com.alekiponi.alekiships.common.entity.vehicle.ConstructionSloopVariant;
@@ -22,20 +22,24 @@ import com.alekiponi.alekiships.compat.waila.FrameBlockProvider;
 import com.alekiponi.alekiships.compat.waila.compartment.*;
 import com.alekiponi.alekiships.compat.waila.compartment.vehicle.ConstructionEntityProvider;
 import com.alekiponi.alekiships.compat.waila.compartment.vehicle.VehicleEntityDamageProvider;
-import com.alekiponi.alekiships.data.DataGenHelper;
 import com.alekiponi.alekiships.util.*;
 
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.Registry;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.JukeboxSong;
 import net.minecraft.world.level.block.Block;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Function;
+import java.util.stream.Stream;
 
 public class AlekiShipsLanguageProvider extends EnhancedLanguageProvider {
 
@@ -48,7 +52,25 @@ public class AlekiShipsLanguageProvider extends EnhancedLanguageProvider {
                             protected void addTranslations(final LanguageOutput<ResourceKey<JukeboxSong>> output) {
                                 output.add(AlekiShipsJukeboxSongs.PIRATE_CRAFTING, "Captain Thrack - Pirate Crafting");
                             }
-                        }));
+                        }, simpleWoodLanguage(AlekiShipsRegistries.BOAT_MATERIAL, BoatMaterial::getDescriptionId,
+                                Wood::boatMaterialKey),
+                        simpleWoodLanguage(AlekiShipsRegistries.CONSTRUCTION_SLOOP_VARIANT,
+                                ConstructionSloopVariant::getDescriptionId, Wood::sloopConstructionKey),
+                        simpleWoodLanguage(AlekiShipsRegistries.FRAME_MATERIAL, FrameMaterial::getDescriptionId,
+                                Wood::frameMaterialKey)));
+    }
+
+    private static <T> DynamicRegistryLanguageSubProvider<T> simpleWoodLanguage(
+            final ResourceKey<Registry<T>> registryKey, final Function<ResourceLocation, String> keyFunction,
+            final Function<Wood, ResourceKey<T>> resourceKey) {
+        return new DynamicRegistryLanguageSubProvider<>(registryKey, keyFunction, AlekiShips.MOD_ID) {
+            @Override
+            protected void addTranslations(final LanguageOutput<ResourceKey<T>> output) {
+                Stream.concat(Arrays.stream(OverworldWood.values()), Arrays.stream(NetherWood.values()))
+                        .map(resourceKey)
+                        .forEach(output::simple);
+            }
+        };
     }
 
     @Override
@@ -61,16 +83,6 @@ public class AlekiShipsLanguageProvider extends EnhancedLanguageProvider {
         this.add(EntityMultiblockCommands.NOT_ENTITY_MULTIBLOCK_RECIPE,
                 "%s is not a " + AlekiShipsRecipeTypes.ENTITY_MULTIBLOCK_RECIPE.getId());
         this.add(EntityMultiblockCommands.NO_MATCHING_STATES, "No matching states for %s");
-
-        // Our wood types must be named so our entities can reflect their name
-        Iterators.<Wood>concat(Iterators.forArray(OverworldWood.values()), Iterators.forArray(NetherWood.values()))
-                .forEachRemaining(wood -> {
-                    final var id = AlekiShips.location(wood.getSerializedName());
-                    final var name = DataGenHelper.langify(wood.getSerializedName());
-                    this.add(BoatMaterial.getDescriptionId(id), name);
-                    this.add(ConstructionSloopVariant.getDescriptionId(id), name);
-                    this.add(FrameMaterial.getDescriptionId(id), name);
-                });
 
         this.addTranslationsForJei();
     }
@@ -129,7 +141,7 @@ public class AlekiShipsLanguageProvider extends EnhancedLanguageProvider {
 
         @Override
         protected void addTranslations(final LanguageOutput<CreativeModeTab> output) {
-            output.add(AlekiShipsTabs.ALEKISHIPS_TAB,"aleki's Nifty Ships");
+            output.add(AlekiShipsTabs.ALEKISHIPS_TAB, "aleki's Nifty Ships");
         }
     }
 

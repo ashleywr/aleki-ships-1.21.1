@@ -19,11 +19,19 @@ import lombok.experimental.Accessors;
  */
 @AllArgsConstructor
 public enum NetherWood implements Wood {
-    CRIMSON(Items.CRIMSON_PLANKS, FrameMaterial.CRIMSON, RowboatVariants.CRIMSON, ConstructionSloopVariants.CRIMSON),
-    WARPED(Items.WARPED_PLANKS, FrameMaterial.WARPED, RowboatVariants.WARPED, ConstructionSloopVariants.WARPED);
+    CRIMSON(Items.CRIMSON_PLANKS, BoatMaterials.CRIMSON, FrameMaterial.CRIMSON, RowboatVariants.CRIMSON,
+            ConstructionSloopVariants.CRIMSON),
+    WARPED(Items.WARPED_PLANKS, BoatMaterials.WARPED, FrameMaterial.WARPED, RowboatVariants.WARPED,
+            ConstructionSloopVariants.WARPED);
 
+    @Getter
     private final Item plankItem;
-    private final ResourceKey<FrameMaterial> frameMaterial;
+    @Getter
+    @Accessors(fluent = true)
+    private final ResourceKey<BoatMaterial> boatMaterialKey;
+    @Getter
+    @Accessors(fluent = true)
+    private final ResourceKey<FrameMaterial> frameMaterialKey;
     @Getter
     @Accessors(fluent = true)
     private final ResourceKey<RowboatVariant> rowboatKey;
@@ -34,15 +42,5 @@ public enum NetherWood implements Wood {
     @Override
     public String getSerializedName() {
         return this.name().toLowerCase(Locale.ROOT);
-    }
-
-    @Override
-    public Item getPlankItem() {
-        return this.plankItem;
-    }
-
-    @Override
-    public ResourceKey<FrameMaterial> frameMaterialKey() {
-        return this.frameMaterial;
     }
 }

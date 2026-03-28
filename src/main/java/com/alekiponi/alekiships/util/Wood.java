@@ -20,6 +20,11 @@ public interface Wood extends StringRepresentable {
     Item getPlankItem();
 
     /**
+     * {@return The boat material key for the given wood type}
+     */
+    ResourceKey<BoatMaterial> boatMaterialKey();
+
+    /**
      * @return The resource key for the frame material
      */
     ResourceKey<FrameMaterial> frameMaterialKey();

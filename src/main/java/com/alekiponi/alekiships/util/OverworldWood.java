@@ -19,20 +19,32 @@ import lombok.experimental.Accessors;
  */
 @AllArgsConstructor
 public enum OverworldWood implements Wood {
-    OAK(Items.OAK_PLANKS, FrameMaterial.OAK, RowboatVariants.OAK, ConstructionSloopVariants.OAK),
-    SPRUCE(Items.SPRUCE_PLANKS, FrameMaterial.SPRUCE, RowboatVariants.SPRUCE, ConstructionSloopVariants.SPRUCE),
-    BIRCH(Items.BIRCH_PLANKS, FrameMaterial.BIRCH, RowboatVariants.BIRCH, ConstructionSloopVariants.BIRCH),
-    ACACIA(Items.ACACIA_PLANKS, FrameMaterial.ACACIA, RowboatVariants.ACACIA, ConstructionSloopVariants.ACACIA),
-    CHERRY(Items.CHERRY_PLANKS, FrameMaterial.CHERRY, RowboatVariants.CHERRY, ConstructionSloopVariants.CHERRY),
-    JUNGLE(Items.JUNGLE_PLANKS, FrameMaterial.JUNGLE, RowboatVariants.JUNGLE, ConstructionSloopVariants.JUNGLE),
-    DARK_OAK(Items.DARK_OAK_PLANKS, FrameMaterial.DARK_OAK, RowboatVariants.DARK_OAK,
+    OAK(Items.OAK_PLANKS, BoatMaterials.OAK, FrameMaterial.OAK, RowboatVariants.OAK, ConstructionSloopVariants.OAK),
+    SPRUCE(Items.SPRUCE_PLANKS, BoatMaterials.SPRUCE, FrameMaterial.SPRUCE, RowboatVariants.SPRUCE,
+            ConstructionSloopVariants.SPRUCE),
+    BIRCH(Items.BIRCH_PLANKS, BoatMaterials.BIRCH, FrameMaterial.BIRCH, RowboatVariants.BIRCH,
+            ConstructionSloopVariants.BIRCH),
+    ACACIA(Items.ACACIA_PLANKS, BoatMaterials.ACACIA, FrameMaterial.ACACIA, RowboatVariants.ACACIA,
+            ConstructionSloopVariants.ACACIA),
+    CHERRY(Items.CHERRY_PLANKS, BoatMaterials.CHERRY, FrameMaterial.CHERRY, RowboatVariants.CHERRY,
+            ConstructionSloopVariants.CHERRY),
+    JUNGLE(Items.JUNGLE_PLANKS, BoatMaterials.JUNGLE, FrameMaterial.JUNGLE, RowboatVariants.JUNGLE,
+            ConstructionSloopVariants.JUNGLE),
+    DARK_OAK(Items.DARK_OAK_PLANKS, BoatMaterials.DARK_OAK, FrameMaterial.DARK_OAK, RowboatVariants.DARK_OAK,
             ConstructionSloopVariants.DARK_OAK),
-    MANGROVE(Items.MANGROVE_PLANKS, FrameMaterial.MANGROVE, RowboatVariants.MANGROVE,
+    MANGROVE(Items.MANGROVE_PLANKS, BoatMaterials.MANGROVE, FrameMaterial.MANGROVE, RowboatVariants.MANGROVE,
             ConstructionSloopVariants.MANGROVE),
-    BAMBOO(Items.BAMBOO_PLANKS, FrameMaterial.BAMBOO, RowboatVariants.BAMBOO, ConstructionSloopVariants.BAMBOO);
+    BAMBOO(Items.BAMBOO_PLANKS, BoatMaterials.BAMBOO, FrameMaterial.BAMBOO, RowboatVariants.BAMBOO,
+            ConstructionSloopVariants.BAMBOO);
 
+    @Getter
     private final Item plankItem;
-    private final ResourceKey<FrameMaterial> frameMaterial;
+    @Getter
+    @Accessors(fluent = true)
+    private final ResourceKey<BoatMaterial> boatMaterialKey;
+    @Getter
+    @Accessors(fluent = true)
+    private final ResourceKey<FrameMaterial> frameMaterialKey;
     @Getter
     @Accessors(fluent = true)
     private final ResourceKey<RowboatVariant> rowboatKey;
@@ -43,15 +55,5 @@ public enum OverworldWood implements Wood {
     @Override
     public String getSerializedName() {
         return this.name().toLowerCase(Locale.ROOT);
-    }
-
-    @Override
-    public Item getPlankItem() {
-        return this.plankItem;
-    }
-
-    @Override
-    public ResourceKey<FrameMaterial> frameMaterialKey() {
-        return this.frameMaterial;
     }
 }
