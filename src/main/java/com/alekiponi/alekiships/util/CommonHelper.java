@@ -3,8 +3,12 @@ package com.alekiponi.alekiships.util;
 import org.apache.commons.lang3.function.TriFunction;
 import org.apache.commons.lang3.tuple.Triple;
 
+import com.alekiponi.alekiships.AlekiShips;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -31,10 +35,7 @@ import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.wrapper.PlayerMainInvWrapper;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
-import java.util.EnumMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -451,6 +452,18 @@ public class CommonHelper {
     public static void playPlaceSound(final SimpleSoundPlayer simpleSoundPlayer, final SoundType soundType) {
         simpleSoundPlayer.playSound(soundType.getPlaceSound(), SoundSource.BLOCKS, (soundType.getVolume() + 1) / 2,
                 soundType.getPitch() * 0.8F);
+    }
+
+    public static MutableComponent translateEnum(final Enum<?> anEnum) {
+        return Component.translatable(getEnumLanguageKey(anEnum));
+    }
+
+    public static String getEnumLanguageKey(final Enum<?> anEnum) {
+        return getEnumLanguageKey(anEnum, AlekiShips.MOD_ID, anEnum.getDeclaringClass().getSimpleName());
+    }
+
+    public static String getEnumLanguageKey(final Enum<?> anEnum, final String namespace, final String enumName) {
+        return String.join(".", namespace, "enum", enumName, anEnum.name()).toLowerCase(Locale.ROOT);
     }
 
     /**

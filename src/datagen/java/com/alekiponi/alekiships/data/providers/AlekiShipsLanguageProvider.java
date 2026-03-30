@@ -2,6 +2,7 @@ package com.alekiponi.alekiships.data.providers;
 
 import mod.traister101.datagenutils.data.EnhancedLanguageProvider;
 import mod.traister101.datagenutils.data.language.*;
+import mod.traister101.datagenutils.data.util.LanguageTranslation;
 import mod.traister101.datagenutils.data.waila.JadeLanguageSubProvider;
 
 import com.alekiponi.alekiships.AlekiShips;
@@ -22,6 +23,8 @@ import com.alekiponi.alekiships.compat.waila.FrameBlockProvider;
 import com.alekiponi.alekiships.compat.waila.compartment.*;
 import com.alekiponi.alekiships.compat.waila.compartment.vehicle.ConstructionEntityProvider;
 import com.alekiponi.alekiships.compat.waila.compartment.vehicle.VehicleEntityDamageProvider;
+import com.alekiponi.alekiships.events.config.AlekishipsConfig;
+import com.alekiponi.alekiships.events.config.ClientConfig;
 import com.alekiponi.alekiships.util.*;
 
 import net.minecraft.core.HolderLookup;
@@ -37,6 +40,7 @@ import net.minecraft.world.level.block.Block;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -46,7 +50,7 @@ public class AlekiShipsLanguageProvider extends EnhancedLanguageProvider {
     public AlekiShipsLanguageProvider(final PackOutput output,
             final CompletableFuture<HolderLookup.Provider> registries) {
         super(output, registries, AlekiShips.MOD_ID, "en_us",
-                List.of(new Items(), new Blocks(), new CreativeTabs(), new Entities(), new Jade(),
+                List.of(new Items(), new Blocks(), new CreativeTabs(), new Entities(), new Jade(), new Config(),
                         new JukeboxSongLanguageProvider(AlekiShips.MOD_ID) {
                             @Override
                             protected void addTranslations(final LanguageOutput<ResourceKey<JukeboxSong>> output) {
@@ -75,8 +79,6 @@ public class AlekiShipsLanguageProvider extends EnhancedLanguageProvider {
 
     @Override
     protected void addTranslations() {
-        this.addTranslationsForConfig();
-
         this.add(IngameOverlays.EJECT_PASSENGERS_KEY, "Press %s + %s to eject");
         this.add(EntityMultiblockRecipe.SUCCESSFULLY_ASSEMBLED, "Successfully assembled %s");
         this.add(EntityMultiblockRecipe.FAILED_TO_ASEMBLE, "Failed to asemble %s");
@@ -84,13 +86,16 @@ public class AlekiShipsLanguageProvider extends EnhancedLanguageProvider {
                 "%s is not a " + AlekiShipsRecipeTypes.ENTITY_MULTIBLOCK_RECIPE.getId());
         this.add(EntityMultiblockCommands.NO_MATCHING_STATES, "No matching states for %s");
 
+        this.simpleEnumTranslations(ClientConfig.RudderSchemes.values());
+
         this.addTranslationsForJei();
     }
 
-    private void addTranslationsForConfig() {
-        // It feels like there should be a better way to do this so that we stay in sync with changes to the config :|
-        this.add("alekiships.config.server.windAffectsBoatsWithNoAnchor", "Wind Affects Boats With No Anchor");
-        this.add("alekiships.config.client.tillerControlScheme", "Tiller Control Scheme");
+    private void simpleEnumTranslations(final Enum<?>[] values) {
+        for (final var value : values) {
+            this.add(CommonHelper.getEnumLanguageKey(value),
+                    LanguageTranslation.langify(value.name().toLowerCase(Locale.ROOT)));
+        }
     }
 
     private void addTranslationsForJei() {
@@ -102,6 +107,17 @@ public class AlekiShipsLanguageProvider extends EnhancedLanguageProvider {
         this.add(VehicleRepairMaterialCategory.MINIMUM_DAMAGE_ABSOLUTE_KEY, "Minimum Damage: %s");
         this.add(VehicleRepairMaterialCategory.MAXIMUM_DAMAGE_PERCENT_KEY, "Maximum Damage: %s%%");
         this.add(VehicleRepairMaterialCategory.MAXIMUM_DAMAGE_ABSOLUTE_KEY, "Maximum Damage: %s");
+    }
+
+    static class Config extends ConfigLanguageProvider {
+        public Config() {super(AlekiShips.MOD_ID);}
+
+        @Override
+        protected void addTranslations() {
+            this.add(AlekishipsConfig.CLIENT.rudderControlScheme, "Tiller Control Scheme");
+            this.add(AlekishipsConfig.SERVER.windAffectsBoatsWithNoAnchor, "Wind Affects Boats With No Anchor");
+            this.add(AlekishipsConfig.SERVER.eagerEntityMultiblockValidation, "Eager Entity Multiblock Validation");
+        }
     }
 
     static class Blocks extends BlockLanguageProvider {

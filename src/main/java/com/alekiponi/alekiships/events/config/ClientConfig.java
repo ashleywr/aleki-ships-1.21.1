@@ -1,6 +1,11 @@
 package com.alekiponi.alekiships.events.config;
 
+import com.alekiponi.alekiships.util.CommonHelper;
+
+import net.minecraft.network.chat.Component;
+
 import net.neoforged.neoforge.common.ModConfigSpec;
+import net.neoforged.neoforge.common.TranslatableEnum;
 
 public final class ClientConfig {
 
@@ -14,8 +19,13 @@ public final class ClientConfig {
                 .defineEnum("tillerControlScheme", RudderSchemes.RETURN_TO_CENTER);
     }
 
-    public enum RudderSchemes {
+    public enum RudderSchemes implements TranslatableEnum {
         RETURN_TO_CENTER,
-        STAY_IN_PLACE
+        STAY_IN_PLACE;
+
+        @Override
+        public Component getTranslatedName() {
+            return CommonHelper.translateEnum(this);
+        }
     }
 }
