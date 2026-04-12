@@ -182,7 +182,7 @@ repositories {
 
 dependencies {
     // datagen can use mod code
-    datagenImplementation(project(":"))
+    datagenImplementation(sourceSets.main.get().output)
     datagenImplementation(libs.datagenUtils)
 
     // Lombok
