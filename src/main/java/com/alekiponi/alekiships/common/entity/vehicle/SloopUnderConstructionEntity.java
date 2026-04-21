@@ -113,7 +113,7 @@ public class SloopUnderConstructionEntity extends AbstractUnderConstructionEntit
             case KEEL -> {
                 localX = 0.0f;
                 localZ = 0.0f;
-                localY += -0.0f;
+                localY -= 0.0f;
             }
             case DECK -> {
                 localX = -1.0f;

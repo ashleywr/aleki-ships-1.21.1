@@ -256,19 +256,19 @@ public class SloopEntity extends AbstractAlekiBoatEntity<SloopVariant> implement
                 //collider 1
                 localZ = 0.6f;
                 localX = -2.0f;
-                localY += -0.00f;
+                localY -= 0.00f;
             }
             case 15 -> {
                 //collider 2
                 localZ = -0.6f;
                 localX = -2.0f;
-                localY += -0.00f;
+                localY -= 0.00f;
             }
             case 16 -> {
                 //collider 3
                 localZ = 0f;
                 localX = 2.0f;
-                localY += -0.00f;
+                localY -= 0.00f;
             }
             case 17 -> {
                 //mainsail switch

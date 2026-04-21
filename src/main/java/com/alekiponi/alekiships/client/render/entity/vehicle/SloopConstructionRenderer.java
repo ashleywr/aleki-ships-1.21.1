@@ -137,7 +137,7 @@ public class SloopConstructionRenderer extends EntityRenderer<SloopUnderConstruc
 
         BlockState blockstate = AlekiShipsBlocks.BOAT_FRAME_ANGLED.get().defaultBlockState().setValue(FACING, Direction.WEST).setValue(SHAPE, StairsShape.OUTER_RIGHT);
         poseStack.pushPose();
-        poseStack.translate(16.0 / 16.0, 9.0 / 16.0, 32.0 / 16.0);
+        poseStack.translate(1.0, 9.0 / 16.0, 32.0 / 16.0);
         this.blockRenderer.renderSingleBlock(blockstate, poseStack, bufferSource, packedLight,
                 OverlayTexture.NO_OVERLAY);
         poseStack.popPose();
@@ -164,7 +164,7 @@ public class SloopConstructionRenderer extends EntityRenderer<SloopUnderConstruc
         poseStack.popPose();
 
         poseStack.pushPose();
-        poseStack.translate(-32.0 / 16.0, 9.0 / 16.0, 16.0 / 16.0);
+        poseStack.translate(-32.0 / 16.0, 9.0 / 16.0, 1.0);
         blockstate = AlekiShipsBlocks.BOAT_FRAME_ANGLED.get().defaultBlockState().setValue(FACING, Direction.EAST);
         this.blockRenderer.renderSingleBlock(blockstate, poseStack, bufferSource, packedLight,
                 OverlayTexture.NO_OVERLAY);
@@ -192,28 +192,28 @@ public class SloopConstructionRenderer extends EntityRenderer<SloopUnderConstruc
         poseStack.popPose();
 
         poseStack.pushPose();
-        poseStack.translate(16.0 / 16.0, 9.0 / 16.0, 16.0 / 16.0);
+        poseStack.translate(1.0, 9.0 / 16.0, 1.0);
         blockstate = AlekiShipsBlocks.BOAT_FRAME_ANGLED.get().defaultBlockState().setValue(FACING, Direction.WEST);
         this.blockRenderer.renderSingleBlock(blockstate, poseStack, bufferSource, packedLight,
                 OverlayTexture.NO_OVERLAY);
         poseStack.popPose();
 
         poseStack.pushPose();
-        poseStack.translate(16.0 / 16.0, 9.0 / 16.0, 0.0 / 16.0);
+        poseStack.translate(1.0, 9.0 / 16.0, 0.0 / 16.0);
         blockstate = AlekiShipsBlocks.BOAT_FRAME_ANGLED.get().defaultBlockState().setValue(FACING, Direction.WEST);
         this.blockRenderer.renderSingleBlock(blockstate, poseStack, bufferSource, packedLight,
                 OverlayTexture.NO_OVERLAY);
         poseStack.popPose();
 
         poseStack.pushPose();
-        poseStack.translate(16.0 / 16.0, 9.0 / 16.0, -16.0 / 16.0);
+        poseStack.translate(1.0, 9.0 / 16.0, -16.0 / 16.0);
         blockstate = AlekiShipsBlocks.BOAT_FRAME_ANGLED.get().defaultBlockState().setValue(FACING, Direction.WEST);
         this.blockRenderer.renderSingleBlock(blockstate, poseStack, bufferSource, packedLight,
                 OverlayTexture.NO_OVERLAY);
         poseStack.popPose();
 
         poseStack.pushPose();
-        poseStack.translate(16.0 / 16.0, 9.0 / 16.0, -32.0 / 16.0);
+        poseStack.translate(1.0, 9.0 / 16.0, -32.0 / 16.0);
         blockstate = AlekiShipsBlocks.BOAT_FRAME_ANGLED.get().defaultBlockState().setValue(FACING, Direction.SOUTH).setValue(SHAPE, StairsShape.OUTER_RIGHT);
         this.blockRenderer.renderSingleBlock(blockstate, poseStack, bufferSource, packedLight,
                 OverlayTexture.NO_OVERLAY);
