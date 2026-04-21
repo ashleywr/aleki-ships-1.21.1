@@ -21,7 +21,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.function.Function;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import lombok.Builder;
 import lombok.SneakyThrows;
@@ -215,6 +214,6 @@ public final class SimpleBlockMenuCompartmentEntity extends BlockCompartmentEnti
      * @see #LOOM
      */
     @Builder
-    public record FactorySettings(@NotNull Class<? extends AbstractContainerMenu> menuClass,
-            @Nullable ResourceLocation statName, @NotNull Component title) {}
+    public record FactorySettings(Class<? extends AbstractContainerMenu> menuClass,
+            @Nullable ResourceLocation statName, Component title) {}
 }

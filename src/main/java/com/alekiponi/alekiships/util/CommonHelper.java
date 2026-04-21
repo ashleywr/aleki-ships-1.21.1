@@ -42,7 +42,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 
 public class CommonHelper {
     @Nullable
@@ -128,7 +127,7 @@ public class CommonHelper {
      * Copied from Forge to support multiloader
      */
 
-    public static void giveItemToPlayer(Player player, @NotNull ItemStack stack) {
+    public static void giveItemToPlayer(Player player, ItemStack stack) {
         giveItemToPlayer(player, stack, -1);
     }
 
@@ -136,7 +135,7 @@ public class CommonHelper {
      * Copied from Forge to support multiloader
      */
 
-    public static void giveItemToPlayer(Player player, @NotNull ItemStack stack, int preferredSlot) {
+    public static void giveItemToPlayer(Player player, ItemStack stack, int preferredSlot) {
         if (!stack.isEmpty()) {
             IItemHandler inventory = new PlayerMainInvWrapper(player.getInventory());
             Level level = player.level();
@@ -169,7 +168,7 @@ public class CommonHelper {
     /**
      * Copied from Forge to support multiloader
      */
-    public static @NotNull ItemStack insertItemStacked(IItemHandler inventory, @NotNull ItemStack stack,
+    public static ItemStack insertItemStacked(IItemHandler inventory, ItemStack stack,
             boolean simulate) {
         if (inventory != null && !stack.isEmpty()) {
             if (!stack.isStackable()) {
@@ -210,7 +209,7 @@ public class CommonHelper {
      * Copied from Forge to support multiloader
      */
 
-    public static @NotNull ItemStack insertItem(IItemHandler dest, @NotNull ItemStack stack, boolean simulate) {
+    public static ItemStack insertItem(IItemHandler dest, ItemStack stack, boolean simulate) {
         if (dest != null && !stack.isEmpty()) {
             for (int i = 0; i < dest.getSlots(); ++i) {
                 stack = dest.insertItem(i, stack, simulate);

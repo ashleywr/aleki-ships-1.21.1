@@ -12,7 +12,6 @@ import javax.annotation.Nullable;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Supplier;
-import org.jetbrains.annotations.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,9 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 public class DirectCompartmentType<E extends AbstractCompartmentEntity> {
 
-    @NotNull
     private final Supplier<? extends EntityType<E>> entityTypeSupplier;
-    @NotNull
     private final CompartmentFactory<E> compartmentFactory;
 
     /**

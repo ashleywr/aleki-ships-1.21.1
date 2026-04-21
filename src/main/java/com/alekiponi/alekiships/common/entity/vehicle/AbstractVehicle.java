@@ -54,7 +54,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.jetbrains.annotations.NotNull;
 
 import static com.alekiponi.alekiships.util.ClientHelper.tickTakeClientPlayersForARide;
 
@@ -999,7 +998,6 @@ public abstract class AbstractVehicle extends Entity implements IHaveColliders, 
         return new AABB(startingPoint, endingPoint);
     }
 
-    @NotNull
     @Override
     protected Vec3 collide(Vec3 pVec) {
         // TODO make this work by applying the angular velocity to each collider and by making collision affect deltaRotation

@@ -26,7 +26,6 @@ import net.minecraft.world.item.ItemStack;
 
 import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
 
-import org.jetbrains.annotations.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Value;
@@ -106,7 +105,7 @@ public class ChestCompartmentData {
     /**
      * The texture to use. Must be in the chest atlas {@link net.minecraft.client.renderer.Sheets#CHEST_SHEET Sheets#CHEST_SHEET}
      */
-    @NotNull ResourceLocation texture;
+    ResourceLocation texture;
 
     /**
      * The slot count calculated from the row count using rows of 9 slots
