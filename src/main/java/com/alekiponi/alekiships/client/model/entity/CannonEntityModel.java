@@ -73,7 +73,7 @@ public class CannonEntityModel extends EntityModel<CannonEntity> {
     @Override
     public void setupAnim(CannonEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
             float headPitch) {
-        animateSailforceIndicator((com.alekiponi.alekiships.common.entity.CannonEntity) (entity), limbSwingAmount, barrel);
+        animateSailforceIndicator(entity, limbSwingAmount, barrel);
     }
 
     @Override

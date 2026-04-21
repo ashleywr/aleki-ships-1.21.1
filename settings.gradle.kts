@@ -1,7 +1,7 @@
 pluginManagement {
     repositories {
         gradlePluginPortal()
-        mavenCentral() {
+        mavenCentral {
             name = "MavenCentral"
         }
         exclusiveContent {

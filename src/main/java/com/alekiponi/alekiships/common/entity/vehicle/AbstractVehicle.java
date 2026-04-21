@@ -96,7 +96,7 @@ public abstract class AbstractVehicle extends Entity implements IHaveColliders, 
 
     private boolean passengerUpdateFlag = false;
 
-    public AbstractVehicle(final EntityType entityType, final Level level) {
+    public AbstractVehicle(final EntityType<? extends AbstractVehicle> entityType, final Level level) {
         super(entityType, level);
         this.blocksBuilding = true;
 
@@ -244,10 +244,6 @@ public abstract class AbstractVehicle extends Entity implements IHaveColliders, 
     public Vec3 getRelativePortalPosition(final Direction.Axis axis, final BlockUtil.FoundRectangle portal) {
         return LivingEntity.resetForwardDirectionOfRelativePortalPosition(
                 super.getRelativePortalPosition(axis, portal));
-    }
-
-    public boolean shouldShowName() {
-        return this.isCustomNameVisible();
     }
 
     public double getPassengersRidingOffset() {

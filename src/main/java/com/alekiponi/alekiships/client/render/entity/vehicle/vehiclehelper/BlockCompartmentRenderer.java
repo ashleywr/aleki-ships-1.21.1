@@ -25,6 +25,7 @@ public class BlockCompartmentRenderer<Compartment extends AbstractCompartmentEnt
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     protected void renderCompartmentContents(final Compartment compartmentEntity, final float partialTicks,
             final PoseStack poseStack, final MultiBufferSource bufferSource, int packedLight) {
         AbstractVehicle vehicle = compartmentEntity.getTrueVehicle();
@@ -37,7 +38,6 @@ public class BlockCompartmentRenderer<Compartment extends AbstractCompartmentEnt
                     getSkyLightLevel(compartmentEntity, compartmentEntity.blockPosition()));
         }
 
-        //noinspection deprecation
         this.blockRenderer.renderSingleBlock(compartmentEntity.getDisplayBlockState(), poseStack, bufferSource,
                 packedLight, OverlayTexture.NO_OVERLAY);
     }

@@ -45,6 +45,7 @@ public class SloopConstructionRenderer extends EntityRenderer<SloopUnderConstruc
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public void render(final SloopUnderConstructionEntity constructionEntity, final float entityYaw,
                        final float partialTicks, final PoseStack poseStack, final MultiBufferSource bufferSource,
                        final int packedLight) {

@@ -33,7 +33,7 @@ public final class AlekiShipsAdvancements {
         return new Trigger(TRIGGERS.register(name, GenericTrigger::new));
     }
 
-    public static void checkDyeShipBlack(Player player, AbstractAlekiBoatEntity boat) {
+    public static void checkDyeShipBlack(Player player, AbstractAlekiBoatEntity<?> boat) {
         if (boat instanceof IPaintable) {
             //TODO make generic
             if (boat instanceof SloopEntity sloop) {

@@ -51,7 +51,7 @@ public class CannonballEntity extends Projectile {
         @Override
         public float getEntityDamageAmount(final Explosion explosion, final Entity entity) {
             return switch (entity) {
-                case AbstractAlekiBoatEntity ignored -> 100;
+                case AbstractAlekiBoatEntity<?> ignored -> 100;
                 case Boat ignored -> 10_000;
                 // TODO this seems stupid but should be the same behavior as in the previous custom Explosion class
                 //  so don't blame me -Traister
@@ -65,20 +65,18 @@ public class CannonballEntity extends Projectile {
         super(entityType, level);
     }
 
-    public CannonballEntity(final double x, final double y, final double z, final Level level) {
-        super(AlekiShipsEntities.CANNONBALL_ENTITY.get(), level);
-        this.moveTo(x, y, z, this.getYRot(), this.getXRot());
-        this.reapplyPosition();
-    }
-
     /**
      * Construct a cannonball in an already fired state from a {@link CannonEntity}
      *
      * @param cannonEntity The cannon entity this cannonball is shot from
      */
-    public CannonballEntity(final CannonEntity cannonEntity) {
-        this(cannonEntity.getX(), cannonEntity.getY(), cannonEntity.getZ(), cannonEntity.level());
-        this.shoot(cannonEntity);
+    public static CannonballEntity fireFrom(final CannonEntity cannonEntity) {
+        final var cannonball = new CannonballEntity(AlekiShipsEntities.CANNONBALL_ENTITY.get(),
+                cannonEntity.level());
+        cannonball.setPos(cannonEntity.getX(), cannonEntity.getY(), cannonEntity.getZ());
+        cannonball.reapplyPosition();
+        cannonball.shoot(cannonEntity);
+        return cannonball;
     }
 
     @Override
@@ -111,8 +109,7 @@ public class CannonballEntity extends Projectile {
     @Override
     public void tick() {
         final Entity owner = this.getOwner();
-        //noinspection deprecation with no alternative :|
-        if (owner != null && owner.isRemoved() || !this.level().hasChunkAt(this.blockPosition())) {
+        if (owner != null && owner.isRemoved() || !this.level().isLoaded(this.blockPosition())) {
             if (!this.level().isClientSide) {
                 this.discard();
                 return;

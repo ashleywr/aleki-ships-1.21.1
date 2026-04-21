@@ -192,6 +192,7 @@ public final class BlockStateIngredient implements Predicate<BlockState> {
      * @see BlockStateIngredient#builder(Supplier...)
      * @see BlockStateIngredient#builder(TagKey)
      */
+    @SuppressWarnings({"rawtypes", "unchecked"})
     @Contract(value = "_, _ -> new", pure = true)
     public static BlockStateIngredient exactStateIgnoring(final BlockState blockState,
             final Property<?>... ignoredProperties) {
@@ -204,7 +205,6 @@ public final class BlockStateIngredient implements Predicate<BlockState> {
                 .filter(Predicate.not(ignoredPropertiesSet::contains))
                 .toList()
                 .forEach(property -> {
-                    //noinspection unchecked,rawtypes
                     stateMatcherBuilder.property(
                             PropertyMatcher.single((Property) property, (Comparable) blockState.getValue(property)));
                 });
@@ -231,7 +231,7 @@ public final class BlockStateIngredient implements Predicate<BlockState> {
      * @param blocks The blocks to create a builder for
      */
     @SafeVarargs
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings({"deprecation", "varargs"})
     @Contract(value = "_ -> new", pure = true)
     public static BlockStateIngredientBuilder builder(final Supplier<? extends Block>... blocks) {
         return new BlockStateIngredientBuilder(

@@ -51,26 +51,19 @@ import lombok.ToString;
  *
  * @param <E> An enum representing the construction stages
  */
+@Builder
 @ToString
 @EqualsAndHashCode
 public final class ConstructionInput<E extends Enum<E> & ConstructionInput.ConstructionStage<E>> {
 
     @SuppressWarnings({"rawtypes", "unchecked"})
-    private static final ConstructionInput<?> EMPTY = new ConstructionInput(Map.of(), new SimpleResult(EntityType.PIG),
-            SoundEvents.EMPTY, Blocks.STONE.defaultBlockState());
-
+    private static final ConstructionInput<?> EMPTY = new ConstructionInput(SoundEvents.EMPTY,
+            Blocks.STONE.defaultBlockState(), new SimpleResult(EntityType.PIG), Map.of());
     public final SoundEvent assembleSound;
     public final BlockState assembleBlockState;
     public final EntityResult constructedEntity;
+    @Singular
     private final Map<E, ProgressStage> stages;
-
-    private ConstructionInput(final Map<E, ProgressStage> stages, final EntityResult constructedEntity,
-            final SoundEvent assembleSound, final BlockState assembleBlockState) {
-        this.stages = stages;
-        this.constructedEntity = constructedEntity;
-        this.assembleSound = assembleSound;
-        this.assembleBlockState = assembleBlockState;
-    }
 
     /**
      * A helper to create a {@link Codec} for {@link ConstructionInput}
@@ -127,12 +120,11 @@ public final class ConstructionInput<E extends Enum<E> & ConstructionInput.Const
         }).codec();
     }
 
-    @Builder
     public static <E extends Enum<E> & ConstructionStage<E>> ConstructionInput<E> of(
             @Singular final Map<E, ProgressStage> stages, final EntityResult constructedEntity,
             final SoundEvent assembleSound, final BlockState assembleBlockState) {
-        return stages.isEmpty() ? empty() : new ConstructionInput<>(stages, constructedEntity, assembleSound,
-                assembleBlockState);
+        return stages.isEmpty() ? empty() : new ConstructionInput<>(assembleSound, assembleBlockState,
+                constructedEntity, stages);
     }
 
     @SuppressWarnings("unchecked")
@@ -337,6 +329,9 @@ public final class ConstructionInput<E extends Enum<E> & ConstructionInput.Const
          */
         int remainingInputs();
     }
+
+    @SuppressWarnings("cast") // Lombok code gen has redundant casts
+    public static class ConstructionInputBuilder<E extends Enum<E> & ConstructionStage<E>> {}
 
     /**
      * @param ingredient       An ingredient

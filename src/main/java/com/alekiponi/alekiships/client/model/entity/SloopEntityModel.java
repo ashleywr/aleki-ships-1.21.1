@@ -784,8 +784,8 @@ public class SloopEntityModel extends EntityModel<SloopEntity> {
                     if (sails[zindex][yindex] == null) {
                         break;
                     }
-                    float luffFunction = (float) (5 * Mth.sin(
-                            (float) (0.1 * ((zindex * mainsail_section_widths) + animationTickFloat + yindex * mainsail_section_widths))));
+                    float luffFunction = 5 * Mth.sin(
+                            (float) (0.1 * ((zindex * mainsail_section_widths) + animationTickFloat + yindex * mainsail_section_widths)));
                     float squaredFunctionComponent = (zindex - 7) * (zindex - 7);
                     float airfoilFunction = (-0.20f * squaredFunctionComponent + 11) * airFoilDirection;
                     if (zindex > 7) {
@@ -819,14 +819,14 @@ public class SloopEntityModel extends EntityModel<SloopEntity> {
                     }
 
                     if (windSpeed < 1) {
-                        mixFunction *= 0.5;
+                        mixFunction *= 0.5F;
                     }
 
                     mixFunction = Mth.clamp(mixFunction, 0, 0.92f);
 
                     if (mixFunction >= 0.9f) {
-                        luffFunction = (float) (5 * Mth.sin(
-                                (float) (0.1 * ((zindex * mainsail_section_widths) + animationTickFloat)))) * falloff;
+                        luffFunction = 5 * Mth.sin(
+                                (float) (0.1 * ((zindex * mainsail_section_widths) + animationTickFloat))) * falloff;
                     }
 
                     float finalfunction = ((airfoilFunction) * mixFunction + (luffFunction * (1.0f - mixFunction))) + ycurve * mixFunction;
@@ -893,8 +893,8 @@ public class SloopEntityModel extends EntityModel<SloopEntity> {
 
                     //TODO clean up the math
 
-                    float luffFunction = (float) (5 * Mth.sin(
-                            (float) (0.1 * ((zindex * jibsail_section_widths) + animationTickFloat + yindex * jibsail_section_widths))));
+                    float luffFunction = 5 * Mth.sin(
+                            (float) (0.1 * ((zindex * jibsail_section_widths) + animationTickFloat + yindex * jibsail_section_widths)));
                     float squaredFunctionComponent = (float) Math.pow(zindex - 22f, 2);
 
                     float falloff = 0.6f * (float) Math.log((zindex + 1.00f)) + 0.1f;
@@ -916,8 +916,8 @@ public class SloopEntityModel extends EntityModel<SloopEntity> {
                     }
 
                     if (mixFunction >= 0.9f) {
-                        luffFunction = (float) (5 * Mth.sin(
-                                (float) (0.1 * ((zindex * mainsail_section_widths) + animationTickFloat)))) * falloff;
+                        luffFunction = 5 * Mth.sin(
+                                (float) (0.1 * ((zindex * mainsail_section_widths) + animationTickFloat))) * falloff;
                     }
 
                     mixFunction = Mth.clamp(mixFunction, 0, 0.92f);
@@ -1018,7 +1018,7 @@ public class SloopEntityModel extends EntityModel<SloopEntity> {
             if (telltailParts[zindex] == null) {
                 break;
             }
-            float luffFunction = (float) (2 * Mth.sin((float) (0.1 * ((zindex * 6) + animationTickFloat))));
+            float luffFunction = 2 * Mth.sin((float) (0.1 * ((zindex * 6) + animationTickFloat)));
 
             float falloff = 0.4f * (float) Math.log((zindex + 1.00f)) + 0.1f;
             if (falloff > 1.0f) {
@@ -1063,7 +1063,7 @@ public class SloopEntityModel extends EntityModel<SloopEntity> {
         ModelPart connector = sheet.getChild("traveller_connector");
         if (pBoat.getMainsailActive()) {
             double thing = Math.toDegrees(boomRotation);
-            float rotation = (float) mainSheetRotationLookupCauseImBadAtMath((float) Math.toDegrees(boomRotation));
+            float rotation = mainSheetRotationLookupCauseImBadAtMath((float) Math.toDegrees(boomRotation));
             if (boomRotation > 0) {
                 mainsheet.zRot = rotation;
                 mainsheet.xRot = boomRotation * 0.6f;
@@ -1147,26 +1147,6 @@ public class SloopEntityModel extends EntityModel<SloopEntity> {
                 64f, 65f, 65.0f, 66f, 66, 67.5f, 68f, 68.5f, 69, 69.5f, 70, 70.5f, 71, 71.5f, 71.7f, 72f
         };
         return (float) Math.toRadians(table[(int) angleDegrees]);
-    }
-
-    private static void animateWindIndicator(SloopEntity pBoat, float pPartialTicks, ModelPart wind_indicator) {
-        float windAngle = (float) Math.toRadians(pBoat.getWindLocalRotation());
-        wind_indicator.yRot = (float) (windAngle);
-        wind_indicator.zScale = 1;
-        wind_indicator.xScale = 1;
-        wind_indicator.zScale = pBoat.getLocalWindSpeed() * 5;
-    }
-
-    private static void animateSailforceIndicator(SloopEntity pBoat, float pPartialTicks,
-            ModelPart sail_force_indicator) {
-        float sailForceAngle = (float) Math.toRadians(
-                Mth.wrapDegrees(pBoat.getMainsailWindAngleAndForce()[0]) - pBoat.getYRot());
-        float sailForce = Mth.clamp(pBoat.getMainsailWindAngleAndForce()[1], 0.1f, 10f);
-        sail_force_indicator.yRot = (float) (sailForceAngle);
-        sail_force_indicator.zScale = 1;
-        sail_force_indicator.xScale = 1;
-        sail_force_indicator.zScale = sailForce;
-        sail_force_indicator.xScale = sailForce;
     }
 
     public static ModelPart[][] getMainsailParts(SloopEntityModel sloopEntityModel) {

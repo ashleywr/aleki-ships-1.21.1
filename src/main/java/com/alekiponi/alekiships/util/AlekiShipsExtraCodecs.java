@@ -71,6 +71,7 @@ public final class AlekiShipsExtraCodecs {
         return DataResult.success(symbol.charAt(0));
     }, String::valueOf);
 
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public static DataResult<BlockState> parseBlockState(final String string) {
         final var propertiesStart = string.indexOf('[');
         final var propertiesEnd = string.indexOf(']');
@@ -96,7 +97,6 @@ public final class AlekiShipsExtraCodecs {
                 block.getStateDefinition()).map(map -> {
             var blockState = block.defaultBlockState();
             for (final var entry : map.entrySet()) {
-                //noinspection unchecked,rawtypes
                 blockState = blockState.setValue((Property) entry.getKey(), (Comparable) entry.getValue());
             }
             return blockState;

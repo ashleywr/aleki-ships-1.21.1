@@ -4,7 +4,6 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Rotation;
@@ -42,11 +41,12 @@ public final class PatternBlockStateCache {
                     }
                 });
 
-        @SuppressWarnings("unchecked") final LoadingCache<BlockPos, WorldlyBlock>[] loadingCaches = Util.make(
-                new LoadingCache[ROTATIONS.length], caches -> Arrays.stream(ROTATIONS)
-                        .forEach(rotation -> caches[rotation.ordinal()] = rotateCache(levelCache, rotation)));
+        @SuppressWarnings("rawtypes") final LoadingCache[] loadingCaches = new LoadingCache[ROTATIONS.length];
+        Arrays.stream(ROTATIONS)
+                .forEach(rotation -> loadingCaches[rotation.ordinal()] = rotateCache(levelCache, rotation));
 
-        return new PatternBlockStateCache(loadingCaches);
+        @SuppressWarnings("unchecked") final var patternBlockStateCache = new PatternBlockStateCache(loadingCaches);
+        return patternBlockStateCache;
     }
 
     /**

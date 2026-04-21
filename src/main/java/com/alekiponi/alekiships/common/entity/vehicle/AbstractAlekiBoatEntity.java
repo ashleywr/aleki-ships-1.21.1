@@ -59,7 +59,8 @@ public abstract class AbstractAlekiBoatEntity<T extends BoatVariant> extends Abs
     protected int windLerpTicks = 0;
     protected WindModel windModel;
 
-    public AbstractAlekiBoatEntity(final EntityType<? extends AbstractAlekiBoatEntity> entityType, final Level level) {
+    public AbstractAlekiBoatEntity(final EntityType<? extends AbstractAlekiBoatEntity<T>> entityType,
+            final Level level) {
         super(entityType, level);
         this.windModel = WindModel.get(level);
     }
@@ -488,17 +489,11 @@ public abstract class AbstractAlekiBoatEntity<T extends BoatVariant> extends Abs
 
     @Nullable
     protected SoundEvent getPaddleSound() {
-        switch (this.getStatus()) {
-            case IN_WATER:
-            case UNDER_WATER:
-            case UNDER_FLOWING_WATER:
-                return SoundEvents.BOAT_PADDLE_WATER;
-            case ON_LAND:
-                return SoundEvents.BOAT_PADDLE_LAND;
-            case IN_AIR:
-            default:
-                return null;
-        }
+        return switch (this.getStatus()) {
+            case IN_WATER, UNDER_WATER, UNDER_FLOWING_WATER -> SoundEvents.BOAT_PADDLE_WATER;
+            case ON_LAND -> SoundEvents.BOAT_PADDLE_LAND;
+            case IN_AIR, IN_LAVA, UNDER_LAVA, UNDER_FLOWING_LAVA -> null;
+        };
     }
 
 

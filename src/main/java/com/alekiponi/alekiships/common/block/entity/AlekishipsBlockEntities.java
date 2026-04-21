@@ -24,6 +24,7 @@ public final class AlekishipsBlockEntities {
             AlekiShipsBlocks.WOODEN_BOAT_FRAME_FLAT);
 
     @SafeVarargs
+    @SuppressWarnings("varargs")
     private static <E extends BlockEntity> DeferredHolder<BlockEntityType<?>, BlockEntityType<E>> register(
             final String name, final BlockEntityType.BlockEntitySupplier<E> factory,
             final Supplier<? extends Block>... validBlocks) {

@@ -234,6 +234,11 @@ tasks {
         dependsOn(generateModMetadata)
     }
 
+    withType<JavaCompile>().configureEach {
+        options.encoding = "UTF-8"
+        options.compilerArgs.addAll(arrayOf("-Xlint:all,-processing,-this-escape", "-Werror"))
+    }
+
     test {
         useJUnitPlatform()
         testLogging {

@@ -165,6 +165,7 @@ public final class PropertyMatcher {
      * @see PropertyMatcher#max(Property, Comparable)
      */
     @SafeVarargs
+    @SuppressWarnings("varargs")
     @Contract(value = "_, _ -> new", pure = true)
     public static <T extends Comparable<T>, V extends T> PropertyMatcher list(final Property<T> property,
             final V... values) {

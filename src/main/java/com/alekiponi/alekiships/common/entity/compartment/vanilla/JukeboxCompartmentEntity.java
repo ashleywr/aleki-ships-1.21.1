@@ -49,14 +49,12 @@ public class JukeboxCompartmentEntity extends BlockCompartmentEntity implements 
 
     public JukeboxCompartmentEntity(final EntityType<? extends JukeboxCompartmentEntity> entityType,
             final Level level) {
-        super(entityType, level);
-        this.setDisplayBlockState(Blocks.JUKEBOX.defaultBlockState());
+        super(entityType, level, Blocks.JUKEBOX.defaultBlockState());
     }
 
     public JukeboxCompartmentEntity(final EntityType<? extends JukeboxCompartmentEntity> entityType, final Level level,
             final BlockState blockState) {
-        this(entityType, level);
-        this.setDisplayBlockState(blockState);
+        super(entityType, level, blockState);
     }
 
     @Override

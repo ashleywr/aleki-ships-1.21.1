@@ -767,6 +767,7 @@ public class SloopEntity extends AbstractAlekiBoatEntity<SloopVariant> implement
         IHaveAnchorWindlass.super.tickAnchorInput();
     }
 
+    @Deprecated(forRemoval = true)
     public float[] getMainsailWindAngleAndForce() {
         float windDifference = Mth.degreesDifference(this.getWindLocalRotation(),
                 Mth.wrapDegrees(this.getMainBoomRotation()));
@@ -780,7 +781,7 @@ public class SloopEntity extends AbstractAlekiBoatEntity<SloopVariant> implement
         }
 
         float windForce = CommonHelper.sailForceMultiplierTable(windDifference);
-        return new float[]{(float) windForceAngle, (float) windForce};
+        return new float[]{windForceAngle, windForce};
     }
 
     public float getMainBoomRotation() {

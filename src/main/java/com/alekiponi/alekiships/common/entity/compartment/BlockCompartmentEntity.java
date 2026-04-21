@@ -77,12 +77,12 @@ public class BlockCompartmentEntity extends AbstractCompartmentEntity implements
     }
 
     @Override
-    public BlockState getDisplayBlockState() {
+    public final BlockState getDisplayBlockState() {
         return this.entityData.get(DATA_ID_DISPLAY_BLOCK);
     }
 
     @Override
-    public void setDisplayBlockState(final BlockState blockState) {
+    public final void setDisplayBlockState(final BlockState blockState) {
         this.entityData.set(DATA_ID_DISPLAY_BLOCK, blockState);
     }
 }

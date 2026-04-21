@@ -35,6 +35,7 @@ import net.neoforged.neoforge.common.util.Lazy;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
+import lombok.Getter;
 
 public class CannonEntity extends Entity implements EntityInput.InputEntity {
     public static final byte EVENT_LIGHT = 10;
@@ -80,9 +81,6 @@ public class CannonEntity extends Entity implements EntityInput.InputEntity {
     public CannonEntity(final EntityType<? extends CannonEntity> entityType, final Level level) {
         super(entityType, level);
         fuse = -1;
-
-        this.setInputState(EntityInput.EntityInputState.getInitialState(this.registryAccess(),
-                CannonItem.DEFAULT_CANNON_INPUT_KEY));
     }
 
     @Override
@@ -248,9 +246,7 @@ public class CannonEntity extends Entity implements EntityInput.InputEntity {
         this.inputContents.clear();
         this.playSound(SoundEvents.GENERIC_EXPLODE.value(), 1.5f, this.level().getRandom().nextFloat() * 0.05F + 0.01F);
 
-        final CannonballEntity cannonball = new CannonballEntity(this);
-
-        cannonball.setPos(this.position());
+        final CannonballEntity cannonball =  CannonballEntity.fireFrom(this);
         this.level().addFreshEntity(cannonball);
         final Vec3 movement = new Vec3((Mth.sin(-this.getYRot() * ((float) Math.PI / 180F)) * 0.04),
                 this.getDeltaMovement().y, Mth.cos(this.getYRot() * ((float) Math.PI / 180F)) * 0.04).multiply(-1, 1,
@@ -429,12 +425,12 @@ public class CannonEntity extends Entity implements EntityInput.InputEntity {
     }
 
     @Override
-    public EntityInput.EntityInputState getInputState() {
+    public final EntityInput.EntityInputState getInputState() {
         return this.entityData.get(DATA_ID_ENTITY_INPUT_STATE);
     }
 
     @Override
-    public void setInputState(final EntityInput.EntityInputState entityInputState) {
+    public final void setInputState(final EntityInput.EntityInputState entityInputState) {
         this.entityData.set(DATA_ID_ENTITY_INPUT_STATE, entityInputState);
     }
 }

@@ -54,7 +54,7 @@ public class MastRenderer extends EntityRenderer<MastEntity> {
                     getSkyLightLevel(mast, mast.blockPosition()));
         }
 
-        if (!(mast.getTrueVehicle() instanceof AbstractAlekiBoatEntity ship)) return;
+        if (!(mast.getTrueVehicle() instanceof AbstractAlekiBoatEntity<?> ship)) return;
 
         if (!(mast.getBanner().getItem() instanceof BannerItem)) return;
 

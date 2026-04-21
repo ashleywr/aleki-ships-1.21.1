@@ -26,7 +26,6 @@ import net.minecraft.world.level.CommonLevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.state.BlockState;
 
 import net.neoforged.neoforge.common.util.NeoForgeExtraCodecs;
 

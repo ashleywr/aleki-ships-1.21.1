@@ -221,7 +221,8 @@ public class RowboatEntity extends AbstractAlekiBoatEntity<RowboatVariant> imple
             case ZERO:
                 break;
             case TWO:
-                this.spawnAtLocation(AlekiShipsItems.OAR.get());
+                this.spawnAtLocation(AlekiShipsItems.OAR.toStack(2));
+                break;
             case ONE:
                 this.spawnAtLocation(AlekiShipsItems.OAR.get());
                 break;

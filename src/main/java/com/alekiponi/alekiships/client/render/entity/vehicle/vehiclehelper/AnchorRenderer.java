@@ -36,7 +36,7 @@ public class AnchorRenderer extends EntityRenderer<AnchorEntity> {
         if (anchor.getVehicle().getVehicle().getVehicle() == null) return;
 
         final float rotation = anchor.getVehicle().getVehicle()
-                .getVehicle() instanceof AbstractAlekiBoatEntity trueVehicle ? trueVehicle.getYRot() : entityYaw;
+                .getVehicle() instanceof AbstractAlekiBoatEntity<?> trueVehicle ? trueVehicle.getYRot() : entityYaw;
 
         poseStack.pushPose();
         poseStack.mulPose(Axis.YP.rotationDegrees(60 - rotation));
