@@ -9,8 +9,6 @@ import com.alekiponi.alekiships.common.entity.vehicle.RowboatEntity;
 import com.alekiponi.alekiships.common.entity.vehicle.SloopEntity;
 import com.alekiponi.alekiships.common.entity.vehicle.SloopUnderConstructionEntity;
 import com.alekiponi.alekiships.common.entity.vehiclehelper.*;
-import com.alekiponi.alekiships.util.CommonHelper;
-import com.alekiponi.alekiships.util.VanillaWood;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.Entity;
@@ -23,7 +21,6 @@ import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-import java.util.EnumMap;
 import java.util.Locale;
 
 import static com.alekiponi.alekiships.AlekiShips.MOD_ID;

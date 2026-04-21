@@ -217,8 +217,7 @@ public class EmptyCompartmentEntity extends AbstractCompartmentEntity {
                     if (!entity.hasPassenger(this)) {
                         float maxSize = 0.6f;
                         maxSize = this.getTrueVehicle().getPassengerSizeLimit();
-                        if (this.getPassengers()
-                                .size() == 0 && !entity.isPassenger() && entity.getBbWidth() <= maxSize) {
+                        if (this.getPassengers().isEmpty() && !entity.isPassenger() && entity.getBbWidth() <= maxSize) {
                             if (entity instanceof LivingEntity && !(entity instanceof WaterAnimal) && !(entity instanceof Player)) {
                                 entity.startRiding(this);
                             }

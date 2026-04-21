@@ -35,7 +35,6 @@ import net.neoforged.neoforge.common.util.Lazy;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
-import lombok.Getter;
 
 public class CannonEntity extends Entity implements EntityInput.InputEntity {
     public static final byte EVENT_LIGHT = 10;

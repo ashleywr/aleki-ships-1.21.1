@@ -1,9 +1,5 @@
 package com.alekiponi.alekiships.client.render.entity.vehicle;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
-
 import com.alekiponi.alekiships.client.model.entity.AnchorEntityModel;
 import com.alekiponi.alekiships.client.model.entity.SloopConstructionModel;
 import com.alekiponi.alekiships.client.model.entity.SloopEntityModel;
@@ -24,8 +20,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.StairsShape;
-
-import java.util.function.Function;
 
 import static com.alekiponi.alekiships.common.block.AngledBoatFrameBlock.FACING;
 import static com.alekiponi.alekiships.common.block.AngledBoatFrameBlock.SHAPE;
