@@ -62,10 +62,6 @@ public class CleatEntity extends AbstractPassthroughHelper implements Leashable 
         }
     }
 
-    public boolean isPickable() {
-        return !this.isRemoved();
-    }
-
     @Override
     protected void readAdditionalSaveData(CompoundTag pCompound) {
         this.writeLeashData(pCompound, this.leashData);

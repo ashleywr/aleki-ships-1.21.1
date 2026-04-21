@@ -42,11 +42,6 @@ public abstract class AbstractSwitchEntity extends AbstractPassthroughHelper {
     }
 
     @Override
-    public boolean isPickable() {
-        return !this.isRemoved();
-    }
-
-    @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         builder.define(DATA_ID_SWITCH, false);
     }
