@@ -9,7 +9,7 @@ public interface IHaveSailSwitches {
     int[] getSailSwitchIndices();
 
     default ArrayList<SailSwitchEntity> getSailSwitches(AbstractVehicle vehicle) {
-        ArrayList<SailSwitchEntity> list = new ArrayList<SailSwitchEntity>();
+        ArrayList<SailSwitchEntity> list = new ArrayList<>();
         if (vehicle.getPassengers().size() == vehicle.getMaxPassengers()) {
             for (int i : this.getSailSwitchIndices()) {
                 if (vehicle.getPassengers().get(i).getFirstPassenger() instanceof SailSwitchEntity switchEntity) {

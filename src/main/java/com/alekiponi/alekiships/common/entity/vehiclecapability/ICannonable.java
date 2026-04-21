@@ -17,7 +17,7 @@ public interface ICannonable {
     int[] getCanAddCannonsIndices();
 
     default ArrayList<CannonEntity> getCannons(AbstractVehicle vehicle) {
-        ArrayList<CannonEntity> list = new ArrayList<CannonEntity>();
+        ArrayList<CannonEntity> list = new ArrayList<>();
         for (AbstractCompartmentEntity compartment : getCanAddCannons()) {
             if (compartment.getFirstPassenger() instanceof CannonEntity cannonEntity) {
                 list.add(cannonEntity);
@@ -27,7 +27,7 @@ public interface ICannonable {
     }
 
     default ArrayList<AbstractCompartmentEntity> getCanAddCannons(AbstractVehicle vehicle) {
-        ArrayList<AbstractCompartmentEntity> list = new ArrayList<AbstractCompartmentEntity>();
+        ArrayList<AbstractCompartmentEntity> list = new ArrayList<>();
         if (vehicle.getPassengers().size() == vehicle.getMaxPassengers()) {
             for (int i : this.getCanAddCannonsIndices()) {
                 if (vehicle.getPassengers().get(i)

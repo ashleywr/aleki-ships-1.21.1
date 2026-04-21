@@ -10,7 +10,7 @@ public interface IHaveColliders {
     int[] getColliderIndices();
 
     default ArrayList<ColliderEntity> getColliders(AbstractVehicle vehicle) {
-        ArrayList<ColliderEntity> list = new ArrayList<ColliderEntity>();
+        ArrayList<ColliderEntity> list = new ArrayList<>();
         if (vehicle.getPassengers().size() == vehicle.getMaxPassengers()) {
             for (int i : this.getColliderIndices()) {
                 if (vehicle.getPassengers().get(i).getFirstPassenger() instanceof ColliderEntity collider) {

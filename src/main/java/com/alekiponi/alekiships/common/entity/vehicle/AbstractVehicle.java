@@ -97,7 +97,7 @@ public abstract class AbstractVehicle extends Entity implements IHaveColliders, 
         super(entityType, level);
         this.blocksBuilding = true;
 
-        this.speedOverTime = new LinkedList<Double>();
+        this.speedOverTime = new LinkedList<>();
         for (int i = 0; i < 5; i++) {
             this.speedOverTime.add(0.0);
         }
@@ -647,7 +647,7 @@ public abstract class AbstractVehicle extends Entity implements IHaveColliders, 
     public final List<Player> collectPlayerPassengers() {
         final List<Entity> truePassengers = collectLivingPassengers();
 
-        ArrayList<Player> players = new ArrayList<Player>();
+        ArrayList<Player> players = new ArrayList<>();
 
         for (Entity entity : truePassengers) {
             if (entity instanceof Player player) {
@@ -661,7 +661,7 @@ public abstract class AbstractVehicle extends Entity implements IHaveColliders, 
     public final List<Player> collectPlayersToTakeWith() {
         final List<Entity> truePassengers = collectEntitesToTakeWith();
 
-        ArrayList<Player> players = new ArrayList<Player>();
+        ArrayList<Player> players = new ArrayList<>();
 
         for (Entity entity : truePassengers) {
             if (entity instanceof Player player) {

@@ -33,8 +33,9 @@ public abstract class LivingEntityMixin extends Entity {
     public void injectOnClimbableWhileClimbingMasts(CallbackInfoReturnable<Boolean> cir){
         if((LivingEntity)(Object)((this)) instanceof Player){
 
-            List<Entity> masts = new ArrayList<Entity>(this.level()
-                    .getEntities(this, this.getBoundingBox().inflate(0, 0, 0).move(0, 0, 0), EntitySelector.NO_SPECTATORS));
+            List<Entity> masts = new ArrayList<>(this.level()
+                    .getEntities(this, this.getBoundingBox().inflate(0, 0, 0).move(0, 0, 0),
+                            EntitySelector.NO_SPECTATORS));
 
             masts.removeIf(entity -> !(entity instanceof MastEntity));
 

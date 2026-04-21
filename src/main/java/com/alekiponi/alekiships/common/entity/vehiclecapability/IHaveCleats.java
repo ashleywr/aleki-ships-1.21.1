@@ -18,7 +18,7 @@ public interface IHaveCleats {
     float getCleatMovementMultiplier();
 
     private ArrayList<CleatEntity> getCleats(AbstractVehicle vehicle) {
-        ArrayList<CleatEntity> list = new ArrayList<CleatEntity>();
+        ArrayList<CleatEntity> list = new ArrayList<>();
         if (vehicle.getPassengers().size() == vehicle.getMaxPassengers()) {
             for (int i : this.getCleatIndices()) {
                 if (vehicle.getPassengers().get(i).getFirstPassenger() instanceof CleatEntity cleat) {

@@ -9,7 +9,7 @@ public interface IHaveMasts {
     int[] getMastIndices();
 
     default ArrayList<MastEntity> getMasts(AbstractVehicle vehicle) {
-        ArrayList<MastEntity> list = new ArrayList<MastEntity>();
+        ArrayList<MastEntity> list = new ArrayList<>();
         if (vehicle.getPassengers().size() == vehicle.getMaxPassengers()) {
             for (int i : this.getMastIndices()) {
                 if (vehicle.getPassengers().get(i).getFirstPassenger() instanceof MastEntity mast) {

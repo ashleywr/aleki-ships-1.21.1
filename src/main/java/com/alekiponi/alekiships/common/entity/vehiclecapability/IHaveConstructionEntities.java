@@ -10,7 +10,7 @@ public interface IHaveConstructionEntities {
     int[] getConstructionIndices();
 
     default ArrayList<ConstructionEntity> getConstructionEntities(AbstractVehicle vehicle) {
-        ArrayList<ConstructionEntity> list = new ArrayList<ConstructionEntity>();
+        ArrayList<ConstructionEntity> list = new ArrayList<>();
         if (vehicle.getPassengers().size() == vehicle.getMaxPassengers()) {
             for (int i : this.getConstructionIndices()) {
                 if (vehicle.getPassengers().get(i)

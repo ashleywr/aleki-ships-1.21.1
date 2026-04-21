@@ -9,7 +9,7 @@ public interface IHaveBlockOnlyCompartments {
     int[] getCanAddOnlyBlocksIndices();
 
     default ArrayList<AbstractCompartmentEntity> getCanAddOnlyBlocks(AbstractVehicle vehicle) {
-        ArrayList<AbstractCompartmentEntity> list = new ArrayList<AbstractCompartmentEntity>();
+        ArrayList<AbstractCompartmentEntity> list = new ArrayList<>();
         if (vehicle.getPassengers().size() == vehicle.getMaxPassengers()) {
             for (int i : this.getCanAddOnlyBlocksIndices()) {
                 if (vehicle.getPassengers().get(i)

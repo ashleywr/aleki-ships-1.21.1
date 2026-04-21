@@ -14,7 +14,7 @@ public interface IHaveCompartments {
     int getCompartmentRotation(int i);
 
     private ArrayList<AbstractCompartmentEntity> getCompartments(AbstractVehicle vehicle) {
-        ArrayList<AbstractCompartmentEntity> list = new ArrayList<AbstractCompartmentEntity>();
+        ArrayList<AbstractCompartmentEntity> list = new ArrayList<>();
         if (vehicle.getPassengers().size() == vehicle.getMaxPassengers()) {
             for (int i : this.getCompartmentIndices()) {
                 if (vehicle.getPassengers().get(i)

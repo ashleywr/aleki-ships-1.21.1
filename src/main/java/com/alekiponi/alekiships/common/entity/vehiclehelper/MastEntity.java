@@ -42,7 +42,7 @@ public class MastEntity extends AbstractPassthroughHelper {
 
         if (this.level().isClientSide()) {
 
-            List<Entity> playersToMoveWithMast = new ArrayList<Entity>(this.level()
+            List<Entity> playersToMoveWithMast = new ArrayList<>(this.level()
                     .getEntities(this, this.getBoundingBox().inflate(0, 0, 0).move(0, 0, 0),
                             EntitySelector.NO_SPECTATORS));
 

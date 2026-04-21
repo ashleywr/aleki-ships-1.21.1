@@ -18,7 +18,7 @@ public interface IHaveMultipleCleats extends IHaveCleats {
 
         int count = 0;
         ArrayList<CleatEntity> cleats = this.getCleats();
-        ArrayList<CleatEntity> leashedCleats = new ArrayList<CleatEntity>();
+        ArrayList<CleatEntity> leashedCleats = new ArrayList<>();
         for (CleatEntity cleat : cleats) {
             if (cleat.isLeashed() && !vehicle.collectEntitesToTakeWith().contains(cleat.getLeashHolder())) {
                 leashedCleats.add(cleat);
