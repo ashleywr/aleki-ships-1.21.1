@@ -150,7 +150,7 @@ public final class AlekiShipsEntities {
                     .setTrackingRange(VEHICLE_HELPER_TRACKING).noSummon().fireImmune());
 
     public static final DeferredHolder<EntityType<?>, EntityType<CannonballEntity>> CANNONBALL_ENTITY = register("cannonball",
-            EntityType.Builder.<CannonballEntity>of(CannonballEntity::new, MobCategory.MISC).sized(0.5F, 0.5F)
+            EntityType.Builder.of(CannonballEntity::new, MobCategory.MISC).sized(0.5F, 0.5F)
                     .setTrackingRange(32).clientTrackingRange(32).setShouldReceiveVelocityUpdates(true).fireImmune());
 
     public static final DeferredHolder<EntityType<?>, EntityType<CannonEntity>> CANNON_ENTITY = register("cannon",
