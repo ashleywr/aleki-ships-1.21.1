@@ -1,64 +1,50 @@
 package com.alekiponi.alekiships.common.compartment;
 
 import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import com.alekiponi.alekiships.common.AlekiShipsBuiltInRegistries;
-import com.alekiponi.alekiships.common.AlekiShipsRegistries;
 import com.alekiponi.alekiships.common.entity.compartment.AbstractCompartmentEntity;
 import com.alekiponi.alekiships.common.entity.compartment.vanilla.EnderChestCompartmentEntity;
 
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 import java.util.Optional;
-import java.util.function.Supplier;
-import lombok.*;
-import lombok.extern.slf4j.Slf4j;
+import lombok.AllArgsConstructor;
 
 /**
  * This type is special and is for compartments that cannot or do not fit a generic construction format. For example
- * {@link EnderChestCompartmentEntity} simply doesn't make sense as its own
+ * {@link EnderChestCompartmentEntity} doesn't make sense to have any parameters so we use this class instead.
  */
-@Slf4j
-@ToString
-@EqualsAndHashCode
 @AllArgsConstructor
-@Getter(AccessLevel.PRIVATE)
-public final class DirectCompartmentPlaceable implements CompartmentPlaceable<AbstractCompartmentEntity> {
+public final class DirectCompartmentPlaceable<C extends AbstractCompartmentEntity> implements CompartmentPlaceable<C> {
 
-    public static final MapCodec<DirectCompartmentPlaceable> CODEC = RecordCodecBuilder.mapCodec(
-            instance -> instance.group(AlekiShipsBuiltInRegistries.DIRECT_COMPARTMENT_TYPES.byNameCodec()
-                            .fieldOf("compartment_type")
-                            .forGetter(DirectCompartmentPlaceable::getDirectCompartmentType))
-                    .apply(instance, DirectCompartmentPlaceable::new));
+    private final CompartmentPlaceableSerializer<DirectCompartmentPlaceable<C>> serializer = new CompartmentPlaceableSerializer<>() {
+        @Override
+        public MapCodec<DirectCompartmentPlaceable<C>> codec() {
+            return MapCodec.unit(DirectCompartmentPlaceable.this);
+        }
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, DirectCompartmentPlaceable> STREAM_CODEC = ByteBufCodecs.registry(
-                    AlekiShipsRegistries.DIRECT_COMPARTMENT_TYPE)
-            .map(DirectCompartmentPlaceable::new, DirectCompartmentPlaceable::getDirectCompartmentType);
+        @Override
+        public StreamCodec<? super RegistryFriendlyByteBuf, DirectCompartmentPlaceable<C>> streamCodec() {
+            return StreamCodec.unit(DirectCompartmentPlaceable.this);
+        }
+    };
 
-    private final DirectCompartmentType<?> directCompartmentType;
+    private final DirectCompartmentType<C> directCompartmentType;
 
-    public DirectCompartmentPlaceable(final Supplier<? extends DirectCompartmentType<?>> directCompartmentType) {
-        this(directCompartmentType.get());
-    }
-
-    public static DirectCompartmentPlaceable of(
-            final Supplier<? extends DirectCompartmentType<?>> directCompartmentType) {
-        return new DirectCompartmentPlaceable(directCompartmentType);
-    }
-
+    /**
+     * This type is special and creates the serializer internally. This is safe to invoke at any time and must be manually registered
+     * {@inheritDoc}
+     */
     @Override
     public CompartmentPlaceableSerializer<?> getSerializer() {
-        return AlekiShipsCompartmentPlaceableSerializers.DIRECT.get();
+        return this.serializer;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public Optional<AbstractCompartmentEntity> createCompartment(final Level level, final ItemStack itemStack) {
-        return (Optional<AbstractCompartmentEntity>) this.directCompartmentType.create(level, itemStack);
+    public Optional<C> createCompartment(final Level level, final ItemStack itemStack) {
+        return this.directCompartmentType.create(level, itemStack);
     }
 }

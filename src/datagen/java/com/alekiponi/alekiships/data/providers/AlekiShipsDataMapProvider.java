@@ -3,8 +3,7 @@ package com.alekiponi.alekiships.data.providers;
 import com.alekiponi.alekiships.common.AlekiShipsDataMaps;
 import com.alekiponi.alekiships.common.AlekiShipsRegistries;
 import com.alekiponi.alekiships.common.block.AlekiShipsBlocks;
-import com.alekiponi.alekiships.common.compartment.AlekiShipsDirectCompartmentTypes;
-import com.alekiponi.alekiships.common.compartment.DirectCompartmentPlaceable;
+import com.alekiponi.alekiships.common.compartment.AlekiShipsCompartmentPlaceableSerializers;
 import com.alekiponi.alekiships.common.compartment.vanilla.*;
 import com.alekiponi.alekiships.common.entity.compartment.vanilla.ChestCompartmentData;
 import com.alekiponi.alekiships.data.util.DataMapBuilderExtensions;
@@ -63,8 +62,7 @@ public class AlekiShipsDataMapProvider extends DataMapProvider {
         builder.add(Items.TRAPPED_CHEST, ChestCompartmentPlaceable.of(ChestCompartmentData.builder()
                 .texture(ResourceLocation.withDefaultNamespace("entity/chest/trapped"))
                 .build()));
-        builder.add(Items.ENDER_CHEST,
-                DirectCompartmentPlaceable.of(AlekiShipsDirectCompartmentTypes.ENDER_CHEST_COMPARTMENT));
+        builder.add(Items.ENDER_CHEST, AlekiShipsCompartmentPlaceableSerializers.ENDER_CHEST);
 
         builder.add(Items.SHULKER_BOX, ShulkerBoxCompartmentPlaceable.of());
         for (final var color : DyeColor.values()) {
@@ -75,24 +73,18 @@ public class AlekiShipsDataMapProvider extends DataMapProvider {
         builder.add(Items.BLAST_FURNACE, BlastFurnaceCompartmentPlaceable.of(Blocks.BLAST_FURNACE.defaultBlockState()));
         builder.add(Items.SMOKER, SmokerCompartmentPlaceable.of(Blocks.SMOKER.defaultBlockState()));
 
-        builder.add(Items.BREWING_STAND,
-                DirectCompartmentPlaceable.of(AlekiShipsDirectCompartmentTypes.BREWING_STAND_COMPARTMENT));
+        builder.add(Items.BREWING_STAND, AlekiShipsCompartmentPlaceableSerializers.BREWING_STAND);
 
         builder.add(Items.CRAFTING_TABLE,
                 CraftingTableCompartmentPlaceable.of(Blocks.CRAFTING_TABLE.defaultBlockState()));
-        builder.add(Items.STONECUTTER,
-                DirectCompartmentPlaceable.of(AlekiShipsDirectCompartmentTypes.STONECUTTER_COMPARTMENT));
-        builder.add(Items.CARTOGRAPHY_TABLE,
-                DirectCompartmentPlaceable.of(AlekiShipsDirectCompartmentTypes.CARTOGRAPHY_TABLE_COMPARTMENT));
-        builder.add(Items.SMITHING_TABLE,
-                DirectCompartmentPlaceable.of(AlekiShipsDirectCompartmentTypes.SMITHING_TABLE_COMPARTMENT));
-        builder.add(Items.GRINDSTONE,
-                DirectCompartmentPlaceable.of(AlekiShipsDirectCompartmentTypes.GRINDSTONE_COMPARTMENT));
-        builder.add(Items.LOOM, DirectCompartmentPlaceable.of(AlekiShipsDirectCompartmentTypes.LOOM_COMPARTMENT));
+        builder.add(Items.STONECUTTER, AlekiShipsCompartmentPlaceableSerializers.STONECUTTER);
+        builder.add(Items.CARTOGRAPHY_TABLE, AlekiShipsCompartmentPlaceableSerializers.CARTOGRAPHY_TABLE);
+        builder.add(Items.SMITHING_TABLE, AlekiShipsCompartmentPlaceableSerializers.SMITHING_TABLE);
+        builder.add(Items.GRINDSTONE, AlekiShipsCompartmentPlaceableSerializers.GRINDSTONE);
+        builder.add(Items.LOOM, AlekiShipsCompartmentPlaceableSerializers.LOOM);
 
-        builder.add(Items.NOTE_BLOCK,
-                DirectCompartmentPlaceable.of(AlekiShipsDirectCompartmentTypes.NOTE_BLOCK_COMPARTMENT));
-        builder.add(Items.JUKEBOX, DirectCompartmentPlaceable.of(AlekiShipsDirectCompartmentTypes.JUKEBOX_COMPARTMENT));
+        builder.add(Items.NOTE_BLOCK, AlekiShipsCompartmentPlaceableSerializers.NOTE_BLOCK);
+        builder.add(Items.JUKEBOX, AlekiShipsCompartmentPlaceableSerializers.JUKEBOX);
     }
 
     private void gatherWindModels() {

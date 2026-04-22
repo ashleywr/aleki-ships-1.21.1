@@ -2,7 +2,6 @@ package com.alekiponi.alekiships.common;
 
 import com.alekiponi.alekiships.AlekiShips;
 import com.alekiponi.alekiships.common.compartment.CompartmentPlaceableSerializer;
-import com.alekiponi.alekiships.common.compartment.DirectCompartmentType;
 import com.alekiponi.alekiships.common.entity.EntityInput;
 import com.alekiponi.alekiships.common.entity.SloopConstructionState;
 import com.alekiponi.alekiships.common.entity.compartment.vanilla.ChestCompartmentData;
@@ -22,8 +21,6 @@ import net.neoforged.neoforge.registries.NewRegistryEvent;
 import net.neoforged.neoforge.registries.RegistryBuilder;
 
 public final class AlekiShipsBuiltInRegistries {
-    public static final Registry<DirectCompartmentType<?>> DIRECT_COMPARTMENT_TYPES = new RegistryBuilder<>(
-            AlekiShipsRegistries.DIRECT_COMPARTMENT_TYPE).sync(true).create();
     public static final Registry<CompartmentPlaceableSerializer<?>> COMPARTMENT_TYPE_SERIALIZERS = new RegistryBuilder<>(
             AlekiShipsRegistries.COMPARTMENT_PLACEABLE_SERIALIZER).sync(true).create();
     public static final Registry<ChestCompartmentData.ChestType> CHEST_COMPARTMENT_TYPES = new RegistryBuilder<>(
@@ -38,7 +35,6 @@ public final class AlekiShipsBuiltInRegistries {
             AlekiShipsRegistries.BLOCK_ENTITY_RESULT_SERIALIZER).sync(true).create();
 
     public static void registerRegistries(final NewRegistryEvent event) {
-        event.register(DIRECT_COMPARTMENT_TYPES);
         event.register(COMPARTMENT_TYPE_SERIALIZERS);
         event.register(CHEST_COMPARTMENT_TYPES);
         event.register(WIND_MODEL_SERIALIZERS);

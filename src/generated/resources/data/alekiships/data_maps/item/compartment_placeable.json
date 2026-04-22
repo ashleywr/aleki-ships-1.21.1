@@ -17,16 +17,14 @@
       "color": "blue"
     },
     "minecraft:brewing_stand": {
-      "type": "alekiships:direct",
-      "compartment_type": "alekiships:brewing_stand"
+      "type": "alekiships:brewing_stand"
     },
     "minecraft:brown_shulker_box": {
       "type": "alekiships:shulker_box",
       "color": "brown"
     },
     "minecraft:cartography_table": {
-      "type": "alekiships:direct",
-      "compartment_type": "alekiships:cartography_table"
+      "type": "alekiships:cartography_table"
     },
     "minecraft:chest": {
       "type": "alekiships:chest",
@@ -43,8 +41,7 @@
       "color": "cyan"
     },
     "minecraft:ender_chest": {
-      "type": "alekiships:direct",
-      "compartment_type": "alekiships:ender_chest"
+      "type": "alekiships:ender_chest"
     },
     "minecraft:furnace": {
       "type": "alekiships:furnace",
@@ -59,12 +56,10 @@
       "color": "green"
     },
     "minecraft:grindstone": {
-      "type": "alekiships:direct",
-      "compartment_type": "alekiships:grindstone"
+      "type": "alekiships:grindstone"
     },
     "minecraft:jukebox": {
-      "type": "alekiships:direct",
-      "compartment_type": "alekiships:jukebox"
+      "type": "alekiships:jukebox"
     },
     "minecraft:light_blue_shulker_box": {
       "type": "alekiships:shulker_box",
@@ -79,16 +74,14 @@
       "color": "lime"
     },
     "minecraft:loom": {
-      "type": "alekiships:direct",
-      "compartment_type": "alekiships:loom"
+      "type": "alekiships:loom"
     },
     "minecraft:magenta_shulker_box": {
       "type": "alekiships:shulker_box",
       "color": "magenta"
     },
     "minecraft:note_block": {
-      "type": "alekiships:direct",
-      "compartment_type": "alekiships:note_block"
+      "type": "alekiships:note_block"
     },
     "minecraft:orange_shulker_box": {
       "type": "alekiships:shulker_box",
@@ -110,16 +103,14 @@
       "type": "alekiships:shulker_box"
     },
     "minecraft:smithing_table": {
-      "type": "alekiships:direct",
-      "compartment_type": "alekiships:smithing_table"
+      "type": "alekiships:smithing_table"
     },
     "minecraft:smoker": {
       "type": "alekiships:smoker",
       "block": "minecraft:smoker"
     },
     "minecraft:stonecutter": {
-      "type": "alekiships:direct",
-      "compartment_type": "alekiships:stonecutter"
+      "type": "alekiships:stonecutter"
     },
     "minecraft:trapped_chest": {
       "type": "alekiships:chest",
