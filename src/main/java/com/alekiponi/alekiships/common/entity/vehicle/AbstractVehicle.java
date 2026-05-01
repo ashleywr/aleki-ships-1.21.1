@@ -977,17 +977,15 @@ public abstract class AbstractVehicle extends Entity implements IHaveColliders, 
      * with vehicles that should drop multiple things such as the {@link SloopEntity}
      */
     protected void dropFromLootTable(final ServerLevel serverLevel, final DamageSource damageSource) {
-        ResourceKey<LootTable> resourcekey = this.getLootTable();
-        LootTable loottable = this.level().getServer().reloadableRegistries().getLootTable(resourcekey);
-
-        final LootParams.Builder lootBuilder = (new LootParams.Builder(serverLevel)).withParameter(
-                        LootContextParams.THIS_ENTITY, this).withParameter(LootContextParams.ORIGIN, this.position())
+        final var lootParams = new LootParams.Builder(serverLevel)
+                .withParameter(LootContextParams.THIS_ENTITY, this)
+                .withParameter(LootContextParams.ORIGIN, this.position())
                 .withParameter(LootContextParams.DAMAGE_SOURCE, damageSource)
                 .withOptionalParameter(LootContextParams.ATTACKING_ENTITY, damageSource.getEntity())
-                .withOptionalParameter(LootContextParams.DIRECT_ATTACKING_ENTITY, damageSource.getDirectEntity());
-
-        final LootParams lootparams = lootBuilder.create(LootContextParamSets.ENTITY);
-        loottable.getRandomItems(lootparams, this.getLootTableSeed(), this::spawnAtLocation);
+                .withOptionalParameter(LootContextParams.DIRECT_ATTACKING_ENTITY, damageSource.getDirectEntity())
+                .create(LootContextParamSets.ENTITY);
+        final var lootTable = serverLevel.getServer().reloadableRegistries().getLootTable(this.getLootTable());
+        lootTable.getRandomItems(lootParams, this.getLootTableSeed(), this::spawnAtLocation);
     }
 
     @Override
