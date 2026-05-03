@@ -28,9 +28,9 @@ public class SloopUnderConstructionEntity extends AbstractUnderConstructionEntit
     public static final String SLOOP_CONSTRUCTION_TYPE_KEY = "sloop_construction_type";
 
     private static final EntityDataAccessor<SloopConstructionState> DATA_ID_CONSTRUCTION_STATE = SynchedEntityData.defineId(
-            SloopUnderConstructionEntity.class, AlekiShipsEntityDataSerializers.SLOOP_CONSTRUCTION_STATE.get());
+            SloopUnderConstructionEntity.class, AlekiShipsEntityDataSerializers.SLOOP_CONSTRUCTION_STATE);
     private static final EntityDataAccessor<Holder<ConstructionSloopVariant>> DATA_ID_SLOOP_CONSTRUCTION_VARIANT = SynchedEntityData.defineId(
-            SloopUnderConstructionEntity.class, AlekiShipsEntityDataSerializers.SLOOP_CONSTRUCTION_VARIANT.get());
+            SloopUnderConstructionEntity.class, AlekiShipsEntityDataSerializers.SLOOP_CONSTRUCTION_VARIANT);
 
     public SloopUnderConstructionEntity(final EntityType<? extends SloopUnderConstructionEntity> entityType,
             final Level level) {

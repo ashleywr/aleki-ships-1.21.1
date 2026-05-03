@@ -44,9 +44,9 @@ public class RowboatEntity extends AbstractAlekiBoatEntity<RowboatVariant> imple
     private static final EntityDataAccessor<Byte> DATA_ID_OARS = SynchedEntityData.defineId(RowboatEntity.class,
             EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Optional<DyeColor>> DATA_ID_PAINT_COLOR = SynchedEntityData.defineId(
-            RowboatEntity.class, AlekiShipsEntityDataSerializers.OPTIONAL_DYE_COLOR.get());
+            RowboatEntity.class, AlekiShipsEntityDataSerializers.OPTIONAL_DYE_COLOR);
     private static final EntityDataAccessor<Holder<RowboatVariant>> DATA_ID_ROWBOAT_TYPE = SynchedEntityData.defineId(
-            RowboatEntity.class, AlekiShipsEntityDataSerializers.ROWBOAT_VARIANT.get());
+            RowboatEntity.class, AlekiShipsEntityDataSerializers.ROWBOAT_VARIANT);
 
     public static final int PASSENGER_NUMBER = 6;
 

@@ -59,13 +59,13 @@ public class SloopEntity extends AbstractAlekiBoatEntity<SloopVariant> implement
     protected static final EntityDataAccessor<Integer> DATA_ID_TICKS_NO_RIDERS = SynchedEntityData.defineId(
             SloopEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<DyeColor> DATA_ID_MAINSAIL_DYE = SynchedEntityData.defineId(
-            SloopEntity.class, AlekiShipsEntityDataSerializers.DYE_COLOR.get());
+            SloopEntity.class, AlekiShipsEntityDataSerializers.DYE_COLOR);
     private static final EntityDataAccessor<DyeColor> DATA_ID_JIBSAIL_DYE = SynchedEntityData.defineId(
-            SloopEntity.class, AlekiShipsEntityDataSerializers.DYE_COLOR.get());
+            SloopEntity.class, AlekiShipsEntityDataSerializers.DYE_COLOR);
     private static final EntityDataAccessor<Optional<DyeColor>> DATA_ID_PAINT_COLOR = SynchedEntityData.defineId(
-            SloopEntity.class, AlekiShipsEntityDataSerializers.OPTIONAL_DYE_COLOR.get());
+            SloopEntity.class, AlekiShipsEntityDataSerializers.OPTIONAL_DYE_COLOR);
     private static final EntityDataAccessor<Holder<SloopVariant>> DATA_ID_SLOOP_VARIANT = SynchedEntityData.defineId(
-            SloopEntity.class, AlekiShipsEntityDataSerializers.SLOOP_VARIANT.get());
+            SloopEntity.class, AlekiShipsEntityDataSerializers.SLOOP_VARIANT);
     public static final int PASSENGER_NUMBER = 25;
     public static final int[] CLEATS = {18, 19, 20, 21};
     public static final int[] COLLIDERS = {14, 15, 16};

@@ -39,9 +39,9 @@ public final class ChestCompartmentEntity extends RandomizableContainerCompartme
     public static final String DROP_STACK_KEY = "drop_stack";
 
     private static final EntityDataAccessor<ChestCompartmentData> DATA_ID_CHEST_COMPARTMENT_DATA = SynchedEntityData.defineId(
-            ChestCompartmentEntity.class, AlekiShipsEntityDataSerializers.CHEST_COMPARTMENT_DATA.get());
+            ChestCompartmentEntity.class, AlekiShipsEntityDataSerializers.CHEST_COMPARTMENT_DATA);
     private static final EntityDataAccessor<ItemStackProvider> DATA_ID_DROP_STACK = SynchedEntityData.defineId(
-            ChestCompartmentEntity.class, AlekiShipsEntityDataSerializers.ITEM_STACK_PROVIDER.get());
+            ChestCompartmentEntity.class, AlekiShipsEntityDataSerializers.ITEM_STACK_PROVIDER);
 
     private final ChestLidController chestLidController = new ChestLidController();
     private final ContainerOpenersCounter openersCounter = new ContainerOpenersCounter() {

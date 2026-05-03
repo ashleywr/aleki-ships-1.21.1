@@ -50,7 +50,7 @@ public class CannonEntity extends Entity implements EntityInput.InputEntity {
     private static final EntityDataAccessor<Float> DATA_ID_X_ROT = SynchedEntityData.defineId(CannonEntity.class,
             EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<EntityInput.EntityInputState> DATA_ID_ENTITY_INPUT_STATE = SynchedEntityData.defineId(
-            CannonEntity.class, AlekiShipsEntityDataSerializers.ENTITY_INPUT_STATE.get());
+            CannonEntity.class, AlekiShipsEntityDataSerializers.ENTITY_INPUT_STATE);
     private static final float DAMAGE_TO_BREAK = 8;
     private static final float DAMAGE_RECOVERY = 0.5F;
     private final Lazy<EntityInput> cannonInput = Lazy.of(
