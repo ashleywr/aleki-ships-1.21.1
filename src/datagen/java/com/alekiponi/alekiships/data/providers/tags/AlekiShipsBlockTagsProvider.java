@@ -27,6 +27,14 @@ public class AlekiShipsBlockTagsProvider extends EnhancedBlockTagsProvider {
     protected void addTags(final HolderLookup.Provider provider) {
         this.tag(AlekiShipsTags.Blocks.PLANTS_THAT_GET_MOWED).name("Plants That Get Mowed").add(Blocks.KELP);
 
+        //Ice types
+        this.tag(AlekiShipsTags.Blocks.BREAKABLE_ICE)
+                .name("Breakable Ice")
+                .add(Blocks.ICE)
+                .add(Blocks.FROSTED_ICE)
+                .add(Blocks.PACKED_ICE)
+                .add(Blocks.BLUE_ICE);
+
         // Vanilla mining tags
         this.tag(BlockTags.MINEABLE_WITH_AXE)
                 .add(AlekiShipsBlocks.WOODEN_BOAT_FRAME_ANGLED.get(), AlekiShipsBlocks.WOODEN_BOAT_FRAME_FLAT.get());

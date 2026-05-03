@@ -1,10 +1,12 @@
 package com.alekiponi.alekiships.common.entity.vehiclecapability;
 
 import com.alekiponi.alekiships.common.entity.vehicle.AbstractVehicle;
+import com.alekiponi.alekiships.util.AlekiShipsTags;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.IceBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 public interface IBreakIce {
@@ -34,10 +36,10 @@ public interface IBreakIce {
             for (int z = -size; z <= size; z++) {
                 for (int y = 0; y < 2; y++) {
                     final BlockState blockState = ((Entity) this).level().getBlockState(blockPos);
-                    if (blockState.is(Blocks.ICE)) {
+                    if (blockState.is(AlekiShipsTags.Blocks.BREAKABLE_ICE)) {
                         flag = true;
                         ((Entity) this).level().destroyBlock(blockPos, false);
-                        ((Entity) this).level().setBlock(blockPos, Blocks.WATER.defaultBlockState(), 2);
+                        ((Entity) this).level().setBlock(blockPos, IceBlock.meltsInto(), Block.UPDATE_CLIENTS);
                     }
                     // Move down a block
                     blockPos.setY(blockPos.getY() - 1);

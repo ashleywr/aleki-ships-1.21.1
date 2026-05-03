@@ -15,6 +15,10 @@ public final class AlekiShipsTags {
 
     public static final class Blocks {
         public static final TagKey<Block> PLANTS_THAT_GET_MOWED = create("plants_that_get_mowed");
+        /**
+         * The breakable ice
+         */
+        public static final TagKey<Block> BREAKABLE_ICE = create("breakable_ice");
 
         public static final TagKey<Block> WOODEN_WATERCRAFT_FRAMES = create("wooden_watercraft_frames");
 
