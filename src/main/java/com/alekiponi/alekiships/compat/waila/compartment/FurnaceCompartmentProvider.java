@@ -17,7 +17,7 @@ import net.minecraft.world.item.ItemStack;
 public enum FurnaceCompartmentProvider implements IEntityComponentProvider, IServerDataProvider<EntityAccessor> {
     INSTANCE;
 
-    private static final ResourceLocation NAME = ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID, "furnace");
+    private static final ResourceLocation NAME = AlekiShips.location("furnace");
 
     @Override
     public void appendTooltip(final ITooltip tooltip, final EntityAccessor entityAccessor,

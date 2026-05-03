@@ -10,7 +10,6 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.JukeboxSong;
 import net.minecraft.world.level.Level;
@@ -21,7 +20,7 @@ public record ClientboundJukeboxCompartmentMusicPacket(int entityId,
         Optional<Integer> songId) implements CustomPacketPayload {
 
     public static final Type<ClientboundJukeboxCompartmentMusicPacket> TYPE = new Type<>(
-            ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID, "jukebox_compartment_music"));
+            AlekiShips.location("jukebox_compartment_music"));
     public static final StreamCodec<RegistryFriendlyByteBuf, ClientboundJukeboxCompartmentMusicPacket> CODEC = StreamCodec.composite(
             ByteBufCodecs.VAR_INT, ClientboundJukeboxCompartmentMusicPacket::entityId,
             ByteBufCodecs.optional(ByteBufCodecs.VAR_INT), ClientboundJukeboxCompartmentMusicPacket::songId,
@@ -50,8 +49,11 @@ public record ClientboundJukeboxCompartmentMusicPacket(int entityId,
             return;
         }
 
-        level.registryAccess().registryOrThrow(Registries.JUKEBOX_SONG).getHolder(this.songId.get()).ifPresent(
-                songReference -> JukeboxCompartmentMusicManager.playMusic(jukeboxCompartment, songReference));
+        level.registryAccess()
+                .registryOrThrow(Registries.JUKEBOX_SONG)
+                .getHolder(this.songId.get())
+                .ifPresent(
+                        songReference -> JukeboxCompartmentMusicManager.playMusic(jukeboxCompartment, songReference));
     }
 
     @Override

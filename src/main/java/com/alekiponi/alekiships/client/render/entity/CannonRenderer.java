@@ -16,8 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class CannonRenderer extends EntityRenderer<CannonEntity> {
 
-    private static final ResourceLocation CANNON = ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID,
-            "textures/entity/cannon.png");
+    private static final ResourceLocation CANNON = AlekiShips.location("textures/entity/cannon.png");
 
     private final CannonEntityModel model;
 

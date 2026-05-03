@@ -18,7 +18,7 @@ import net.minecraft.util.Mth;
 public class RowboatEntityModel extends EntityModel<RowboatEntity> {
     // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(
-            ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID, "rowboat_entity"), "main");
+            AlekiShips.location("rowboat_entity"), "main");
 
     private final ModelPart waterocclusion;
     private final ModelPart hull;

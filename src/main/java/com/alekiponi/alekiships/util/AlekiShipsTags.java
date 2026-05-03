@@ -3,7 +3,6 @@ package com.alekiponi.alekiships.util;
 import com.alekiponi.alekiships.AlekiShips;
 
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
@@ -20,7 +19,7 @@ public final class AlekiShipsTags {
         public static final TagKey<Block> WOODEN_WATERCRAFT_FRAMES = create("wooden_watercraft_frames");
 
         private static TagKey<Block> create(final String id) {
-            return TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID, id));
+            return TagKey.create(Registries.BLOCK, AlekiShips.location(id));
         }
     }
 
@@ -31,7 +30,7 @@ public final class AlekiShipsTags {
         public static final TagKey<Item> ICEBREAKER_UPGRADES = create("icebreaker_upgrades");
 
         public static TagKey<Item> create(final String id) {
-            return TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID, id));
+            return TagKey.create(Registries.ITEM, AlekiShips.location(id));
         }
     }
 
@@ -46,7 +45,7 @@ public final class AlekiShipsTags {
         public static final TagKey<EntityType<?>> COMPARTMENTS = create("compartments");
 
         public static TagKey<EntityType<?>> create(final String id) {
-            return TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID, id));
+            return TagKey.create(Registries.ENTITY_TYPE, AlekiShips.location(id));
         }
     }
 
@@ -57,7 +56,7 @@ public final class AlekiShipsTags {
         public static final TagKey<Fluid> PAINT_REMOVER = create("paint_remover");
 
         public static TagKey<Fluid> create(final String id) {
-            return TagKey.create(Registries.FLUID, ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID, id));
+            return TagKey.create(Registries.FLUID, AlekiShips.location(id));
         }
     }
 
@@ -66,7 +65,7 @@ public final class AlekiShipsTags {
         public static final TagKey<Biome> HAS_UNFINISHED_SLOOP_STRUCTURE = create("has_structure/unfinished_sloop");
 
         private static TagKey<Biome> create(final String id) {
-            return TagKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID, id));
+            return TagKey.create(Registries.BIOME, AlekiShips.location(id));
         }
     }
 }

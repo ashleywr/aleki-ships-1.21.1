@@ -38,8 +38,8 @@ import java.util.stream.Stream;
 @JeiPlugin
 public class JeiIntegration implements IModPlugin {
 
-    public static final String CAN_PLACE_INTO_COMPARTMENTS_KEY = AlekiShips.MOD_ID + ".jei.compartment_info";
-    public static final String CAN_BE_USED_TO_DYE_SHIPS_SAILS_KEY = AlekiShips.MOD_ID + ".jei.dye_info";
+    public static final String CAN_PLACE_INTO_COMPARTMENTS_KEY = AlekiShips.lang("jei.compartment_info");
+    public static final String CAN_BE_USED_TO_DYE_SHIPS_SAILS_KEY = AlekiShips.lang("jei.dye_info");
 
     public static final RecipeType<VehicleRepairMaterialRecipe> REPAIR_MATERIAL_ROWBOAT = RecipeType.create(
             AlekiShips.MOD_ID, "repair_materials_rowboat", VehicleRepairMaterialRecipe.class);

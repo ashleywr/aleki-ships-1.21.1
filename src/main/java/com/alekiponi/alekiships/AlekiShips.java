@@ -53,11 +53,13 @@ import net.neoforged.neoforge.items.wrapper.InvWrapper;
 import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
 
 import java.util.List;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 @Mod(AlekiShips.MOD_ID)
 public final class AlekiShips {
     public static final String MOD_ID = "alekiships";
-    public static final String NETHER_WOOD_PACK_KEY = MOD_ID + ".builtin.datapack.netherwood.description";
+    public static final String NETHER_WOOD_PACK_KEY = lang("builtin.datapack.netherwood.description");
 
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LogUtils.getLogger();
@@ -107,8 +109,34 @@ public final class AlekiShips {
     /**
      * Shorthand for {@code ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID, path)}
      */
-    public static ResourceLocation location(final String path) {
+    @Contract("_ -> new")
+    public static @NotNull ResourceLocation location(final String path) {
         return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+    }
+
+    /**
+     * Lang key helper
+     *
+     * @param key The lang key
+     *
+     * @return A {@value MOD_ID} prefixed lang key
+     */
+    @Contract(pure = true)
+    public static @NotNull String lang(final String key) {
+        return MOD_ID + "." + key;
+    }
+
+    /**
+     * Lang key helper
+     *
+     * @param type The lang type
+     * @param key  The lang key
+     *
+     * @return {@code "${type}.${MOD_ID}.${key}"}
+     */
+    @Contract(pure = true)
+    public static @NotNull String lang(final String type, final String key) {
+        return type + "." + lang(key);
     }
 
     @SubscribeEvent

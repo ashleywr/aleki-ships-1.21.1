@@ -42,8 +42,8 @@ public class EntityMultiblockRecipe extends NoopRecipe {
             MultiblockPattern.STREAM_CODEC, EntityMultiblockRecipe::getPattern, EntityResult.STREAM_CODEC,
             EntityMultiblockRecipe::getEntityResult, EntityMultiblockRecipe::new);
 
-    public static final String SUCCESSFULLY_ASSEMBLED = AlekiShips.MOD_ID + ".entityMultiblock.assembled";
-    public static final String FAILED_TO_ASEMBLE = AlekiShips.MOD_ID + ".entityMultiblock.matchFail";
+    public static final String SUCCESSFULLY_ASSEMBLED = AlekiShips.lang("entityMultiblock.assembled");
+    public static final String FAILED_TO_ASEMBLE = AlekiShips.lang("entityMultiblock.matchFail");
 
     private final MultiblockPattern pattern;
     private final EntityResult entityResult;

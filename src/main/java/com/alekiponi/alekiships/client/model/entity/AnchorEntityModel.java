@@ -14,8 +14,8 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 
 public class AnchorEntityModel extends EntityModel<AnchorEntity> {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(
-            ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID, "anchor_entity"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(AlekiShips.location("anchor_entity"),
+            "main");
     private final ModelPart rope;
     private final ModelPart anchor;
 

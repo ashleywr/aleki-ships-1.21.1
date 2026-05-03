@@ -16,7 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 public class ConstructionEntityModel extends EntityModel<ConstructionEntity> {
 
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(
-            ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID, "construction_entity"), "main");
+            AlekiShips.location("construction_entity"), "main");
     private final ModelPart bone;
 
     public ConstructionEntityModel(final ModelPart root) {

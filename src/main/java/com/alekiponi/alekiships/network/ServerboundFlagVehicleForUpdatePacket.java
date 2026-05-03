@@ -15,7 +15,7 @@ import javax.annotation.Nullable;
 public final class ServerboundFlagVehicleForUpdatePacket implements CustomPacketPayload {
 
     public static final CustomPacketPayload.Type<ServerboundFlagVehicleForUpdatePacket> TYPE = new CustomPacketPayload.Type<>(
-            ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID, "vehicle_passenger_update_flag"));
+            AlekiShips.location("vehicle_passenger_update_flag"));
     public static final StreamCodec<RegistryFriendlyByteBuf, ServerboundFlagVehicleForUpdatePacket> CODEC = StreamCodec.ofMember(
             ServerboundFlagVehicleForUpdatePacket::encoder, ServerboundFlagVehicleForUpdatePacket::new);
 

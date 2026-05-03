@@ -16,8 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class CannonballRenderer extends EntityRenderer<CannonballEntity> {
 
-    private static final ResourceLocation CANNONBALL = ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID,
-            "textures/entity/cannonball.png");
+    private static final ResourceLocation CANNONBALL = AlekiShips.location("textures/entity/cannonball.png");
 
     private final CannonballEntityModel model;
 

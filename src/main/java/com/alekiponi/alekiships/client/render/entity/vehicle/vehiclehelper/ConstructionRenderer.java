@@ -18,8 +18,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class ConstructionRenderer extends EntityRenderer<ConstructionEntity> {
 
-    private static final ResourceLocation HAMMER = ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID,
-            "textures/entity/watercraft/construction.png");
+    private static final ResourceLocation HAMMER = AlekiShips.location("textures/entity/watercraft/construction.png");
 
     private final ConstructionEntityModel model;
 

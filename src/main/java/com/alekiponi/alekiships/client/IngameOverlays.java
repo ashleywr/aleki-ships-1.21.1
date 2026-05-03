@@ -29,19 +29,15 @@ import java.awt.*;
 import java.text.DecimalFormat;
 
 public final class IngameOverlays {
-    public static final ResourceLocation ENTITY_ICON = ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID,
-            "entity_icon");
-    public static final ResourceLocation PASSENGER_STATUS = ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID,
-            "passenger_status");
-    public static final ResourceLocation SAILING_ELEMENT = ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID,
-            "sailing_element");
+    public static final ResourceLocation ENTITY_ICON = AlekiShips.location("entity_icon");
+    public static final ResourceLocation PASSENGER_STATUS = AlekiShips.location("passenger_status");
+    public static final ResourceLocation SAILING_ELEMENT = AlekiShips.location("sailing_element");
 
-    public static final ResourceLocation SAILING_ICONS = ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID,
-            "textures/gui/icons/sailing_icons.png");
-    public static final ResourceLocation SPEEDOMETER_ICONS = ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID,
+    public static final ResourceLocation SAILING_ICONS = AlekiShips.location("textures/gui/icons/sailing_icons.png");
+    public static final ResourceLocation SPEEDOMETER_ICONS = AlekiShips.location(
             "textures/gui/icons/speedometer_icons.png");
 
-    public static final String EJECT_PASSENGERS_KEY = "alekiships.overlay.eject_passengers";
+    public static final String EJECT_PASSENGERS_KEY = AlekiShips.lang("overlay.eject_passengers");
 
     public static void registerOverlays(final RegisterGuiLayersEvent event) {
         ModLoader.postEvent(new IconRenderersEvent.RegisterIconRenderersEvent());

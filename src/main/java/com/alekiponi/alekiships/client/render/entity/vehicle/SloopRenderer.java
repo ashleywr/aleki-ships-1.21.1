@@ -30,12 +30,12 @@ import static com.alekiponi.alekiships.client.render.util.AlekiShipsRenderHelper
 
 public class SloopRenderer extends EntityRenderer<SloopEntity> {
 
-    public static final ResourceLocation DAMAGE_OVERLAY = ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID,
+    public static final ResourceLocation DAMAGE_OVERLAY = AlekiShips.location(
             "textures/entity/watercraft/sloop/damage_overlay.png");
 
     public static final EnumMap<DyeColor, ResourceLocation> SAIL_TEXTURES = CommonHelper.mapOfKeys(DyeColor.class,
-            dyeColor -> ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID,
-                    "textures/entity/watercraft/sloop/sails/" + dyeColor.getSerializedName() + ".png"));
+            dyeColor -> AlekiShips.location(MessageFormat.format("textures/entity/watercraft/sloop/sails/{0}.png",
+                    dyeColor.getSerializedName())));
 
     public static final EnumMap<DyeColor, ResourceLocation> PAINT_OVERLAYS = CommonHelper.mapOfKeys(DyeColor.class,
             dyeColor -> AlekiShips.location(MessageFormat.format("textures/entity/watercraft/sloop/paint/{0}.png",

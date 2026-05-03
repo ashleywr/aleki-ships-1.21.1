@@ -20,8 +20,8 @@ import net.minecraft.util.Mth;
 
 public class SloopEntityModel extends EntityModel<SloopEntity> {
     // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(
-            ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID, "sloop_entity"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(AlekiShips.location("sloop_entity"),
+            "main");
     private static final int mainsail_length = 120;
     private static final int mainsail_height = 120;
     private static final int mainsail_horizontal_sections = 30;

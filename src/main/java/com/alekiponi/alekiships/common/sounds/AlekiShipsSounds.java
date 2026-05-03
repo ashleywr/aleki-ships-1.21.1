@@ -1,7 +1,8 @@
 package com.alekiponi.alekiships.common.sounds;
 
+import com.alekiponi.alekiships.AlekiShips;
+
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -17,7 +18,6 @@ public final class AlekiShipsSounds {
             "music_disc_pirate_crafting");
 
     private static DeferredHolder<SoundEvent, SoundEvent> create(String name) {
-        return SOUNDS.register(name,
-                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(MOD_ID, name)));
+        return SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(AlekiShips.location(name)));
     }
 }

@@ -8,6 +8,7 @@ package com.alekiponi.alekiships.client.model.entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
+import com.alekiponi.alekiships.AlekiShips;
 import com.alekiponi.alekiships.common.entity.CannonEntity;
 
 import net.minecraft.client.model.EntityModel;
@@ -19,8 +20,8 @@ import net.minecraft.resources.ResourceLocation;
 
 public class CannonEntityModel extends EntityModel<CannonEntity> {
 
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(
-            ResourceLocation.fromNamespaceAndPath("modid", "canon"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(AlekiShips.location("canon"),
+            "main");
     private final ModelPart barrel;
     private final ModelPart base;
 

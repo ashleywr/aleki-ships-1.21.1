@@ -18,7 +18,7 @@ public record ServerboundPickCompartmentPacket(int entityId, ItemStack itemStack
         int slotIndex) implements CustomPacketPayload {
 
     public static final CustomPacketPayload.Type<ServerboundPickCompartmentPacket> TYPE = new CustomPacketPayload.Type<>(
-            ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID, "pick_compartment"));
+            AlekiShips.location("pick_compartment"));
     public static final StreamCodec<RegistryFriendlyByteBuf, ServerboundPickCompartmentPacket> CODEC = StreamCodec.composite(
             ByteBufCodecs.VAR_INT, ServerboundPickCompartmentPacket::entityId,
             ItemStack.validatedStreamCodec(ItemStack.OPTIONAL_STREAM_CODEC),

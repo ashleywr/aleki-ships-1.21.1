@@ -37,8 +37,10 @@ public final class EntityMultiblockCommands {
                     .getAllRecipesFor(AlekiShipsRecipeTypes.ENTITY_MULTIBLOCK_RECIPE.get()), suggestionsBuilder,
             RecipeHolder::id, recipeHolder -> () -> recipeHolder.id().toString());
 
-    public static final String NOT_ENTITY_MULTIBLOCK_RECIPE = AlekiShips.MOD_ID + ".commands.place_entity_multiblock.not_entity_multiblock";
-    public static final String NO_MATCHING_STATES = AlekiShips.MOD_ID + ".commands.place_entity_multiblock.no_matching_states";
+    public static final String NOT_ENTITY_MULTIBLOCK_RECIPE = AlekiShips.lang(
+            "commands.place_entity_multiblock.not_entity_multiblock");
+    public static final String NO_MATCHING_STATES = AlekiShips.lang(
+            "commands.place_entity_multiblock.no_matching_states");
 
     private static final Rotation[] ROTATIONS = Rotation.values();
     private static final String ENTITY_MULTIBLOCK = "entityMultiblock";

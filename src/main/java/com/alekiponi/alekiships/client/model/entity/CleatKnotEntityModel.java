@@ -19,7 +19,7 @@ import net.minecraft.resources.ResourceLocation;
 public class CleatKnotEntityModel extends EntityModel<CleatEntity> {
     // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(
-            ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID, "cleat_knot_model"), "main");
+            AlekiShips.location("cleat_knot_model"), "main");
     private final ModelPart sides;
     private final ModelPart middle;
 

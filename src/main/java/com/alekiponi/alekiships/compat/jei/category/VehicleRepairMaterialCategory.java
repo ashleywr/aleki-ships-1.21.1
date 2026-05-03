@@ -31,12 +31,18 @@ import org.jetbrains.annotations.Nullable;
 
 public class VehicleRepairMaterialCategory extends JEIRecipeCategory<VehicleRepairMaterialRecipe> {
 
-    public static final String REPAIR_AMOUNT_PERCENT_KEY = "gui." + AlekiShips.MOD_ID + ".jei.category.repair_material.repair_percent";
-    public static final String REPAIR_AMOUNT_ABSOLUTE_KEY = "gui." + AlekiShips.MOD_ID + ".jei.category.repair_material.repair_absolute";
-    public static final String MINIMUM_DAMAGE_PERCENT_KEY = "gui." + AlekiShips.MOD_ID + ".jei.category.repair_material.min_damage_percent";
-    public static final String MINIMUM_DAMAGE_ABSOLUTE_KEY = "gui." + AlekiShips.MOD_ID + ".jei.category.repair_material.min_damage_absolute";
-    public static final String MAXIMUM_DAMAGE_PERCENT_KEY = "gui." + AlekiShips.MOD_ID + ".jei.category.repair_material.max_damage_percent";
-    public static final String MAXIMUM_DAMAGE_ABSOLUTE_KEY = "gui." + AlekiShips.MOD_ID + ".jei.category.repair_material.max_damage_absolute";
+    public static final String REPAIR_AMOUNT_PERCENT_KEY = AlekiShips.lang("gui",
+            "jei.category.repair_material.repair_percent");
+    public static final String REPAIR_AMOUNT_ABSOLUTE_KEY = AlekiShips.lang("gui",
+            "jei.category.repair_material.repair_absolute");
+    public static final String MINIMUM_DAMAGE_PERCENT_KEY = AlekiShips.lang("gui",
+            "jei.category.repair_material.min_damage_percent");
+    public static final String MINIMUM_DAMAGE_ABSOLUTE_KEY = AlekiShips.lang("gui",
+            "jei.category.repair_material.min_damage_absolute");
+    public static final String MAXIMUM_DAMAGE_PERCENT_KEY = AlekiShips.lang("gui",
+            "jei.category.repair_material.max_damage_percent");
+    public static final String MAXIMUM_DAMAGE_ABSOLUTE_KEY = AlekiShips.lang("gui",
+            "jei.category.repair_material.max_damage_absolute");
 
     public static final int DAMAGE_SCALE = 100;
 

@@ -24,7 +24,7 @@ public enum JukeboxCompartmentProvider implements IEntityComponentProvider, ISer
 
     private static final MapCodec<Holder<JukeboxSong>> SONG_CODEC = JukeboxSong.CODEC.fieldOf("JukeboxSong");
 
-    private static final ResourceLocation NAME = ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID, "jukebox");
+    private static final ResourceLocation NAME = AlekiShips.location("jukebox");
 
     @Override
     public void appendTooltip(final ITooltip tooltip, final EntityAccessor entityAccessor,

@@ -15,8 +15,8 @@ import net.minecraft.resources.ResourceLocation;
 public enum BlockCompartmentProvider implements IEntityComponentProvider {
     INSTANCE;
 
-    public static final String COMPARTMENT_BLOCK_KEY = "alekiships.jade.compartment_block";
-    private static final ResourceLocation NAME = ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID, "block");
+    public static final String COMPARTMENT_BLOCK_KEY = AlekiShips.lang("jade.compartment_block");
+    private static final ResourceLocation NAME = AlekiShips.location("block");
 
     @Override
     public void appendTooltip(final ITooltip tooltip, final EntityAccessor entityAccessor,

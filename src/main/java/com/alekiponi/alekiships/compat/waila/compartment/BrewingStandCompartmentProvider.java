@@ -20,8 +20,7 @@ import net.minecraft.world.item.Items;
 public enum BrewingStandCompartmentProvider implements IEntityComponentProvider, IServerDataProvider<EntityAccessor> {
     INSTANCE;
 
-    private static final ResourceLocation NAME = ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID,
-            "brewing_stand");
+    private static final ResourceLocation NAME = AlekiShips.location("brewing_stand");
 
     @Override
     public void appendTooltip(final ITooltip tooltip, final EntityAccessor entityAccessor,

@@ -7,7 +7,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
 import javax.annotation.Nullable;
@@ -15,7 +14,7 @@ import javax.annotation.Nullable;
 public final class ServerboundSwitchEntityPacket implements CustomPacketPayload {
 
     public static final CustomPacketPayload.Type<ServerboundSwitchEntityPacket> TYPE = new CustomPacketPayload.Type<>(
-            ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID, "switch_entity"));
+            AlekiShips.location("switch_entity"));
     public static final StreamCodec<RegistryFriendlyByteBuf, ServerboundSwitchEntityPacket> CODEC = StreamCodec.ofMember(
             ServerboundSwitchEntityPacket::encoder, ServerboundSwitchEntityPacket::new);
 

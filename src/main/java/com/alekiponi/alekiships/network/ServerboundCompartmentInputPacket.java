@@ -6,7 +6,6 @@ import com.alekiponi.alekiships.common.entity.compartment.EmptyCompartmentEntity
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 
@@ -15,7 +14,7 @@ import javax.annotation.Nullable;
 public final class ServerboundCompartmentInputPacket implements CustomPacketPayload {
 
     public static final CustomPacketPayload.Type<ServerboundCompartmentInputPacket> TYPE = new CustomPacketPayload.Type<>(
-            ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID, "compartment_input"));
+            AlekiShips.location("compartment_input"));
     public static final StreamCodec<RegistryFriendlyByteBuf, ServerboundCompartmentInputPacket> CODEC = StreamCodec.ofMember(
             ServerboundCompartmentInputPacket::encoder, ServerboundCompartmentInputPacket::new);
 

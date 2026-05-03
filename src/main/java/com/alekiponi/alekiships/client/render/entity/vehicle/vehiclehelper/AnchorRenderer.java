@@ -19,8 +19,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 
 public class AnchorRenderer extends EntityRenderer<AnchorEntity> {
-    public static final ResourceLocation ANCHOR = ResourceLocation.fromNamespaceAndPath(AlekiShips.MOD_ID,
-            "textures/entity/watercraft/anchor.png");
+    public static final ResourceLocation ANCHOR = AlekiShips.location("textures/entity/watercraft/anchor.png");
     private final AnchorEntityModel model;
 
     public AnchorRenderer(final EntityRendererProvider.Context context) {
