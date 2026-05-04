@@ -7,6 +7,7 @@ import com.alekiponi.alekiships.client.event.IconRenderersEvent;
 import com.alekiponi.alekiships.client.render.icon.IconRenderDispatcher;
 import com.alekiponi.alekiships.common.entity.compartment.EmptyCompartmentEntity;
 import com.alekiponi.alekiships.common.entity.vehicle.SloopEntity;
+import com.alekiponi.alekiships.events.config.AlekishipsConfig;
 import com.alekiponi.alekiships.util.CommonHelper;
 
 import net.minecraft.client.DeltaTracker;
@@ -24,6 +25,7 @@ import net.minecraft.world.level.GameType;
 import net.neoforged.fml.ModLoader;
 import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
+import net.neoforged.neoforge.common.TranslatableEnum;
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -38,6 +40,8 @@ public final class IngameOverlays {
             "textures/gui/icons/speedometer_icons.png");
 
     public static final String EJECT_PASSENGERS_KEY = AlekiShips.lang("overlay.eject_passengers");
+    public static final String DEBUG_KILOMETERS_PER_HOUR_KEY = AlekiShips.lang("debug", "boatSpeedKilometersPerHour");
+    public static final String DEBUG_MILES_PER_HOUR_KEY = AlekiShips.lang("debug", "boatSpeedMilesPerHour");
 
     public static void registerOverlays(final RegisterGuiLayersEvent event) {
         ModLoader.postEvent(new IconRenderersEvent.RegisterIconRenderersEvent());
@@ -144,8 +148,6 @@ public final class IngameOverlays {
             stack.translate(0.5f, 0, 0);
         }
 
-        final double smoothSpeedMS = sloopEntity.getSmoothSpeedMS();
-        final String displayBoatSpeed = new DecimalFormat("###.#").format(smoothSpeedMS * 3.6) + " km/h";
 
         final int frameIndex;
         {
@@ -156,11 +158,22 @@ public final class IngameOverlays {
         }
 
         final int offhandOffset = !minecraft.player.getOffhandItem().isEmpty() ? 26 : 3;
+        final double smoothSpeedMS = sloopEntity.getSmoothSpeedMS();
 
-        // TODO config to add numerical speed instead, config for units
         if (minecraft.gui.getDebugOverlay().showDebugScreen()) {
-            guiGraphics.drawString(minecraft.font, displayBoatSpeed, -134, -8 - offhandOffset, Color.WHITE.getRGB(),
-                    true);
+            final var decimalFormat = new DecimalFormat("0.#");
+            final var speed = switch (AlekishipsConfig.CLIENT.debugDisplayUnits.get()) {
+                case KILOMETRES_PER_HOUR -> {
+                    final var kilometersPerHour = decimalFormat.format(smoothSpeedMS * 3.6);
+                    yield Component.translatable(DEBUG_KILOMETERS_PER_HOUR_KEY, kilometersPerHour);
+                }
+                case MILES_PER_HOUR -> {
+                    final var milesPerHour = decimalFormat.format(smoothSpeedMS * 2.236936);
+                    yield Component.translatable(DEBUG_MILES_PER_HOUR_KEY, milesPerHour);
+                }
+            };
+
+            guiGraphics.drawString(minecraft.font, speed, -134, -1 - offhandOffset, -1, true);
         }
 
         final int angle;
@@ -180,5 +193,15 @@ public final class IngameOverlays {
         guiGraphics.blit(SPEEDOMETER_ICONS, -126 - 8, 3 - offhandOffset, 16 * frameIndex, 32 + 16 * (frameIndex / 16),
                 16, 16);
         stack.popPose();
+    }
+
+    public enum DebugDisplayUnits implements TranslatableEnum {
+        KILOMETRES_PER_HOUR,
+        MILES_PER_HOUR;
+
+        @Override
+        public Component getTranslatedName() {
+            return CommonHelper.translateEnum(this);
+        }
     }
 }

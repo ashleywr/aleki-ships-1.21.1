@@ -80,6 +80,8 @@ public class AlekiShipsLanguageProvider extends EnhancedLanguageProvider {
     @Override
     protected void addTranslations() {
         this.add(IngameOverlays.EJECT_PASSENGERS_KEY, "Press %s + %s to eject");
+        this.add(IngameOverlays.DEBUG_KILOMETERS_PER_HOUR_KEY, "%skm/h");
+        this.add(IngameOverlays.DEBUG_MILES_PER_HOUR_KEY, "%smi/h");
         this.add(EntityMultiblockRecipe.SUCCESSFULLY_ASSEMBLED, "Successfully assembled %s");
         this.add(EntityMultiblockRecipe.FAILED_TO_ASEMBLE, "Failed to asemble %s");
         this.add(EntityMultiblockCommands.NOT_ENTITY_MULTIBLOCK_RECIPE,
@@ -87,6 +89,7 @@ public class AlekiShipsLanguageProvider extends EnhancedLanguageProvider {
         this.add(EntityMultiblockCommands.NO_MATCHING_STATES, "No matching states for %s");
 
         this.simpleEnumTranslations(ClientConfig.RudderSchemes.values());
+        this.simpleEnumTranslations(IngameOverlays.DebugDisplayUnits.values());
 
         this.addTranslationsForJei();
     }
@@ -115,6 +118,7 @@ public class AlekiShipsLanguageProvider extends EnhancedLanguageProvider {
         @Override
         protected void addTranslations() {
             this.add(AlekishipsConfig.CLIENT.rudderControlScheme, "Tiller Control Scheme");
+            this.add(AlekishipsConfig.CLIENT.debugDisplayUnits, "Debug Display Units");
             this.add(AlekishipsConfig.SERVER.windAffectsBoatsWithNoAnchor, "Wind Affects Boats With No Anchor");
             this.add(AlekishipsConfig.SERVER.eagerEntityMultiblockValidation, "Eager Entity Multiblock Validation");
         }
