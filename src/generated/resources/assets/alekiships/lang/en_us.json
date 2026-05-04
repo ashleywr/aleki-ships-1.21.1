@@ -139,6 +139,7 @@
   "sloop_construction_variant.alekiships.oak": "Oak",
   "sloop_construction_variant.alekiships.spruce": "Spruce",
   "sloop_construction_variant.alekiships.warped": "Warped",
+  "tag.block.alekiships.breakable_ice": "Breakable Ice",
   "tag.block.alekiships.plants_that_get_mowed": "Plants That Get Mowed",
   "tag.entity_type.alekiships.compartments": "Compartments",
   "tag.entity_type.alekiships.vehicle_helpers": "Vehicle Helpers",
