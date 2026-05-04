@@ -6,7 +6,7 @@
   "mixins": [
     "accessors.RecipeManagerAccessor",
     "accessors.ShulkerBoxMenuAccessor",
-    "minecraft.FurnaceResultSlotMixin",
+    "common.FurnaceResultSlotMixin",
     "common.LivingEntityMixin",
     "minecraft.PlayerMixin",
     "minecraft.ServerEntityMixin"
