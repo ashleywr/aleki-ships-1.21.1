@@ -9,7 +9,7 @@
     "common.FurnaceResultSlotMixin",
     "common.LivingEntityMixin",
     "common.PlayerMixin",
-    "minecraft.ServerEntityMixin"
+    "common.ServerEntityMixin"
   ],
   "client": [
     "client.ArmorStandRendererMixin",
