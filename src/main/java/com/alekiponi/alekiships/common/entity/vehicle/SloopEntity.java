@@ -5,8 +5,8 @@ import com.alekiponi.alekiships.common.entity.compartment.EmptyCompartmentEntity
 import com.alekiponi.alekiships.common.entity.vehiclecapability.*;
 import com.alekiponi.alekiships.common.entity.vehiclehelper.SailSwitchEntity;
 import com.alekiponi.alekiships.common.entity.vehiclehelper.VehiclePart;
-import com.alekiponi.alekiships.events.config.AlekiShipsConfig;
-import com.alekiponi.alekiships.events.config.ClientConfig;
+import com.alekiponi.alekiships.config.AlekiShipsConfig;
+import com.alekiponi.alekiships.config.ClientConfig;
 import com.alekiponi.alekiships.network.AlekiShipsEntityDataSerializers;
 import com.alekiponi.alekiships.network.ServerboundSloopControlPacket;
 import com.alekiponi.alekiships.util.AlekiShipsExtraCodecs;

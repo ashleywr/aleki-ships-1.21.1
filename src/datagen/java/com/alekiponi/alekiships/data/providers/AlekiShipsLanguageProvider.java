@@ -23,8 +23,8 @@ import com.alekiponi.alekiships.compat.waila.FrameBlockProvider;
 import com.alekiponi.alekiships.compat.waila.compartment.*;
 import com.alekiponi.alekiships.compat.waila.compartment.vehicle.ConstructionEntityProvider;
 import com.alekiponi.alekiships.compat.waila.compartment.vehicle.VehicleEntityDamageProvider;
-import com.alekiponi.alekiships.events.config.AlekiShipsConfig;
-import com.alekiponi.alekiships.events.config.ClientConfig;
+import com.alekiponi.alekiships.config.AlekiShipsConfig;
+import com.alekiponi.alekiships.config.ClientConfig;
 import com.alekiponi.alekiships.util.*;
 
 import net.minecraft.core.HolderLookup;

@@ -7,7 +7,7 @@ import com.alekiponi.alekiships.client.event.IconRenderersEvent;
 import com.alekiponi.alekiships.client.render.icon.IconRenderDispatcher;
 import com.alekiponi.alekiships.common.entity.compartment.EmptyCompartmentEntity;
 import com.alekiponi.alekiships.common.entity.vehicle.SloopEntity;
-import com.alekiponi.alekiships.events.config.AlekiShipsConfig;
+import com.alekiponi.alekiships.config.AlekiShipsConfig;
 import com.alekiponi.alekiships.util.CommonHelper;
 
 import net.minecraft.client.DeltaTracker;

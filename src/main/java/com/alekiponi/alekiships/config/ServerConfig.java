@@ -1,4 +1,4 @@
-package com.alekiponi.alekiships.events.config;
+package com.alekiponi.alekiships.config;
 
 import com.alekiponi.alekiships.AlekiShips;
 

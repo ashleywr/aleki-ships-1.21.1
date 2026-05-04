@@ -24,7 +24,7 @@ import com.alekiponi.alekiships.common.recipe.ingredient.block.entity.AlekiShips
 import com.alekiponi.alekiships.common.sounds.AlekiShipsSounds;
 import com.alekiponi.alekiships.compat.weather2.Weather2WindModelSerializers;
 import com.alekiponi.alekiships.events.ForgeEventHandler;
-import com.alekiponi.alekiships.events.config.AlekiShipsConfig;
+import com.alekiponi.alekiships.config.AlekiShipsConfig;
 import com.alekiponi.alekiships.network.AlekiShipsEntityDataSerializers;
 import com.alekiponi.alekiships.network.PacketHandler;
 import com.alekiponi.alekiships.util.advancements.AlekiShipsAdvancements;

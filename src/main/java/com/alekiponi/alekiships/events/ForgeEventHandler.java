@@ -11,7 +11,7 @@ import com.alekiponi.alekiships.common.entity.vehiclecapability.IHaveSailSwitche
 import com.alekiponi.alekiships.common.entity.vehiclehelper.SailSwitchEntity;
 import com.alekiponi.alekiships.common.entity.vehiclehelper.WindlassSwitchEntity;
 import com.alekiponi.alekiships.common.recipe.EntityMultiblockRecipe;
-import com.alekiponi.alekiships.events.config.AlekiShipsConfig;
+import com.alekiponi.alekiships.config.AlekiShipsConfig;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
