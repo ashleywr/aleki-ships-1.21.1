@@ -8,7 +8,7 @@
     "accessors.ShulkerBoxMenuAccessor",
     "common.FurnaceResultSlotMixin",
     "common.LivingEntityMixin",
-    "minecraft.PlayerMixin",
+    "common.PlayerMixin",
     "minecraft.ServerEntityMixin"
   ],
   "client": [
