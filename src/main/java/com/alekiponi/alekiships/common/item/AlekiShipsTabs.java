@@ -11,28 +11,34 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-@SuppressWarnings("unused")
+import java.util.function.Supplier;
+
 public final class AlekiShipsTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(
             Registries.CREATIVE_MODE_TAB, AlekiShips.MOD_ID);
 
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> ALEKISHIPS_TAB = register("alekiships_tab",
+            AlekiShipsItems.ANCHOR::toStack, (parameters, output) -> {
+                output.accept(AlekiShipsItems.OAR.get());
+                output.accept(AlekiShipsBlocks.OARLOCK.get());
+                output.accept(AlekiShipsBlocks.CLEAT.get());
+                output.accept(AlekiShipsItems.ANCHOR.get());
 
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> ALEKISHIPS_TAB = CREATIVE_MODE_TABS.register(
-            "alekiships_tab", () -> CreativeModeTab.builder().icon(() -> new ItemStack(AlekiShipsItems.ANCHOR.get()))
-                    .title(Component.translatable("creativetab.alekiships_tab"))
-                    .displayItems((pParameters, pOutput) -> {
+                output.accept(AlekiShipsItems.CANNON.get());
+                output.accept(AlekiShipsItems.CANNONBALL.get());
 
-                        pOutput.accept(AlekiShipsItems.OAR.get());
-                        pOutput.accept(AlekiShipsBlocks.OARLOCK.get());
-                        pOutput.accept(AlekiShipsBlocks.CLEAT.get());
-                        pOutput.accept(AlekiShipsItems.ANCHOR.get());
+                output.accept(AlekiShipsBlocks.BOAT_FRAME_ANGLED.get());
+                output.accept(AlekiShipsBlocks.BOAT_FRAME_FLAT.get());
 
-                        pOutput.accept(AlekiShipsItems.CANNON.get());
-                        pOutput.accept(AlekiShipsItems.CANNONBALL.get());
+                output.accept(AlekiShipsItems.MUSIC_DISC_PIRATE_CRAFTING.get());
+            });
 
-                        pOutput.accept(AlekiShipsBlocks.BOAT_FRAME_ANGLED.get());
-                        pOutput.accept(AlekiShipsBlocks.BOAT_FRAME_FLAT.get());
-
-                        pOutput.accept(AlekiShipsItems.MUSIC_DISC_PIRATE_CRAFTING.get());
-                    }).build());
+    private static DeferredHolder<CreativeModeTab, CreativeModeTab> register(final String name,
+            final Supplier<ItemStack> icon, final CreativeModeTab.DisplayItemsGenerator displayItems) {
+        return CREATIVE_MODE_TABS.register(name, registryName -> CreativeModeTab.builder()
+                .icon(icon)
+                .title(Component.translatable(registryName.toLanguageKey("itemGroup")))
+                .displayItems(displayItems)
+                .build());
+    }
 }

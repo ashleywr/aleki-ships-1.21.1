@@ -154,10 +154,7 @@ public class AlekiShipsLanguageProvider extends EnhancedLanguageProvider {
     }
 
     static class CreativeTabs extends CreativeTabLanguageProvider {
-        protected CreativeTabs() {
-            super(AlekiShipsTabs.CREATIVE_MODE_TABS,
-                    CreativeTabLanguageProvider.languageKey(id -> "creativetab." + id.getPath()));
-        }
+        protected CreativeTabs() {super(AlekiShipsTabs.CREATIVE_MODE_TABS);}
 
         @Override
         protected void addTranslations(final LanguageOutput<CreativeModeTab> output) {
