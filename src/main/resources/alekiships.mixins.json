@@ -16,7 +16,7 @@
     "client.CameraMixin",
     "client.LocalPlayerMixin",
     "client.accessors.ElementsModelAccessor",
-    "minecraft.PlayerModelMixin"
+    "client.HumanoidModelMixin"
   ],
   "injectors": {
     "defaultRequire": 1
