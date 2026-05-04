@@ -1,4 +1,4 @@
-package com.alekiponi.alekiships.mixins.accessors;
+package com.alekiponi.alekiships.mixins.common.accessors;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
@@ -11,5 +11,6 @@ import java.util.Collection;
 public interface RecipeManagerAccessor {
 
     @Invoker("byType")
-    <I extends RecipeInput, T extends Recipe<I>> Collection<RecipeHolder<T>> invoke$byType(RecipeType<T> type);
+    <I extends RecipeInput, T extends Recipe<I>> Collection<RecipeHolder<T>> alekiships$invokeByType(
+            RecipeType<T> type);
 }

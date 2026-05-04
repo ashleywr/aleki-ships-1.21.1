@@ -4,8 +4,8 @@
   "package": "com.alekiponi.alekiships.mixins",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "accessors.RecipeManagerAccessor",
-    "accessors.ShulkerBoxMenuAccessor",
+    "common.accessors.RecipeManagerAccessor",
+    "common.accessors.ShulkerBoxMenuAccessor",
     "common.FurnaceResultSlotMixin",
     "common.LivingEntityMixin",
     "common.PlayerMixin",

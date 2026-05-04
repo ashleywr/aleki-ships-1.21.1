@@ -4,7 +4,7 @@ import com.alekiponi.alekiships.common.entity.AlekiShipsEntities;
 import com.alekiponi.alekiships.common.entity.compartment.CompartmentCloneable;
 import com.alekiponi.alekiships.common.entity.compartment.ContainerOpenersCounter;
 import com.alekiponi.alekiships.common.entity.compartment.RandomizableContainerCompartmentEntity;
-import com.alekiponi.alekiships.mixins.accessors.ShulkerBoxMenuAccessor;
+import com.alekiponi.alekiships.mixins.common.accessors.ShulkerBoxMenuAccessor;
 import com.alekiponi.alekiships.util.AlekiShipsExtraCodecs;
 import com.alekiponi.alekiships.util.CommonHelper;
 
@@ -73,7 +73,7 @@ public class ShulkerBoxCompartmentEntity extends RandomizableContainerCompartmen
         protected boolean isOwnContainer(final Player player) {
             if (!(player.containerMenu instanceof ShulkerBoxMenu)) return false;
 
-            final Container container = ((ShulkerBoxMenuAccessor) player.containerMenu).getContainer();
+            final Container container = ((ShulkerBoxMenuAccessor) player.containerMenu).alekiships$getContainer();
             return container == ShulkerBoxCompartmentEntity.this;
         }
     };

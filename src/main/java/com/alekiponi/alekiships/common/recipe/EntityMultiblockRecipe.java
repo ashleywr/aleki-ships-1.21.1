@@ -6,7 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.alekiponi.alekiships.AlekiShips;
 import com.alekiponi.alekiships.common.AlekiShipsBuiltInRegistries;
 import com.alekiponi.alekiships.common.recipe.entity.EntityResult;
-import com.alekiponi.alekiships.mixins.accessors.RecipeManagerAccessor;
+import com.alekiponi.alekiships.mixins.common.accessors.RecipeManagerAccessor;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -59,7 +59,7 @@ public class EntityMultiblockRecipe extends NoopRecipe {
         final var profiler = level.getProfiler();
         profiler.push("entityMultiblockValidation");
         final var cache = PatternBlockStateCache.create(level);
-        final var maybeMatch = ((RecipeManagerAccessor) level.getRecipeManager()).invoke$byType(
+        final var maybeMatch = ((RecipeManagerAccessor) level.getRecipeManager()).alekiships$invokeByType(
                         AlekiShipsRecipeTypes.ENTITY_MULTIBLOCK_RECIPE.get())
                 .stream()
                 .map(entityMultiblockRecipe -> matches(entityMultiblockRecipe, multiblockRoot, cache))
