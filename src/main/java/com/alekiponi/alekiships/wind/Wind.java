@@ -134,6 +134,6 @@ public record Wind(float speed, float angle) {
     @SuppressWarnings("unused")
     @Contract(value = "_ -> new", pure = true)
     public Wind withAngle(final float angle) {
-        return this.angle == angle ? this : of(this.speed, this.angle);
+        return this.angle == angle ? this : of(this.speed, angle);
     }
 }
