@@ -7,7 +7,7 @@
     "accessors.RecipeManagerAccessor",
     "accessors.ShulkerBoxMenuAccessor",
     "minecraft.FurnaceResultSlotMixin",
-    "minecraft.LivingEntityMixin",
+    "common.LivingEntityMixin",
     "minecraft.PlayerMixin",
     "minecraft.ServerEntityMixin"
   ],
