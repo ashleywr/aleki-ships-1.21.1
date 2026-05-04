@@ -80,8 +80,8 @@ public class AlekiShipsLanguageProvider extends EnhancedLanguageProvider {
     @Override
     protected void addTranslations() {
         this.add(IngameOverlays.EJECT_PASSENGERS_KEY, "Press %s + %s to eject");
-        this.add(IngameOverlays.DEBUG_KILOMETERS_PER_HOUR_KEY, "%skm/h");
-        this.add(IngameOverlays.DEBUG_MILES_PER_HOUR_KEY, "%smi/h");
+        this.add(IngameOverlays.DEBUG_KILOMETERS_PER_HOUR_KEY, "Average speed: %skm/h");
+        this.add(IngameOverlays.DEBUG_MILES_PER_HOUR_KEY, "Average speed: %smi/h");
         this.add(EntityMultiblockRecipe.SUCCESSFULLY_ASSEMBLED, "Successfully assembled %s");
         this.add(EntityMultiblockRecipe.FAILED_TO_ASEMBLE, "Failed to asemble %s");
         this.add(EntityMultiblockCommands.NOT_ENTITY_MULTIBLOCK_RECIPE,

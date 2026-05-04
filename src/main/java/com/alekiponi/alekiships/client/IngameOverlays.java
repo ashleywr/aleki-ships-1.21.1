@@ -158,17 +158,17 @@ public final class IngameOverlays {
         }
 
         final int offhandOffset = !minecraft.player.getOffhandItem().isEmpty() ? 26 : 3;
-        final double smoothSpeedMS = sloopEntity.getSmoothSpeedMS();
+        final double averageBlocksPerSecond = sloopEntity.getAverageBlocksPerSecond();
 
         if (minecraft.gui.getDebugOverlay().showDebugScreen()) {
             final var decimalFormat = new DecimalFormat("0.#");
             final var speed = switch (AlekiShipsConfig.CLIENT.debugDisplayUnits.get()) {
                 case KILOMETRES_PER_HOUR -> {
-                    final var kilometersPerHour = decimalFormat.format(smoothSpeedMS * 3.6);
+                    final var kilometersPerHour = decimalFormat.format(averageBlocksPerSecond * 3.6);
                     yield Component.translatable(DEBUG_KILOMETERS_PER_HOUR_KEY, kilometersPerHour);
                 }
                 case MILES_PER_HOUR -> {
-                    final var milesPerHour = decimalFormat.format(smoothSpeedMS * 2.236936);
+                    final var milesPerHour = decimalFormat.format(averageBlocksPerSecond * 2.236936);
                     yield Component.translatable(DEBUG_MILES_PER_HOUR_KEY, milesPerHour);
                 }
             };
@@ -185,7 +185,7 @@ public final class IngameOverlays {
             angle = deferredAngle;
         }
 
-        final int speedometerIndex = Mth.clamp((int) (smoothSpeedMS - 2) * 2, 0, 31);
+        final int speedometerIndex = Mth.clamp((int) (averageBlocksPerSecond - 2) * 2, 0, 31);
 
         guiGraphics.blit(SAILING_ICONS, -126, 3 - offhandOffset, 32 * angle, 32 * (angle / 8), 32, 32);
         guiGraphics.blit(SPEEDOMETER_ICONS, -126 - 8, 3 - offhandOffset + 32 - 16, 16 * speedometerIndex,

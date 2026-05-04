@@ -47,7 +47,7 @@ public final class ClientHelper {
         if (vehicle.level()
                 .isClientSide() && entity instanceof LocalPlayer player && !entity.isPassenger() && (Math.abs(
                 vehicle.getBoundingBox().maxY - player.getBoundingBox().minY) < 0.01)) {
-            if (vehicle.getSmoothSpeedMS() > 4) {
+            if (vehicle.getAverageBlocksPerSecond() > 4) {
                 if (!player.input.jumping || Math.abs(player.getDeltaMovement().y) > 0.05) {
                     player.setPos(vehicle.getDismountLocationForPassenger(player));
                 }

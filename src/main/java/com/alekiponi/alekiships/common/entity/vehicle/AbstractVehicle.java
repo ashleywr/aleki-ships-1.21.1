@@ -160,6 +160,11 @@ public abstract class AbstractVehicle extends Entity implements IHaveColliders, 
             blockLightLevel = Math.max(0, light - 1);
         }
 
+        if (this.everyNthTickUnique(3)) {
+            final var speed = this.getDeltaMovement().length() * 20;
+            this.speedOverTime.poll();
+            this.speedOverTime.offer(speed);
+        }
 
         super.tick();
     }
@@ -929,18 +934,8 @@ public abstract class AbstractVehicle extends Entity implements IHaveColliders, 
         return this.status == MediumStatus.UNDER_WATER || this.status == MediumStatus.UNDER_FLOWING_WATER;
     }
 
-    public double getSmoothSpeedMS() {
-        if (this.everyNthTickUnique(3)) {
-            double speed = this.getDeltaMovement().length() * 20;
-            this.speedOverTime.poll();
-            this.speedOverTime.offer(speed);
-        }
-        double average = 0;
-        for (double d : speedOverTime) {
-            average += d;
-        }
-        average = average / speedOverTime.size();
-        return average;
+    public double getAverageBlocksPerSecond() {
+        return this.speedOverTime.stream().mapToDouble(d -> d).sum() / this.speedOverTime.size();
     }
 
     public boolean everyNthTickUnique(int n) {
