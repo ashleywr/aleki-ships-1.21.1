@@ -48,9 +48,6 @@ public class FurnaceCompartmentEntity extends AbstractFurnaceCompartmentEntity {
         final double yOffset = this.random.nextDouble() * 6 / 16;
         final double zOffset = Mth.cos((float) ((-this.getYRot() + randomOffset) * Mth.DEG_TO_RAD)) * 0.4;
 
-        // TODO I'm too stupid for this. This needs to be a horizontal line that the particles are randomly distributed on
-        //  IE it should look like how the vanilla furnace particles do
-
         this.level().addParticle(ParticleTypes.SMOKE, xPos + xOffset, yPos + yOffset, zPos + zOffset, 0, 0, 0);
         this.level().addParticle(ParticleTypes.FLAME, xPos + xOffset, yPos + yOffset, zPos + zOffset, 0, 0, 0);
     }
