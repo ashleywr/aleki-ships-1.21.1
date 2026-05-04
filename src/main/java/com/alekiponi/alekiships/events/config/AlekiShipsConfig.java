@@ -4,7 +4,7 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 
 import java.util.function.Function;
 
-public final class AlekishipsConfig {
+public final class AlekiShipsConfig {
 
     public static final ServerConfig SERVER = register(ServerConfig::new);
     public static final ClientConfig CLIENT = register(ClientConfig::new);

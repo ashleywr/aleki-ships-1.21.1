@@ -24,7 +24,7 @@ import com.alekiponi.alekiships.common.recipe.ingredient.block.entity.AlekiShips
 import com.alekiponi.alekiships.common.sounds.AlekiShipsSounds;
 import com.alekiponi.alekiships.compat.weather2.Weather2WindModelSerializers;
 import com.alekiponi.alekiships.events.ForgeEventHandler;
-import com.alekiponi.alekiships.events.config.AlekishipsConfig;
+import com.alekiponi.alekiships.events.config.AlekiShipsConfig;
 import com.alekiponi.alekiships.network.AlekiShipsEntityDataSerializers;
 import com.alekiponi.alekiships.network.PacketHandler;
 import com.alekiponi.alekiships.util.advancements.AlekiShipsAdvancements;
@@ -68,8 +68,8 @@ public final class AlekiShips {
         modBus.addListener(PacketHandler::init);
         modBus.register(AlekiShips.class);
 
-        modContainer.registerConfig(ModConfig.Type.CLIENT, AlekishipsConfig.CLIENT.spec());
-        modContainer.registerConfig(ModConfig.Type.SERVER, AlekishipsConfig.SERVER.spec());
+        modContainer.registerConfig(ModConfig.Type.CLIENT, AlekiShipsConfig.CLIENT.spec());
+        modContainer.registerConfig(ModConfig.Type.SERVER, AlekiShipsConfig.SERVER.spec());
 
         AlekiShipsTabs.CREATIVE_MODE_TABS.register(modBus);
         AlekiShipsItems.ITEMS.register(modBus);

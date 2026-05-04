@@ -1,10 +1,10 @@
 package com.alekiponi.alekiships.common.entity.vehiclecapability;
 
-import com.alekiponi.alekiships.events.config.AlekishipsConfig;
+import com.alekiponi.alekiships.events.config.AlekiShipsConfig;
 
 public interface IBoatNoAnchor {
     default boolean windShouldAffect() {
-        return AlekishipsConfig.SERVER.windAffectsBoatsWithNoAnchor.get();
+        return AlekiShipsConfig.SERVER.windAffectsBoatsWithNoAnchor.get();
     }
 
 }

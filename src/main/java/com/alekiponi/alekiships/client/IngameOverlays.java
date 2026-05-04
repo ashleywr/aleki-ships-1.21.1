@@ -7,7 +7,7 @@ import com.alekiponi.alekiships.client.event.IconRenderersEvent;
 import com.alekiponi.alekiships.client.render.icon.IconRenderDispatcher;
 import com.alekiponi.alekiships.common.entity.compartment.EmptyCompartmentEntity;
 import com.alekiponi.alekiships.common.entity.vehicle.SloopEntity;
-import com.alekiponi.alekiships.events.config.AlekishipsConfig;
+import com.alekiponi.alekiships.events.config.AlekiShipsConfig;
 import com.alekiponi.alekiships.util.CommonHelper;
 
 import net.minecraft.client.DeltaTracker;
@@ -162,7 +162,7 @@ public final class IngameOverlays {
 
         if (minecraft.gui.getDebugOverlay().showDebugScreen()) {
             final var decimalFormat = new DecimalFormat("0.#");
-            final var speed = switch (AlekishipsConfig.CLIENT.debugDisplayUnits.get()) {
+            final var speed = switch (AlekiShipsConfig.CLIENT.debugDisplayUnits.get()) {
                 case KILOMETRES_PER_HOUR -> {
                     final var kilometersPerHour = decimalFormat.format(smoothSpeedMS * 3.6);
                     yield Component.translatable(DEBUG_KILOMETERS_PER_HOUR_KEY, kilometersPerHour);

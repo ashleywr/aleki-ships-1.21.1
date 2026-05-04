@@ -23,7 +23,7 @@ import com.alekiponi.alekiships.compat.waila.FrameBlockProvider;
 import com.alekiponi.alekiships.compat.waila.compartment.*;
 import com.alekiponi.alekiships.compat.waila.compartment.vehicle.ConstructionEntityProvider;
 import com.alekiponi.alekiships.compat.waila.compartment.vehicle.VehicleEntityDamageProvider;
-import com.alekiponi.alekiships.events.config.AlekishipsConfig;
+import com.alekiponi.alekiships.events.config.AlekiShipsConfig;
 import com.alekiponi.alekiships.events.config.ClientConfig;
 import com.alekiponi.alekiships.util.*;
 
@@ -117,10 +117,10 @@ public class AlekiShipsLanguageProvider extends EnhancedLanguageProvider {
 
         @Override
         protected void addTranslations() {
-            this.add(AlekishipsConfig.CLIENT.rudderControlScheme, "Tiller Control Scheme");
-            this.add(AlekishipsConfig.CLIENT.debugDisplayUnits, "Debug Display Units");
-            this.add(AlekishipsConfig.SERVER.windAffectsBoatsWithNoAnchor, "Wind Affects Boats With No Anchor");
-            this.add(AlekishipsConfig.SERVER.eagerEntityMultiblockValidation, "Eager Entity Multiblock Validation");
+            this.add(AlekiShipsConfig.CLIENT.rudderControlScheme, "Tiller Control Scheme");
+            this.add(AlekiShipsConfig.CLIENT.debugDisplayUnits, "Debug Display Units");
+            this.add(AlekiShipsConfig.SERVER.windAffectsBoatsWithNoAnchor, "Wind Affects Boats With No Anchor");
+            this.add(AlekiShipsConfig.SERVER.eagerEntityMultiblockValidation, "Eager Entity Multiblock Validation");
         }
     }
 

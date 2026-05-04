@@ -5,7 +5,7 @@ import com.alekiponi.alekiships.common.entity.compartment.EmptyCompartmentEntity
 import com.alekiponi.alekiships.common.entity.vehiclecapability.*;
 import com.alekiponi.alekiships.common.entity.vehiclehelper.SailSwitchEntity;
 import com.alekiponi.alekiships.common.entity.vehiclehelper.VehiclePart;
-import com.alekiponi.alekiships.events.config.AlekishipsConfig;
+import com.alekiponi.alekiships.events.config.AlekiShipsConfig;
 import com.alekiponi.alekiships.events.config.ClientConfig;
 import com.alekiponi.alekiships.network.AlekiShipsEntityDataSerializers;
 import com.alekiponi.alekiships.network.ServerboundSloopControlPacket;
@@ -487,7 +487,7 @@ public class SloopEntity extends AbstractAlekiBoatEntity<SloopVariant> implement
             if (!inputRight && !inputLeft) {
                 if (this.isControlledByLocalInstance()) {
                     if (Environment.get().getDist() == Dist.CLIENT) {
-                        if (AlekishipsConfig.CLIENT.rudderControlScheme.get() == ClientConfig.RudderSchemes.RETURN_TO_CENTER) {
+                        if (AlekiShipsConfig.CLIENT.rudderControlScheme.get() == ClientConfig.RudderSchemes.RETURN_TO_CENTER) {
                             if (rudder > 0) {
                                 rudder -= 0.3f;
                             }

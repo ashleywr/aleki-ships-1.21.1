@@ -11,7 +11,7 @@ import com.alekiponi.alekiships.common.entity.vehiclecapability.IHaveSailSwitche
 import com.alekiponi.alekiships.common.entity.vehiclehelper.SailSwitchEntity;
 import com.alekiponi.alekiships.common.entity.vehiclehelper.WindlassSwitchEntity;
 import com.alekiponi.alekiships.common.recipe.EntityMultiblockRecipe;
-import com.alekiponi.alekiships.events.config.AlekishipsConfig;
+import com.alekiponi.alekiships.events.config.AlekiShipsConfig;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
@@ -178,7 +178,7 @@ public final class ForgeEventHandler {
 
     @SubscribeEvent
     private static void onVanillaGameEvent(final BlockEvent.EntityPlaceEvent event) {
-        if (AlekishipsConfig.SERVER.eagerEntityMultiblockValidation.getAsBoolean()) {
+        if (AlekiShipsConfig.SERVER.eagerEntityMultiblockValidation.getAsBoolean()) {
             if (event.getLevel() instanceof final Level level) {
                 EntityMultiblockRecipe.tryAssembleMultiblock(level, event.getPos(),
                         event.getEntity() instanceof final Player player ? player : null, false);
