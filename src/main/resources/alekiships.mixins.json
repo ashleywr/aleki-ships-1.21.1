@@ -4,19 +4,19 @@
   "package": "com.alekiponi.alekiships.mixins",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "common.accessors.RecipeManagerAccessor",
-    "common.accessors.ShulkerBoxMenuAccessor",
     "common.FurnaceResultSlotMixin",
     "common.LivingEntityMixin",
     "common.PlayerMixin",
-    "common.ServerEntityMixin"
+    "common.ServerEntityMixin",
+    "common.accessors.RecipeManagerAccessor",
+    "common.accessors.ShulkerBoxMenuAccessor"
   ],
   "client": [
     "client.ArmorStandRendererMixin",
     "client.CameraMixin",
+    "client.HumanoidModelMixin",
     "client.LocalPlayerMixin",
-    "client.accessors.ElementsModelAccessor",
-    "client.HumanoidModelMixin"
+    "client.accessors.ElementsModelAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
