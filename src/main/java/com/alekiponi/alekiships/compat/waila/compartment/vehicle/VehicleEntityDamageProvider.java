@@ -17,11 +17,11 @@ import java.text.NumberFormat;
 public enum VehicleEntityDamageProvider implements IEntityComponentProvider {
     INSTANCE;
 
-    public static final String DAMAGE_KEY = AlekiShips.MOD_ID + ".jade.vehicle_entity_damage.damage";
-    public static final String DAMAGE_ABSOLUTE_KEY = AlekiShips.MOD_ID + ".jade.vehicle_entity_damage.damage_absolute";
-    public static final String HEALTH_KEY = AlekiShips.MOD_ID + ".jade.vehicle_entity_damage.health";
-    public static final String HEALTH_ABSOLUTE_KEY = AlekiShips.MOD_ID + ".jade.vehicle_entity_damage.health_absolute";
-    public static final String WRECKED_KEY = AlekiShips.MOD_ID + ".jade.vehicle_entity_damage.wrecked";
+    public static final String DAMAGE_KEY = AlekiShips.lang("jade.vehicle_entity_damage.damage");
+    public static final String DAMAGE_ABSOLUTE_KEY = AlekiShips.lang("jade.vehicle_entity_damage.damage_absolute");
+    public static final String HEALTH_KEY = AlekiShips.lang("jade.vehicle_entity_damage.health");
+    public static final String HEALTH_ABSOLUTE_KEY = AlekiShips.lang("jade.vehicle_entity_damage.health_absolute");
+    public static final String WRECKED_KEY = AlekiShips.lang("jade.vehicle_entity_damage.wrecked");
     public static final ResourceLocation DECIMAL_PLACES = AlekiShips.location("vehicle_entity_damage.decimal_places");
     public static final ResourceLocation DISPLAY_TYPE = AlekiShips.location("vehicle_entity_damage.display_type");
     private static final ResourceLocation NAME = AlekiShips.location("vehicle_entity_damage");
