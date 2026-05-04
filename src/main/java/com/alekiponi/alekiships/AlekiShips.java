@@ -68,8 +68,8 @@ public final class AlekiShips {
         modBus.addListener(PacketHandler::init);
         modBus.register(AlekiShips.class);
 
-        modContainer.registerConfig(ModConfig.Type.CLIENT, AlekishipsConfig.CLIENT_SPEC);
-        modContainer.registerConfig(ModConfig.Type.SERVER, AlekishipsConfig.SERVER_SPEC);
+        modContainer.registerConfig(ModConfig.Type.CLIENT, AlekishipsConfig.CLIENT.spec());
+        modContainer.registerConfig(ModConfig.Type.SERVER, AlekishipsConfig.SERVER.spec());
 
         AlekiShipsTabs.CREATIVE_MODE_TABS.register(modBus);
         AlekiShipsItems.ITEMS.register(modBus);

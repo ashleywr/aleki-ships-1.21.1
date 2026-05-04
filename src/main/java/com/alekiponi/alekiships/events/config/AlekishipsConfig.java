@@ -1,33 +1,17 @@
 package com.alekiponi.alekiships.events.config;
 
-import com.alekiponi.alekiships.AlekiShips;
-
 import net.neoforged.neoforge.common.ModConfigSpec;
+
+import java.util.function.Function;
 
 public final class AlekishipsConfig {
 
-    public static final ServerConfig SERVER;
-    public static final ModConfigSpec SERVER_SPEC;
-    public static final ClientConfig CLIENT;
-    public static final ModConfigSpec CLIENT_SPEC;
+    public static final ServerConfig SERVER = register(ServerConfig::new);
+    public static final ClientConfig CLIENT = register(ClientConfig::new);
 
-    public static final String LANG_KEY = AlekiShips.MOD_ID + ".config";
-
-    static {
-        {
-            final var pair = new ModConfigSpec.Builder().configure(ClientConfig::new);
-
-            //Store the resulting values
-            CLIENT = pair.getLeft();
-            CLIENT_SPEC = pair.getRight();
-        }
-
-        {
-            final var pair = new ModConfigSpec.Builder().configure(ServerConfig::new);
-
-            //Store the resulting values
-            SERVER = pair.getLeft();
-            SERVER_SPEC = pair.getRight();
-        }
+    private static <C extends SpecHoldingConfig> C register(final Function<ModConfigSpec.Builder, C> factory) {
+        final var pair = new ModConfigSpec.Builder().configure(factory);
+        pair.getLeft().updateSpec(pair.getRight());
+        return pair.getLeft();
     }
 }

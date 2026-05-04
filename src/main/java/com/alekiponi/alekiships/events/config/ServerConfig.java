@@ -1,21 +1,25 @@
 package com.alekiponi.alekiships.events.config;
 
+import com.alekiponi.alekiships.AlekiShips;
+
 import net.neoforged.neoforge.common.ModConfigSpec;
 
-public final class ServerConfig {
-
-    private static final String LANG_KEY = AlekishipsConfig.LANG_KEY + ".server";
+public final class ServerConfig extends SpecHoldingConfig {
 
     public final ModConfigSpec.BooleanValue windAffectsBoatsWithNoAnchor;
     public final ModConfigSpec.BooleanValue eagerEntityMultiblockValidation;
 
     ServerConfig(final ModConfigSpec.Builder builder) {
         this.windAffectsBoatsWithNoAnchor = builder.comment("When true, boats with no anchor will drift in the wind")
-                .translation(LANG_KEY + ".windAffectsBoatsWithNoAnchor")
+                .translation(lang("windAffectsBoatsWithNoAnchor"))
                 .define("windAffectsBoatsWithNoAnchor", false);
         this.eagerEntityMultiblockValidation = builder.comment(
                         "When true entity multiblocks will be eagerly checked whenever a block is placed")
-                .translation(LANG_KEY + ".eagerEntityMultiblockValidation")
+                .translation(lang("eagerEntityMultiblockValidation"))
                 .define("eagerEntityMultiblockValidation", true);
+    }
+
+    private static String lang(final String key) {
+        return AlekiShips.lang("config", "server" + "." + key);
     }
 }
