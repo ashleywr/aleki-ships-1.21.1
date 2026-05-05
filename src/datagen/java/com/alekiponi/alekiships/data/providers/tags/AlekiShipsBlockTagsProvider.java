@@ -25,7 +25,10 @@ public class AlekiShipsBlockTagsProvider extends EnhancedBlockTagsProvider {
 
     @Override
     protected void addTags(final HolderLookup.Provider provider) {
-        this.tag(AlekiShipsTags.Blocks.PLANTS_THAT_GET_MOWED).name("Plants That Get Mowed").add(Blocks.KELP);
+        this.tag(AlekiShipsTags.Blocks.PLANTS_THAT_GET_MOWED)
+                .name("Plants That Get Mowed")
+                .add(Blocks.KELP)
+                .add(Blocks.LILY_PAD);
 
         //Ice types
         this.tag(AlekiShipsTags.Blocks.BREAKABLE_ICE)
