@@ -9,6 +9,8 @@ import com.mojang.serialization.MapCodec;
 import it.unimi.dsi.fastutil.chars.CharSet;
 
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.level.block.Block;
@@ -18,9 +20,11 @@ import net.minecraft.world.level.block.state.properties.Property;
 
 import java.text.MessageFormat;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import org.jetbrains.annotations.Nullable;
 
 public final class AlekiShipsExtraCodecs {
 
@@ -166,6 +170,21 @@ public final class AlekiShipsExtraCodecs {
     public static <T, I> void load(final Codec<T> codec, final DynamicOps<I> ops, final I input,
             final Consumer<T> setter) {
         codec.parse(ops, input).ifSuccess(setter);
+    }
+
+    public static <T, I> Optional<T> read(final Codec<T> codec, final DynamicOps<I> ops, final I input) {
+        return codec.parse(ops, input).result();
+    }
+
+    @Nullable
+    public static <T, I> T readNullable(final Codec<T> codec, final DynamicOps<I> ops, final I input) {
+        return read(codec, ops, input).orElse(null);
+    }
+
+    public static <T> void writeNullable(final Codec<T> codec, final DynamicOps<Tag> ops, final @Nullable T input,
+            final CompoundTag tag, final String key) {
+        if (input == null) return;
+        codec.encodeStart(ops, input).result().ifPresent(t -> tag.put(key, t));
     }
 
     /**

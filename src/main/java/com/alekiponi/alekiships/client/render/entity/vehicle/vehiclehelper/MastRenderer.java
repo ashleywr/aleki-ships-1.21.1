@@ -18,31 +18,19 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.ModelBakery;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.item.BannerItem;
-import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BannerPatternLayers;
+import net.minecraft.world.inventory.InventoryMenu;
 
 public class MastRenderer extends EntityRenderer<MastEntity> {
-    public static final String FLAG = "flag";
-    private static final int BANNER_WIDTH = 20;
-    private static final int BANNER_HEIGHT = 40;
-    private static final int MAX_PATTERNS = 16;
-    private static final String POLE = "pole";
-    private static final String BAR = "bar";
     private final ModelPart flag;
-    private final ModelPart pole;
     private final ModelPart bar;
 
     public MastRenderer(final EntityRendererProvider.Context context) {
         super(context);
-        ModelPart modelpart = context.bakeLayer(ModelLayers.BANNER);
-        this.flag = modelpart.getChild("flag");
-        this.pole = modelpart.getChild("pole");
-        this.bar = modelpart.getChild("bar");
+        final var root = context.bakeLayer(ModelLayers.BANNER);
+        this.flag = root.getChild(BannerRenderer.FLAG);
+        this.bar = root.getChild(BannerRenderer.BAR);
     }
 
     @Override
@@ -56,14 +44,12 @@ public class MastRenderer extends EntityRenderer<MastEntity> {
 
         if (!(mast.getTrueVehicle() instanceof AbstractAlekiBoatEntity<?> ship)) return;
 
-        if (!(mast.getBanner().getItem() instanceof BannerItem)) return;
-
         final float rotation = ship.getWindLocalRotation() + ship.getYRot();
         final float height = mast.getBbHeight() + 0.4175f;
 
         poseStack.pushPose();
 
-        poseStack.translate(0, height, 0f);
+        poseStack.translate(0, height, 0);
 
         poseStack.pushPose();
         poseStack.mulPose(Axis.YP.rotationDegrees(180 - ship.getYRot()));
@@ -82,28 +68,26 @@ public class MastRenderer extends EntityRenderer<MastEntity> {
 
         poseStack.translate(0, 0, -0.05f);
 
-        renderBanner(mast.getBanner(), partialTicks, poseStack, bufferSource, packedLight, OverlayTexture.NO_OVERLAY);
-
+        final var banner = mast.getBanner();
+        if (banner.isPresent()) {
+            renderBanner(banner.get(), poseStack, bufferSource, packedLight);
+        }
         poseStack.popPose();
 
         super.render(mast, entityYaw, partialTicks, poseStack, bufferSource, packedLight);
     }
 
-    public void renderBanner(ItemStack bannerItem, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer,
-            int pPackedLight, int pPackedOverlay) {
-        final BannerPatternLayers patterns = bannerItem.getOrDefault(DataComponents.BANNER_PATTERNS,
-                BannerPatternLayers.EMPTY);
-        final DyeColor color = ((BannerItem) bannerItem.getItem()).getColor();
-
-        pPoseStack.pushPose();
-        pPoseStack.scale(0.6666667F, -0.6666667F, -0.6666667F);
-        BannerRenderer.renderPatterns(pPoseStack, pBuffer, pPackedLight, pPackedOverlay, this.flag,
-                ModelBakery.BANNER_BASE, true, color, patterns);
-        pPoseStack.popPose();
+    private void renderBanner(final MastEntity.MastBanner banner, final PoseStack poseStack,
+            final MultiBufferSource bufferSource, final int packedLight) {
+        poseStack.pushPose();
+        poseStack.scale(0.6666667F, -0.6666667F, -0.6666667F);
+        BannerRenderer.renderPatterns(poseStack, bufferSource, packedLight, OverlayTexture.NO_OVERLAY, this.flag,
+                ModelBakery.BANNER_BASE, true, banner.baseColor(), banner.patternLayers());
+        poseStack.popPose();
     }
 
     @Override
-    public ResourceLocation getTextureLocation(final MastEntity pEntity) {
-        return null;
+    public ResourceLocation getTextureLocation(final MastEntity mastEntity) {
+        return InventoryMenu.BLOCK_ATLAS;
     }
 }

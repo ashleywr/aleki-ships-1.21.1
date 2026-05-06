@@ -7,7 +7,6 @@ import com.alekiponi.alekiships.common.entity.vehiclehelper.MastEntity;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.ItemStack;
 
 public class MastIconRenderer extends IconPassthroughRenderer<MastEntity> {
@@ -19,8 +18,10 @@ public class MastIconRenderer extends IconPassthroughRenderer<MastEntity> {
     @Override
     public void render(final MastEntity entity, final LocalPlayer player, final GuiGraphics graphics,
             final float partialTick) {
-        for (final ItemStack itemStack : player.getHandSlots()) {
-            if (!(itemStack.getItem() instanceof BannerItem) || itemStack.is(entity.getBanner().getItem())) continue;
+        for (final ItemStack heldStack : player.getHandSlots()) {
+            final var mastBanner = MastEntity.MastBanner.fromStack(heldStack);
+            if (mastBanner.isEmpty()) continue;
+            if (mastBanner.equals(entity.getBanner())) continue;
 
             IconRenderer.renderIcon(graphics, Icon.DefaultIcons.BRUSH, partialTick);
             return;

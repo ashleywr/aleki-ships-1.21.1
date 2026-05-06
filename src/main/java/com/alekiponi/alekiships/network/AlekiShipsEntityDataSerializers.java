@@ -7,6 +7,7 @@ import com.alekiponi.alekiships.common.entity.compartment.vanilla.ChestCompartme
 import com.alekiponi.alekiships.common.entity.vehicle.ConstructionSloopVariant;
 import com.alekiponi.alekiships.common.entity.vehicle.RowboatVariant;
 import com.alekiponi.alekiships.common.entity.vehicle.SloopVariant;
+import com.alekiponi.alekiships.common.entity.vehiclehelper.MastEntity;
 import com.alekiponi.alekiships.common.recipe.util.ItemStackProvider;
 import com.alekiponi.alekiships.wind.Wind;
 
@@ -62,6 +63,10 @@ public final class AlekiShipsEntityDataSerializers {
 
     public static final DeferredEntityDataSerializer<ItemStackProvider> ITEM_STACK_PROVIDER = register(
             "item_stack_provider", () -> EntityDataSerializer.forValueType(ItemStackProvider.STREAM_CODEC));
+
+    public static final DeferredEntityDataSerializer<Optional<MastEntity.MastBanner>> MAST_BANNER = register(
+            "mast_banner",
+            () -> EntityDataSerializer.forValueType(ByteBufCodecs.optional(MastEntity.MastBanner.STREAM_CODEC)));
 
     private static <T> DeferredEntityDataSerializer<T> register(final String name,
             final Supplier<EntityDataSerializer<T>> supplier) {
