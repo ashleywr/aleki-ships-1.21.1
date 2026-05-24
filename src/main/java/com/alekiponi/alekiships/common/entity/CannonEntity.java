@@ -415,7 +415,7 @@ public class CannonEntity extends Entity implements EntityInput.InputEntity {
 
     @Override
     public ItemStack insert(final int stage, final ItemStack insertStack) {
-        return this.inputContents.insert(stage, insertStack);
+        return this.inputContents.insertItem(stage, insertStack);
     }
 
     @Override

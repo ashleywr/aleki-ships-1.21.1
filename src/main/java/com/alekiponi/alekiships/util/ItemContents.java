@@ -5,13 +5,15 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.item.ItemStack;
 
 import net.neoforged.neoforge.common.util.INBTSerializable;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.items.ItemStackHandler;
 
 import java.text.MessageFormat;
 import java.util.function.Consumer;
+import java.util.stream.IntStream;
 import org.jetbrains.annotations.Range;
 
 /**
@@ -48,10 +50,10 @@ public class ItemContents implements INBTSerializable<CompoundTag> {
      *
      * @apiNote This behaves like {@link net.neoforged.neoforge.items.IItemHandler#insertItem(int, ItemStack, boolean)}
      */
-    public ItemStack insert(final @Range(from = 0, to = Integer.MAX_VALUE) int bucketIndex,
+    public ItemStack insertItem(final @Range(from = 0, to = Integer.MAX_VALUE) int bucketIndex,
             final ItemStack insertStack) {
         this.validateBucketIndex(bucketIndex);
-        return this.getBucket(bucketIndex).insert(insertStack);
+        return ItemHandlerHelper.insertItem(this.getBucket(bucketIndex), insertStack, false);
     }
 
     /**
@@ -61,11 +63,13 @@ public class ItemContents implements INBTSerializable<CompoundTag> {
      */
     public int getCount(final @Range(from = 0, to = Integer.MAX_VALUE) int bucketIndex) {
         this.validateBucketIndex(bucketIndex);
-        return this.getBucket(bucketIndex).totalItems;
+        return this.getBucket(bucketIndex).getTotalItems();
     }
 
     public void forEach(final Consumer<ItemStack> itemStackConsumer) {
-        this.contents.forEach(itemStackBucket -> itemStackBucket.stacks.forEach(itemStackConsumer));
+        this.contents.forEach(itemStackBucket -> IntStream.range(0, itemStackBucket.getSlots())
+                .mapToObj(itemStackBucket::getStackInSlot)
+                .forEach(itemStackConsumer));
     }
 
     public void clear() {
@@ -129,42 +133,35 @@ public class ItemContents implements INBTSerializable<CompoundTag> {
         }
     }
 
-    protected static final class ItemStackBucket implements INBTSerializable<CompoundTag> {
+    protected static final class ItemStackBucket extends ItemStackHandler {
 
-        private final NonNullList<ItemStack> stacks;
-        private int totalItems = 0;
+        public static final int STALE_TOTAL_ITEMS = -1;
+        private int totalItems = STALE_TOTAL_ITEMS;
 
-        public ItemStackBucket() {
-            this.stacks = NonNullList.create();
-        }
-
-        public ItemStack insert(final ItemStack insertStack) {
-            if (insertStack.isEmpty()) return ItemStack.EMPTY;
-
-            for (final ItemStack existingStack : this.stacks) {
-                if (!ItemStack.isSameItemSameComponents(insertStack, existingStack)) continue;
-
-                final int newCount = Math.min(insertStack.getCount(),
-                        insertStack.getMaxStackSize() - existingStack.getCount());
-
-                existingStack.grow(newCount);
-                this.totalItems += newCount;
-                return insertStack.copyWithCount(insertStack.getCount() - newCount);
+        @Override
+        public ItemStack insertItem(final int slot, final ItemStack stack, final boolean simulate) {
+            var remainder = super.insertItem(slot, stack, simulate);
+            while (!remainder.isEmpty()) {
+                final var original = this.stacks;
+                this.setSize(this.getSlots() + 1);
+                IntStream.range(0, original.size())
+                        .forEach(i -> this.setStackInSlot(i, this.stacks.get(i)));
+                remainder = super.insertItem(slot, remainder, simulate);
             }
-
-            this.stacks.add(insertStack.copy());
-            this.totalItems += insertStack.getCount();
-            return ItemStack.EMPTY;
+            return remainder;
         }
 
         @Override
-        public CompoundTag serializeNBT(final HolderLookup.Provider provider) {
-            return ContainerHelper.saveAllItems(new CompoundTag(), this.stacks, provider);
+        protected void onContentsChanged(final int slot) {
+            super.onContentsChanged(slot);
+            this.totalItems = STALE_TOTAL_ITEMS;
         }
 
-        @Override
-        public void deserializeNBT(final HolderLookup.Provider provider, final CompoundTag compoundTag) {
-            ContainerHelper.loadAllItems(compoundTag, this.stacks, provider);
+        public int getTotalItems() {
+            if (this.totalItems == STALE_TOTAL_ITEMS) {
+                return this.totalItems = this.stacks.stream().mapToInt(ItemStack::getCount).sum();
+            }
+            return this.totalItems;
         }
     }
 }

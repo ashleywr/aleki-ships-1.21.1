@@ -46,9 +46,10 @@ public final class EntityInput {
     public static final EntityInput EMPTY = new EntityInput(List.of());
 
     public static final Codec<EntityInput> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                    NeoForgeExtraCodecs.withAlternative(SizedIngredient.FLAT_CODEC, SizedIngredient.NESTED_CODEC)
-                            .sizeLimitedListOf(MAXIMUM_SIZE).fieldOf("inputs").forGetter(entityInput -> entityInput.inputs))
-            .apply(instance, EntityInput::of));
+            NeoForgeExtraCodecs.withAlternative(SizedIngredient.FLAT_CODEC, SizedIngredient.NESTED_CODEC)
+                    .sizeLimitedListOf(MAXIMUM_SIZE)
+                    .fieldOf("inputs")
+                    .forGetter(entityInput -> entityInput.inputs)).apply(instance, EntityInput::of));
 
     private final List<SizedIngredient> inputs;
 
@@ -71,8 +72,9 @@ public final class EntityInput {
      */
     public static EntityInput getEntityInput(final HolderLookup.Provider provider,
             final ResourceKey<EntityInput> entityInputKey) {
-        return provider.lookup(AlekiShipsRegistries.ENTITY_INPUT).flatMap(registryLookup -> registryLookup.get(entityInputKey)).map(Holder::value)
-                .orElse(EMPTY);
+        return provider.lookup(AlekiShipsRegistries.ENTITY_INPUT)
+                .flatMap(registryLookup -> registryLookup.get(entityInputKey))
+                .map(Holder::value).orElse(EMPTY);
     }
 
     @CheckReturnValue
@@ -84,7 +86,11 @@ public final class EntityInput {
             return insertStack;
         }
 
-        return inputEntity.insert(stage, insertStack);
+        final var stack = insertStack.copyWithCount(increment);
+        final var remainder = inputEntity.insert(stage, stack);
+        if (remainder.isEmpty()) return ItemStack.EMPTY;
+        stack.shrink(remainder.getCount());
+        return stack;
     }
 
     public static void bootstrap(final BootstrapContext<EntityInput> context) {
@@ -196,9 +202,9 @@ public final class EntityInput {
             @Range(from = 0, to = Integer.MAX_VALUE) int remainingInputs) {
 
         public static final StreamCodec<ByteBuf, EntityInputState> STREAM_CODEC = StreamCodec.composite(
-                ResourceKey.streamCodec(AlekiShipsRegistries.ENTITY_INPUT), EntityInputState::entityInputKey, ByteBufCodecs.VAR_INT,
-                EntityInputState::inputStage, ByteBufCodecs.VAR_INT, EntityInputState::remainingInputs,
-                EntityInputState::new);
+                ResourceKey.streamCodec(AlekiShipsRegistries.ENTITY_INPUT), EntityInputState::entityInputKey,
+                ByteBufCodecs.VAR_INT, EntityInputState::inputStage, ByteBufCodecs.VAR_INT,
+                EntityInputState::remainingInputs, EntityInputState::new);
 
         public static final String ENTITY_INPUT_KEY = "EntityInput";
         public static final String CURRENT_INPUT_KEY = "CurrentInput";
@@ -206,7 +212,9 @@ public final class EntityInput {
         public static final String INPUT_STATE_KEY = "InputState";
 
         public static final Codec<EntityInputState> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                        ResourceKey.codec(AlekiShipsRegistries.ENTITY_INPUT).fieldOf(ENTITY_INPUT_KEY).forGetter(EntityInputState::entityInputKey),
+                        ResourceKey.codec(AlekiShipsRegistries.ENTITY_INPUT)
+                                .fieldOf(ENTITY_INPUT_KEY)
+                                .forGetter(EntityInputState::entityInputKey),
                         Codec.INT.optionalFieldOf(CURRENT_INPUT_KEY, 0).forGetter(EntityInputState::inputStage),
                         Codec.INT.optionalFieldOf(REMAINING_COUNT_KEY, 0).forGetter(EntityInputState::remainingInputs))
                 .apply(instance, EntityInputState::new));

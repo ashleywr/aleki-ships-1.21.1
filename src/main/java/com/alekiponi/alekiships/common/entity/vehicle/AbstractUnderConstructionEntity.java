@@ -138,7 +138,11 @@ public abstract class AbstractUnderConstructionEntity<E extends Enum<E> & Constr
             return insertStack;
         }
 
-        return this.insert(stage, insertStack);
+        final var stack = insertStack.copyWithCount(increment);
+        final var remainder = this.insert(stage, stack);
+        if (remainder.isEmpty()) return ItemStack.EMPTY;
+        stack.shrink(remainder.getCount());
+        return stack;
     }
 
     /**
@@ -173,7 +177,7 @@ public abstract class AbstractUnderConstructionEntity<E extends Enum<E> & Constr
     }
 
     public ItemStack insert(final E stage, final ItemStack insertStack) {
-        return this.constructionContents.insert(stage.ordinal(), insertStack);
+        return this.constructionContents.insertItem(stage.ordinal(), insertStack);
     }
 
     public int getContentsCount(final E stage) {
