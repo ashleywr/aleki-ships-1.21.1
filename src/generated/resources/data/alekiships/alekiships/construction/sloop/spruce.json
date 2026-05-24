@@ -1,5 +1,8 @@
 {
-  "assemble_blockstate": "minecraft:spruce_planks",
+  "assemble_particle": {
+    "type": "alekiships:construction",
+    "texture": "minecraft:block/spruce_planks"
+  },
   "assemble_sound": "minecraft:block.wood.break",
   "constructed_entity": {
     "type": "alekiships:sloop",
@@ -12,7 +15,10 @@
         "item": "alekiships:anchor"
       },
       "progress_sound": "minecraft:block.metal.place",
-      "switch_blockstate": "minecraft:spruce_planks",
+      "switch_particle": {
+        "type": "alekiships:construction",
+        "texture": "minecraft:block/spruce_planks"
+      },
       "switch_sound": "minecraft:block.wood.break"
     },
     "boom": {
@@ -21,7 +27,10 @@
         "item": "minecraft:stripped_spruce_log"
       },
       "progress_sound": "minecraft:block.wood.place",
-      "switch_blockstate": "minecraft:spruce_planks",
+      "switch_particle": {
+        "type": "alekiships:construction",
+        "texture": "minecraft:block/spruce_planks"
+      },
       "switch_sound": "minecraft:block.wood.break"
     },
     "bow_railings": {
@@ -30,7 +39,10 @@
         "item": "minecraft:spruce_fence"
       },
       "progress_sound": "minecraft:block.wood.place",
-      "switch_blockstate": "minecraft:spruce_planks",
+      "switch_particle": {
+        "type": "alekiships:construction",
+        "texture": "minecraft:block/spruce_planks"
+      },
       "switch_sound": "minecraft:block.wood.break"
     },
     "bowsprit": {
@@ -39,7 +51,10 @@
         "item": "minecraft:stripped_spruce_log"
       },
       "progress_sound": "minecraft:block.wood.place",
-      "switch_blockstate": "minecraft:spruce_planks",
+      "switch_particle": {
+        "type": "alekiships:construction",
+        "texture": "minecraft:block/spruce_planks"
+      },
       "switch_sound": "minecraft:block.wood.break"
     },
     "deck": {
@@ -48,7 +63,10 @@
         "item": "minecraft:spruce_planks"
       },
       "progress_sound": "minecraft:block.wood.place",
-      "switch_blockstate": "minecraft:spruce_planks",
+      "switch_particle": {
+        "type": "alekiships:construction",
+        "texture": "minecraft:block/spruce_planks"
+      },
       "switch_sound": "minecraft:block.wood.break"
     },
     "jibsail": {
@@ -57,7 +75,10 @@
         "item": "minecraft:white_wool"
       },
       "progress_sound": "minecraft:block.wool.place",
-      "switch_blockstate": "minecraft:white_wool",
+      "switch_particle": {
+        "type": "alekiships:construction",
+        "texture": "minecraft:block/spruce_planks"
+      },
       "switch_sound": "minecraft:block.wool.break"
     },
     "keel": {
@@ -66,7 +87,10 @@
         "item": "minecraft:stripped_spruce_log"
       },
       "progress_sound": "minecraft:block.wood.place",
-      "switch_blockstate": "minecraft:spruce_planks",
+      "switch_particle": {
+        "type": "alekiships:construction",
+        "texture": "minecraft:block/spruce_planks"
+      },
       "switch_sound": "minecraft:block.wood.break"
     },
     "mainsail": {
@@ -75,7 +99,10 @@
         "item": "minecraft:white_wool"
       },
       "progress_sound": "minecraft:block.wool.place",
-      "switch_blockstate": "minecraft:white_wool",
+      "switch_particle": {
+        "type": "alekiships:construction",
+        "texture": "minecraft:block/spruce_planks"
+      },
       "switch_sound": "minecraft:block.wool.break"
     },
     "mast": {
@@ -84,7 +111,10 @@
         "item": "minecraft:stripped_spruce_log"
       },
       "progress_sound": "minecraft:block.wood.place",
-      "switch_blockstate": "minecraft:spruce_planks",
+      "switch_particle": {
+        "type": "alekiships:construction",
+        "texture": "minecraft:block/spruce_planks"
+      },
       "switch_sound": "minecraft:block.wood.break"
     },
     "rigging": {
@@ -93,7 +123,10 @@
         "item": "minecraft:lead"
       },
       "progress_sound": "minecraft:entity.leash_knot.place",
-      "switch_blockstate": "minecraft:spruce_planks",
+      "switch_particle": {
+        "type": "alekiships:construction",
+        "texture": "minecraft:block/spruce_planks"
+      },
       "switch_sound": "minecraft:block.wood.break"
     },
     "stern_railings": {
@@ -102,7 +135,10 @@
         "item": "minecraft:spruce_fence"
       },
       "progress_sound": "minecraft:block.wood.place",
-      "switch_blockstate": "minecraft:spruce_planks",
+      "switch_particle": {
+        "type": "alekiships:construction",
+        "texture": "minecraft:block/spruce_planks"
+      },
       "switch_sound": "minecraft:block.wood.break"
     }
   }

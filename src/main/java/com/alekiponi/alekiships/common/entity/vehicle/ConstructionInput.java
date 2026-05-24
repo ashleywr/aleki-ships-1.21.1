@@ -5,11 +5,12 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 
-import com.alekiponi.alekiships.common.entity.SloopConstructionState;
 import com.alekiponi.alekiships.common.recipe.entity.EntityResult;
 import com.alekiponi.alekiships.common.recipe.entity.SimpleResult;
-import com.alekiponi.alekiships.util.AlekiShipsExtraCodecs;
 
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
@@ -19,25 +20,19 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.StringRepresentable;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
 
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import net.neoforged.neoforge.common.util.NeoForgeExtraCodecs;
 import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
 
-import javax.annotation.CheckReturnValue;
-import javax.annotation.Nullable;
 import java.text.MessageFormat;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.BiFunction;
 import java.util.function.Supplier;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.Range;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Singular;
@@ -47,7 +42,7 @@ import lombok.ToString;
  * A Datapack object representing a collection of construction inputs.
  * These consist of discrete stages represented by {@link ProgressStage}.
  * When completed it spawns {@link #constructedEntity}, plays {@link #assembleSound} and creates
- * particles using {@link #assembleBlockState}.
+ * particles using {@link #assembleParticle}.
  *
  * @param <E> An enum representing the construction stages
  */
@@ -58,9 +53,10 @@ public final class ConstructionInput<E extends Enum<E> & ConstructionInput.Const
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     private static final ConstructionInput<?> EMPTY = new ConstructionInput(SoundEvents.EMPTY,
-            Blocks.STONE.defaultBlockState(), new SimpleResult(EntityType.PIG), Map.of());
+            new BlockParticleOption(ParticleTypes.BLOCK, Blocks.STONE.defaultBlockState()),
+            new SimpleResult(EntityType.PIG), Map.of());
     public final SoundEvent assembleSound;
-    public final BlockState assembleBlockState;
+    public final ParticleOptions assembleParticle;
     public final EntityResult constructedEntity;
     @Singular
     private final Map<E, ProgressStage> stages;
@@ -83,8 +79,8 @@ public final class ConstructionInput<E extends Enum<E> & ConstructionInput.Const
                         BuiltInRegistries.SOUND_EVENT.byNameCodec()
                                 .fieldOf("assemble_sound")
                                 .forGetter(constructionInput -> constructionInput.assembleSound),
-                        AlekiShipsExtraCodecs.BLOCK_STATE_CODEC.fieldOf("assemble_blockstate")
-                                .forGetter(constructionInput -> constructionInput.assembleBlockState))
+                        ParticleTypes.CODEC.fieldOf("assemble_particle")
+                                .forGetter(constructionInput -> constructionInput.assembleParticle))
                 .apply(instance, ConstructionInput::of));
     }
 
@@ -95,8 +91,8 @@ public final class ConstructionInput<E extends Enum<E> & ConstructionInput.Const
                         ProgressStage.STREAM_CODEC), constructionInput -> constructionInput.stages,
                 EntityResult.STREAM_CODEC, constructionInput -> constructionInput.constructedEntity,
                 ByteBufCodecs.registry(Registries.SOUND_EVENT), constructionInput -> constructionInput.assembleSound,
-                ByteBufCodecs.idMapper(Block::stateById, Block::getId),
-                constructionInput -> constructionInput.assembleBlockState, ConstructionInput::of);
+                ParticleTypes.STREAM_CODEC, constructionInput -> constructionInput.assembleParticle,
+                ConstructionInput::of);
     }
 
     private static <E extends Enum<E> & ConstructionStage<E>> Codec<Map<E, ProgressStage>> stagesCodec(
@@ -122,57 +118,14 @@ public final class ConstructionInput<E extends Enum<E> & ConstructionInput.Const
 
     public static <E extends Enum<E> & ConstructionStage<E>> ConstructionInput<E> of(
             @Singular final Map<E, ProgressStage> stages, final EntityResult constructedEntity,
-            final SoundEvent assembleSound, final BlockState assembleBlockState) {
-        return stages.isEmpty() ? empty() : new ConstructionInput<>(assembleSound, assembleBlockState,
-                constructedEntity, stages);
+            final SoundEvent assembleSound, final ParticleOptions assembleParticle) {
+        return stages.isEmpty() ? empty() : new ConstructionInput<>(assembleSound, assembleParticle, constructedEntity,
+                stages);
     }
 
     @SuppressWarnings("unchecked")
     public static <E extends Enum<E> & ConstructionStage<E>> ConstructionInput<E> empty() {
         return ((ConstructionInput<E>) EMPTY);
-    }
-
-    @CheckReturnValue
-    private static <E extends Enum<E> & ConstructionStage<E>> ItemStack doInsert(
-            final ConstructedEntity<E, ?> constructedEntity, final ItemStack insertStack,
-            final @Nullable LivingEntity entity, @SuppressWarnings("SameParameterValue") final int increment) {
-        final var stage = constructedEntity.getConstructionState()
-                .stage();
-        if (entity != null && entity.hasInfiniteMaterials()) {
-            constructedEntity.insert(stage, insertStack.copyWithCount(increment));
-            return insertStack;
-        }
-
-        return constructedEntity.insert(stage, insertStack);
-    }
-
-    /**
-     * @param constructedEntity The constructed entity to try insert into
-     * @param insertStack       The insert stack
-     * @param entity            The nullable entity doing the insertion
-     */
-    public <S extends ConstructionState<E, S>> InteractionResultHolder<ItemStack> tryInsert(
-            final ConstructedEntity<E, S> constructedEntity, final ItemStack insertStack,
-            final @Nullable LivingEntity entity) {
-        if (constructedEntity.isFinished()) return InteractionResultHolder.pass(insertStack);
-
-        final var constructionState = constructedEntity.getConstructionState();
-        final var stage = constructionState.stage();
-        assert stage != stage.end();
-        final var ingredient = this.getIngredient(stage);
-
-        // We only care to match the Item, not it's size
-        if (!ingredient.ingredient().test(insertStack)) return InteractionResultHolder.pass(insertStack);
-
-        final ItemStack remainder = ConstructionInput.doInsert(constructedEntity, insertStack, entity, 1);
-        if (ingredient.count() > constructedEntity.getContentsCount(stage)) {
-            constructedEntity.setConstructionState(
-                    constructionState.withRemaining(constructionState.remainingInputs() - 1));
-            return InteractionResultHolder.success(remainder);
-        }
-
-        constructedEntity.setConstructionState(constructionState.nextStateOf(this));
-        return InteractionResultHolder.success(remainder);
     }
 
     private void validate(final E constructionStage) {
@@ -206,14 +159,18 @@ public final class ConstructionInput<E extends Enum<E> & ConstructionInput.Const
     }
 
     /**
-     * @return The switch blockstate
+     * @return The switch particle
      */
-    public BlockState getSwitchBlockState(final E constructionStage) {
+    public ParticleOptions getSwitchParticle(final E constructionStage) {
         this.validate(constructionStage);
-        return this.stages.get(constructionStage).switchBlockState;
+        return this.stages.get(constructionStage).switchParticle;
     }
 
-    public interface ConstructionStage<E extends Enum<E>> extends StringRepresentable, Comparable<E> {
+    /**
+     *
+     * @param <E>
+     */
+    public interface ConstructionStage<E extends Enum<E> & ConstructionStage<E>> extends StringRepresentable, Comparable<E> {
         /**
          * @return The next stage
          */
@@ -225,138 +182,63 @@ public final class ConstructionInput<E extends Enum<E> & ConstructionInput.Const
         E end();
     }
 
-    /**
-     * A type of entity which is constructed, item by item overtime like our {@link SloopUnderConstructionEntity}
-     */
-    public interface ConstructedEntity<E extends Enum<E> & ConstructionStage<E>, S extends ConstructionState<E, S>> {
+    public record ConstructionState<E extends Enum<E> & ConstructionStage<E>>(E inputStage,
+            @Range(from = 0, to = Integer.MAX_VALUE) int remainingInputs) {
 
-        /**
-         * Inserts a stack in the backing storage for the current stage.
-         *
-         * @param stage       The stage
-         * @param insertStack The {@link ItemStack} to insert <strong>Do not mutate this</strong>
-         *
-         * @return The remainder of the insertion
-         */
-        ItemStack insert(E stage, ItemStack insertStack);
-
-        /**
-         * Gets the current contents in the backing storage for the current stage
-         *
-         * @param stage The stage
-         *
-         * @return How many contents this stage has
-         */
-        int getContentsCount(E stage);
-
-        /**
-         * @return The construction state
-         */
-        S getConstructionState();
-
-        /**
-         * Sets the current construction state
-         *
-         * @param constructionState The new construction state
-         */
-        void setConstructionState(S constructionState);
-
-        default boolean isFinished() {
-            final var stage = this.getConstructionState()
-                    .stage();
-            return stage.compareTo(stage.end()) == 0;
-        }
-    }
-
-    /**
-     * @param <E> The backing enum to represent the current {@link ConstructionStage}
-     * @param <S> The self type
-     *
-     * @apiNote This should typically be implemented on a record similar to {@link SloopConstructionState}.
-     * @see ConstructionState#streamCodec(Class, BiFunction)
-     * @see ConstructionState#codec(Codec, Enum, BiFunction)
-     */
-    public interface ConstructionState<E extends Enum<E> & ConstructionStage<E>, S extends ConstructionState<E, S>> {
-
-        /**
-         * Helper for creating a {@link Codec}
-         *
-         * @param stageCodec    A codec for the construction stage
-         * @param startingStage The starting construction stage
-         * @param factory       A factory for the {@link ConstructionState} object
-         *
-         * @see #streamCodec(Class, BiFunction)
-         */
-        static <E extends Enum<E> & ConstructionStage<E>, S extends ConstructionState<E, S>> Codec<S> codec(
-                final Codec<E> stageCodec, final E startingStage, final BiFunction<E, Integer, S> factory) {
+        public static <E extends Enum<E> & ConstructionStage<E>> Codec<ConstructionState<E>> codec(
+                final Codec<E> stageCodec, final E startingStage) {
             return RecordCodecBuilder.create(instance -> instance.group(
-                            stageCodec.optionalFieldOf("current_stage", startingStage).forGetter(ConstructionState::stage),
+                            stageCodec.optionalFieldOf("input_stage", startingStage).forGetter(ConstructionState::inputStage),
                             Codec.INT.optionalFieldOf("remaining_input_count", 0).forGetter(ConstructionState::remainingInputs))
-                    .apply(instance, factory));
+                    .apply(instance, ConstructionState::new));
         }
 
-        /**
-         * Helper for creating a {@link StreamCodec}
-         *
-         * @param clazz   The enum class
-         * @param factory The factory for the {@link ConstructionState} object
-         *
-         * @see ConstructionState#codec(Codec, Enum, BiFunction)
-         */
-        static <E extends Enum<E> & ConstructionStage<E>, S extends ConstructionState<E, S>> StreamCodec<FriendlyByteBuf, S> streamCodec(
-                final Class<E> clazz, final BiFunction<E, Integer, S> factory) {
-            return StreamCodec.composite(NeoForgeStreamCodecs.enumCodec(clazz), ConstructionState::stage,
-                    ByteBufCodecs.VAR_INT, ConstructionState::remainingInputs, factory);
+        @Contract("_ -> new")
+        public static <E extends Enum<E> & ConstructionStage<E>> StreamCodec<FriendlyByteBuf, ConstructionState<E>> streamCodec(
+                final Class<E> clazz) {
+            return StreamCodec.composite(NeoForgeStreamCodecs.enumCodec(clazz), ConstructionState::inputStage,
+                    ByteBufCodecs.VAR_INT, ConstructionState::remainingInputs, ConstructionState::new);
         }
 
-        /**
-         * @param remaining Remaining items
-         */
-        S withRemaining(final int remaining);
+        @Contract("_ -> new")
+        public ConstructionState<E> withRemaining(final int remaining) {
+            return new ConstructionState<>(this.inputStage, remaining);
+        }
 
-        /**
-         * @param constructionInput The current construction input
-         */
-        S nextStateOf(final ConstructionInput<E> constructionInput);
-
-        /**
-         * @return The current stage
-         */
-        E stage();
-
-        /**
-         * @return The remaining inputs for this stage
-         */
-        int remainingInputs();
+        public ConstructionState<E> nextStateOf(final ConstructionInput<E> constructionInput) {
+            final var nextStage = this.inputStage.next();
+            return new ConstructionState<>(nextStage,
+                    nextStage != nextStage.end() ? constructionInput.getIngredient(nextStage).count() : -1);
+        }
     }
 
     @SuppressWarnings("cast") // Lombok code gen has redundant casts
     public static class ConstructionInputBuilder<E extends Enum<E> & ConstructionStage<E>> {}
 
     /**
-     * @param ingredient       An ingredient
-     * @param progressSound    The progress sound
-     * @param switchSound      The switch sound
-     * @param switchBlockState The switch blockstate
+     * @param ingredient     An ingredient
+     * @param progressSound  The progress sound
+     * @param switchSound    The switch sound
+     * @param switchParticle The switch particle
      */
     public record ProgressStage(SizedIngredient ingredient, SoundEvent progressSound, SoundEvent switchSound,
-            BlockState switchBlockState) {
+            ParticleOptions switchParticle) {
 
         public static final Codec<ProgressStage> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                NeoForgeExtraCodecs.withAlternative(SizedIngredient.FLAT_CODEC, SizedIngredient.NESTED_CODEC)
-                        .fieldOf("input")
-                        .forGetter(ProgressStage::ingredient), BuiltInRegistries.SOUND_EVENT.byNameCodec()
-                        .fieldOf("progress_sound")
-                        .forGetter(ProgressStage::progressSound), BuiltInRegistries.SOUND_EVENT.byNameCodec()
-                        .fieldOf("switch_sound")
-                        .forGetter(ProgressStage::switchSound),
-                AlekiShipsExtraCodecs.BLOCK_STATE_CODEC.fieldOf("switch_blockstate")
-                        .forGetter(ProgressStage::switchBlockState)).apply(instance, ProgressStage::new));
+                        NeoForgeExtraCodecs.withAlternative(SizedIngredient.FLAT_CODEC, SizedIngredient.NESTED_CODEC)
+                                .fieldOf("input")
+                                .forGetter(ProgressStage::ingredient), BuiltInRegistries.SOUND_EVENT.byNameCodec()
+                                .fieldOf("progress_sound")
+                                .forGetter(ProgressStage::progressSound), BuiltInRegistries.SOUND_EVENT.byNameCodec()
+                                .fieldOf("switch_sound")
+                                .forGetter(ProgressStage::switchSound),
+                        ParticleTypes.CODEC.fieldOf("switch_particle").forGetter(ProgressStage::switchParticle))
+                .apply(instance, ProgressStage::new));
 
         public static final StreamCodec<RegistryFriendlyByteBuf, ProgressStage> STREAM_CODEC = StreamCodec.composite(
                 SizedIngredient.STREAM_CODEC, ProgressStage::ingredient, ByteBufCodecs.registry(Registries.SOUND_EVENT),
                 ProgressStage::progressSound, ByteBufCodecs.registry(Registries.SOUND_EVENT),
-                ProgressStage::switchSound, ByteBufCodecs.idMapper(Block::stateById, Block::getId),
-                ProgressStage::switchBlockState, ProgressStage::new);
+                ProgressStage::switchSound, ParticleTypes.STREAM_CODEC, ProgressStage::switchParticle,
+                ProgressStage::new);
     }
 }

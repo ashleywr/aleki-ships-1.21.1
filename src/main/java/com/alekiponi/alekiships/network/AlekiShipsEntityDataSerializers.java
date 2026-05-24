@@ -2,11 +2,8 @@ package com.alekiponi.alekiships.network;
 
 import com.alekiponi.alekiships.AlekiShips;
 import com.alekiponi.alekiships.common.entity.EntityInput;
-import com.alekiponi.alekiships.common.entity.SloopConstructionState;
 import com.alekiponi.alekiships.common.entity.compartment.vanilla.ChestCompartmentData;
-import com.alekiponi.alekiships.common.entity.vehicle.ConstructionSloopVariant;
-import com.alekiponi.alekiships.common.entity.vehicle.RowboatVariant;
-import com.alekiponi.alekiships.common.entity.vehicle.SloopVariant;
+import com.alekiponi.alekiships.common.entity.vehicle.*;
 import com.alekiponi.alekiships.common.entity.vehiclehelper.MastEntity;
 import com.alekiponi.alekiships.common.recipe.util.ItemStackProvider;
 import com.alekiponi.alekiships.wind.Wind;
@@ -41,8 +38,9 @@ public final class AlekiShipsEntityDataSerializers {
     public static final DeferredEntityDataSerializer<EntityInput.EntityInputState> ENTITY_INPUT_STATE = register(
             "entity_input_state", () -> EntityDataSerializer.forValueType(EntityInput.EntityInputState.STREAM_CODEC));
 
-    public static final DeferredEntityDataSerializer<SloopConstructionState> SLOOP_CONSTRUCTION_STATE = register(
-            "sloop_construction_state", () -> EntityDataSerializer.forValueType(SloopConstructionState.STREAM_CODEC));
+    public static final DeferredEntityDataSerializer<ConstructionInput.ConstructionState<SloopUnderConstructionEntity.SloopConstructionStage>> SLOOP_CONSTRUCTION_STATE = register(
+            "sloop_construction_state", () -> EntityDataSerializer.forValueType(
+                    ConstructionInput.ConstructionState.streamCodec(SloopUnderConstructionEntity.SloopConstructionStage.class)));
 
     public static final DeferredEntityDataSerializer<ChestCompartmentData> CHEST_COMPARTMENT_DATA = register(
             "chest_compartment_data", () -> EntityDataSerializer.forValueType(ChestCompartmentData.STREAM_CODEC));

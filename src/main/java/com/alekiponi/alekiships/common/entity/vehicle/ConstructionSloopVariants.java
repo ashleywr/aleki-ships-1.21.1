@@ -2,7 +2,7 @@ package com.alekiponi.alekiships.common.entity.vehicle;
 
 import com.alekiponi.alekiships.AlekiShips;
 import com.alekiponi.alekiships.common.AlekiShipsRegistries;
-import com.alekiponi.alekiships.common.entity.ConstructionSloopInputs;
+import com.alekiponi.alekiships.common.entity.SloopConstructionInputs;
 
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
@@ -36,47 +36,47 @@ public final class ConstructionSloopVariants {
 
         context.register(OAK, ConstructionSloopVariant.builder()
                 .texture(texture("oak"))
-                .constructionInput(constructionInputLookup.getOrThrow(ConstructionSloopInputs.OAK))
+                .constructionInput(constructionInputLookup.getOrThrow(SloopConstructionInputs.OAK))
                 .build());
 
         context.register(SPRUCE, ConstructionSloopVariant.builder()
                 .texture(texture("spruce"))
-                .constructionInput(constructionInputLookup.getOrThrow(ConstructionSloopInputs.SPRUCE))
+                .constructionInput(constructionInputLookup.getOrThrow(SloopConstructionInputs.SPRUCE))
                 .build());
 
         context.register(BIRCH, ConstructionSloopVariant.builder()
                 .texture(texture("birch"))
-                .constructionInput(constructionInputLookup.getOrThrow(ConstructionSloopInputs.BIRCH))
+                .constructionInput(constructionInputLookup.getOrThrow(SloopConstructionInputs.BIRCH))
                 .build());
 
         context.register(ACACIA, ConstructionSloopVariant.builder()
                 .texture(texture("acacia"))
-                .constructionInput(constructionInputLookup.getOrThrow(ConstructionSloopInputs.ACACIA))
+                .constructionInput(constructionInputLookup.getOrThrow(SloopConstructionInputs.ACACIA))
                 .build());
 
         context.register(CHERRY, ConstructionSloopVariant.builder()
                 .texture(texture("cherry"))
-                .constructionInput(constructionInputLookup.getOrThrow(ConstructionSloopInputs.CHERRY))
+                .constructionInput(constructionInputLookup.getOrThrow(SloopConstructionInputs.CHERRY))
                 .build());
 
         context.register(JUNGLE, ConstructionSloopVariant.builder()
                 .texture(texture("jungle"))
-                .constructionInput(constructionInputLookup.getOrThrow(ConstructionSloopInputs.JUNGLE))
+                .constructionInput(constructionInputLookup.getOrThrow(SloopConstructionInputs.JUNGLE))
                 .build());
 
         context.register(DARK_OAK, ConstructionSloopVariant.builder()
                 .texture(texture("dark_oak"))
-                .constructionInput(constructionInputLookup.getOrThrow(ConstructionSloopInputs.DARK_OAK))
+                .constructionInput(constructionInputLookup.getOrThrow(SloopConstructionInputs.DARK_OAK))
                 .build());
 
         context.register(MANGROVE, ConstructionSloopVariant.builder()
                 .texture(texture("mangrove"))
-                .constructionInput(constructionInputLookup.getOrThrow(ConstructionSloopInputs.MANGROVE))
+                .constructionInput(constructionInputLookup.getOrThrow(SloopConstructionInputs.MANGROVE))
                 .build());
 
         context.register(BAMBOO, ConstructionSloopVariant.builder()
                 .texture(texture("bamboo"))
-                .constructionInput(constructionInputLookup.getOrThrow(ConstructionSloopInputs.BAMBOO))
+                .constructionInput(constructionInputLookup.getOrThrow(SloopConstructionInputs.BAMBOO))
                 .build());
     }
 
@@ -85,12 +85,12 @@ public final class ConstructionSloopVariants {
 
         context.register(CRIMSON, ConstructionSloopVariant.builder()
                 .texture(texture("crimson"))
-                .constructionInput(constructionInputLookup.getOrThrow(ConstructionSloopInputs.CRIMSON))
+                .constructionInput(constructionInputLookup.getOrThrow(SloopConstructionInputs.CRIMSON))
                 .build());
 
         context.register(WARPED, ConstructionSloopVariant.builder()
                 .texture(texture("warped"))
-                .constructionInput(constructionInputLookup.getOrThrow(ConstructionSloopInputs.WARPED))
+                .constructionInput(constructionInputLookup.getOrThrow(SloopConstructionInputs.WARPED))
                 .build());
     }
 }

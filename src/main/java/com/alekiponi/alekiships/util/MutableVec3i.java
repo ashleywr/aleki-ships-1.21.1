@@ -113,6 +113,25 @@ public final class MutableVec3i extends Vec3i {
         return this;
     }
 
+    public MutableVec3i addX(final int x) {
+        return this.setX(this.getX() + x);
+    }
+
+    public MutableVec3i addY(final int y) {
+        return this.setY(this.getY() + y);
+    }
+
+    public MutableVec3i addZ(final int z) {
+        return this.setZ(this.getZ() + z);
+    }
+
+    public MutableVec3i add(final int x, final int y, final int z) {
+        this.addX(x);
+        this.addY(y);
+        this.addZ(z);
+        return this;
+    }
+
     /**
      * @param rotation The rotation
      *

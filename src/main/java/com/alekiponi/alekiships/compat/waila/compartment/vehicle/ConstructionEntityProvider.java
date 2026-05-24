@@ -6,7 +6,8 @@ import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 
 import com.alekiponi.alekiships.AlekiShips;
-import com.alekiponi.alekiships.common.entity.vehicle.ConstructionInput;
+import com.alekiponi.alekiships.common.entity.vehicle.AbstractUnderConstructionEntity;
+import com.alekiponi.alekiships.util.CommonHelper;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -22,15 +23,16 @@ public enum ConstructionEntityProvider implements IEntityComponentProvider {
     @Override
     public void appendTooltip(final ITooltip iTooltip, final EntityAccessor entityAccessor,
             final IPluginConfig iPluginConfig) {
-        if (!(entityAccessor.getEntity()
-                .getRootVehicle() instanceof final ConstructionInput.ConstructedEntity<?, ?> entity)) {
+        if (!(entityAccessor.getEntity().getRootVehicle() instanceof final AbstractUnderConstructionEntity<?> entity)) {
             return;
         }
 
         final var constructionState = entity.getConstructionState();
         iTooltip.add(Component.translatable(INPUTS_REMAINING_KEY, constructionState.remainingInputs()));
-        iTooltip.add(Component.translatable(CURRENT_STAGE_KEY, constructionState.stage().getSerializedName()));
-        iTooltip.add(Component.translatable(NEXT_STAGE_KEY, constructionState.stage().next().getSerializedName()));
+        iTooltip.add(
+                Component.translatable(CURRENT_STAGE_KEY, CommonHelper.translateEnum(constructionState.inputStage())));
+        iTooltip.add(Component.translatable(NEXT_STAGE_KEY,
+                CommonHelper.translateEnum(constructionState.inputStage().next())));
     }
 
     @Override

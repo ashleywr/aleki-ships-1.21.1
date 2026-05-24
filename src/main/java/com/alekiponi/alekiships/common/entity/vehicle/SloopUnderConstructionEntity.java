@@ -1,21 +1,25 @@
 package com.alekiponi.alekiships.common.entity.vehicle;
 
+import com.mojang.serialization.Codec;
+
 import com.alekiponi.alekiships.common.AlekiShipsRegistries;
-import com.alekiponi.alekiships.common.block.AlekiShipsBlocks;
-import com.alekiponi.alekiships.common.entity.SloopConstructionState;
 import com.alekiponi.alekiships.network.AlekiShipsEntityDataSerializers;
+import com.alekiponi.alekiships.util.MutableVec3i;
 import com.alekiponi.alekiships.util.advancements.AlekiShipsAdvancements;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.core.Vec3i;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -23,18 +27,21 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.Optional;
 
-public class SloopUnderConstructionEntity extends AbstractUnderConstructionEntity<SloopConstructionState.SloopConstructionStage, SloopConstructionState> {
+public class SloopUnderConstructionEntity extends AbstractUnderConstructionEntity<SloopUnderConstructionEntity.SloopConstructionStage> {
 
     public static final String SLOOP_CONSTRUCTION_TYPE_KEY = "sloop_construction_type";
 
-    private static final EntityDataAccessor<SloopConstructionState> DATA_ID_CONSTRUCTION_STATE = SynchedEntityData.defineId(
+    public static final Codec<ConstructionInput.ConstructionState<SloopConstructionStage>> CODEC = ConstructionInput.ConstructionState.codec(
+            SloopConstructionStage.ENUM_CODEC, SloopConstructionStage.START);
+
+    private static final EntityDataAccessor<ConstructionInput.ConstructionState<SloopConstructionStage>> DATA_ID_CONSTRUCTION_STATE = SynchedEntityData.defineId(
             SloopUnderConstructionEntity.class, AlekiShipsEntityDataSerializers.SLOOP_CONSTRUCTION_STATE);
     private static final EntityDataAccessor<Holder<ConstructionSloopVariant>> DATA_ID_SLOOP_CONSTRUCTION_VARIANT = SynchedEntityData.defineId(
             SloopUnderConstructionEntity.class, AlekiShipsEntityDataSerializers.SLOOP_CONSTRUCTION_VARIANT);
 
     public SloopUnderConstructionEntity(final EntityType<? extends SloopUnderConstructionEntity> entityType,
             final Level level) {
-        super(entityType, level, SloopConstructionState.SloopConstructionStage.SIZE, SloopConstructionState.CODEC);
+        super(entityType, level, SloopConstructionStage.SIZE, CODEC);
     }
 
     @Override
@@ -75,11 +82,10 @@ public class SloopUnderConstructionEntity extends AbstractUnderConstructionEntit
                 .or(registry::getAny)
                 .orElseThrow();
         builder.define(DATA_ID_SLOOP_CONSTRUCTION_VARIANT, constructionType);
-        builder.define(DATA_ID_CONSTRUCTION_STATE, SloopConstructionState.DEFAULT.withRemaining(constructionType.value()
-                .getConstructionInput()
-                .value()
-                .getIngredient(SloopConstructionState.SloopConstructionStage.DEFAULT)
-                .count()));
+        final var constructionInput = constructionType.value().getConstructionInput();
+        builder.define(DATA_ID_CONSTRUCTION_STATE,
+                new ConstructionInput.ConstructionState<>(SloopConstructionStage.START,
+                        constructionInput.value().getIngredient(SloopConstructionStage.START).count()));
     }
 
     @Override
@@ -103,70 +109,23 @@ public class SloopUnderConstructionEntity extends AbstractUnderConstructionEntit
         return true;
     }
 
+    @Override
     protected Vec3 positionRiderByIndex(int index) {
-        float localX = 0.0F;
-        float localZ = 0.0F;
-        float localY = (float) ((this.isRemoved() ? (double) 0.01F : this.getPassengersRidingOffset()));
-        SloopConstructionState.SloopConstructionStage stage = this.getConstructionState()
-                .stage();
-        switch (stage) {
-            case KEEL -> {
-                localX = 0.0f;
-                localZ = 0.0f;
-                localY -= 0.0f;
-            }
-            case DECK -> {
-                localX = -1.0f;
-                localZ = 0.0f;
-                localY += 0.5f;
-            }
-            case BOWSPRIT -> {
-                localX = 4.0f;
-                localZ = 0.0f;
-                localY += 0.7f;
-            }
-            case MAST -> {
-                localX = 2.0f;
-                localZ = 0.0f;
-                localY += 2.0f;
-            }
-            case BOOM -> {
-                localX = 1.8f;
-                localZ = 0.0f;
-                localY += 2.25f;
-            }
-            case MAINSAIL -> {
-                localX = 1.5f;
-                localZ = 0.0f;
-                localY += 2.5f;
-            }
-            case JIBSAIl -> {
-                localX = 3.0f;
-                localZ = 0.0f;
-                localY += 0.5f;
-            }
-            case RAILINGS_STERN -> {
-                localX = -3.0f;
-                localZ = 0.0f;
-                localY += 0.8f;
-            }
-            case RAILINGS_BOW -> {
-                localX = 4.0f;
-                localZ = 0.0f;
-                localY += 0.8f;
-            }
-            case ANCHOR -> {
-                localZ = -1.34f;
-                localX = 2.52f;
-                localY += 0.7f;
-            }
-            case RIGGING -> {
-                localX = 1.5f;
-                localZ = 0.0f;
-                localY += 1.5f;
-            }
-        }
-        return new Vec3(localX, localY, localZ);
+        final var yOffset = (float) ((this.isRemoved() ? (double) 0.01F : this.getPassengersRidingOffset()));
+        return switch (this.getConstructionState().inputStage()) {
+            case KEEL -> new Vec3(0, yOffset, 0);
+            case DECK -> new Vec3(-1.0f, 0.5 + yOffset, 0);
+            case BOWSPRIT -> new Vec3(4.0f, 0.7 + yOffset, 0);
+            case MAST -> new Vec3(2.0f, 2 + yOffset, 0);
+            case BOOM -> new Vec3(1.8f, 2.25 + yOffset, 0);
+            case MAINSAIL -> new Vec3(1.5f, 2.5 + yOffset, 0);
+            case JIBSAIl -> new Vec3(3.0f, 0.5 + yOffset, 0);
+            case RAILINGS_STERN -> new Vec3(-3.0f, 0.8 + yOffset, 0);
+            case RAILINGS_BOW -> new Vec3(4.0f, 0.8 + yOffset, 0);
+            case ANCHOR -> new Vec3(2.52f, 0.7 + yOffset, -1.34f);
+            case RIGGING -> new Vec3(1.5f, 1.5 + yOffset, 0);
+            case COMPLETE -> Vec3.ZERO;
+        };
     }
 
     @Override
@@ -185,30 +144,43 @@ public class SloopUnderConstructionEntity extends AbstractUnderConstructionEntit
     }
 
     @Override
-    protected void switchConstructionStage(
-            final ConstructionInput<SloopConstructionState.SloopConstructionStage> constructionInput,
-            final SloopConstructionState.SloopConstructionStage previousStage,
-            final SloopConstructionState.SloopConstructionStage currentStage) {
-        final Direction thisDir = this.getDirection();
-        final BlockPos thisPos = this.blockPosition().relative(thisDir, 4).relative(thisDir.getCounterClockWise(), 2);
+    protected Vec3 positionLocally(final Vec3 vec3) {
+        return vec3.yRot((float) Math.toRadians(-(this.getYRot() + 90)));
+    }
 
-        for (int x = 0; x < 4; x++) {
-            for (int y = 0; y < 7; y++) {
-                this.playSound(constructionInput.getSwitchSound(previousStage));
-                this.level()
-                        .addDestroyBlockEffect(
-                                thisPos.relative(thisDir.getOpposite(), y).relative(thisDir.getClockWise(), x),
-                                constructionInput.getSwitchBlockState(previousStage));
-            }
+    @Override
+    protected void switchConstructionStage(final ConstructionInput<SloopConstructionStage> constructionInput,
+            final SloopConstructionStage previousStage, final SloopConstructionStage currentStage) {
+        this.playSound(constructionInput.getSwitchSound(previousStage));
+
+        final var switchParticle = constructionInput.getSwitchParticle(previousStage);
+        for (final var localPos : MutableVec3i.betweenClosed(Vec3i.ZERO, new Vec3i(7, 0, 4))) {
+            localPos.add(-3, 0, -2);
+            final var position = this.position().add(this.positionLocally(Vec3.atLowerCornerOf(localPos)));
+            this.addConstructionParticles(position, switchParticle);
+        }
+    }
+
+    private void addConstructionParticles(final Vec3 pos, final ParticleOptions particleOptions) {
+        final var forward = Vec3.directionFromRotation(0, this.getYRot());
+        final var right = forward.cross(new Vec3(0, 1, 0));
+        // 12 particles
+        for (final var vec3i : MutableVec3i.betweenClosed(0, 0, 0, 2, 2, 2)) {
+            final var offset = this.positionLocally(new Vec3(-0.5, -0.5, -0.5))
+                    .add(forward.scale(vec3i.getX() / 2D))
+                    .add(right.scale(vec3i.getZ() / 2D))
+                    .add(0, vec3i.getY() / 2D, 0);
+            final var realPos = pos.add(offset);
+            final var speed = offset.reverse();
+            this.level()
+                    .addParticle(particleOptions, realPos.x(), realPos.y(), realPos.z(), speed.x(), speed.y(),
+                            speed.z());
         }
     }
 
     @Override
     protected void finalizeConstruction(final Player player,
-            final ConstructionInput<SloopConstructionState.SloopConstructionStage> constructionInput) {
-        final Direction thisDir = this.getDirection();
-        final BlockPos thisPos = this.blockPosition().relative(thisDir, 4).relative(thisDir.getCounterClockWise(), 2);
-
+            final ConstructionInput<SloopConstructionStage> constructionInput) {
         constructionInput.constructedEntity.createEntity(this.level()).ifPresent(entity -> {
             entity.setYRot(this.getYRot());
             entity.setPos(this.position());
@@ -218,22 +190,12 @@ public class SloopUnderConstructionEntity extends AbstractUnderConstructionEntit
             }
         });
 
-        for (int x = 0; x < 4; x++) {
-            for (int y = 0; y < 7; y++) {
-                for (int z = 0; z < 11; z++) {
-                    this.playSound(constructionInput.assembleSound);
-                    this.level()
-                            .addDestroyBlockEffect(thisPos.relative(thisDir.getOpposite(), y)
-                                    .relative(thisDir.getClockWise(), x)
-                                    .relative(Direction.UP, z), constructionInput.assembleBlockState);
-                    this.level()
-                            .addDestroyBlockEffect(thisPos.relative(thisDir.getOpposite(), y)
-                                            .relative(thisDir.getClockWise(), x)
-                                            .relative(Direction.UP, z),
-                                    AlekiShipsBlocks.BOAT_FRAME_ANGLED.get().defaultBlockState());
-                }
-            }
+        for (final var localPos : MutableVec3i.betweenClosed(Vec3i.ZERO, new Vec3i(7, 11, 4))) {
+            localPos.add(-3, 0, -2);
+            final var position = this.position().add(this.positionLocally(Vec3.atLowerCornerOf(localPos)));
+            this.addConstructionParticles(position, constructionInput.assembleParticle);
         }
+
         this.kill();
     }
 
@@ -267,17 +229,18 @@ public class SloopUnderConstructionEntity extends AbstractUnderConstructionEntit
     }
 
     @Override
-    public final SloopConstructionState getConstructionState() {
+    public final ConstructionInput.ConstructionState<SloopConstructionStage> getConstructionState() {
         return this.entityData.get(DATA_ID_CONSTRUCTION_STATE);
     }
 
     @Override
-    public final void setConstructionState(final SloopConstructionState constructionState) {
+    public final void setConstructionState(
+            final ConstructionInput.ConstructionState<SloopConstructionStage> constructionState) {
         this.entityData.set(DATA_ID_CONSTRUCTION_STATE, constructionState);
     }
 
     @Override
-    public final Holder<ConstructionInput<SloopConstructionState.SloopConstructionStage>> getConstructionInput() {
+    public final Holder<ConstructionInput<SloopConstructionStage>> getConstructionInput() {
         return this.getSloopConstructionVariant().value().getConstructionInput();
     }
 
@@ -290,12 +253,74 @@ public class SloopUnderConstructionEntity extends AbstractUnderConstructionEntit
         final var ingredient = constructionType.value()
                 .getConstructionInput()
                 .value()
-                .getIngredient(SloopConstructionState.SloopConstructionStage.DEFAULT);
-        final var constructionState = SloopConstructionState.DEFAULT.withRemaining(ingredient.count());
-        this.setConstructionState(constructionState);
+                .getIngredient(SloopConstructionStage.START);
+        this.setConstructionState(
+                new ConstructionInput.ConstructionState<>(SloopConstructionStage.START, ingredient.count()));
     }
 
     public ResourceLocation getTexture() {
         return this.getSloopConstructionVariant().value().texture();
+    }
+
+    public enum SloopConstructionStage implements ConstructionInput.ConstructionStage<SloopConstructionStage> {
+        KEEL("keel"),
+        DECK("deck"),
+        BOWSPRIT("bowsprit"),
+        MAST("mast"),
+        BOOM("boom"),
+        MAINSAIL("mainsail"),
+        JIBSAIl("jibsail"),
+        RAILINGS_STERN("stern_railings"),
+        RAILINGS_BOW("bow_railings"),
+        ANCHOR("anchor"),
+        RIGGING("rigging"),
+        COMPLETE("complete");
+
+        public static final SloopConstructionStage START = KEEL;
+
+        public static final int SIZE = SloopConstructionStage.values().length - 1;
+
+        public static final StringRepresentableCodec<SloopConstructionStage> ENUM_CODEC = StringRepresentable.fromEnum(
+                SloopConstructionStage::values);
+
+        public static final Codec<ConstructionInput<SloopConstructionStage>> INPUT_CODEC = ConstructionInput.codec(
+                ENUM_CODEC, SloopConstructionStage::values);
+
+        public static final StreamCodec<RegistryFriendlyByteBuf, ConstructionInput<SloopConstructionStage>> INPUT_STREAM_CODEC = ConstructionInput.streamCodec(
+                SloopConstructionStage.class);
+
+        private final String name;
+
+        SloopConstructionStage(final String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String getSerializedName() {
+            return this.name;
+        }
+
+        @Override
+        public SloopConstructionStage next() {
+            return switch (this) {
+                case KEEL -> DECK;
+                case DECK -> BOWSPRIT;
+                case BOWSPRIT -> MAST;
+                case MAST -> BOOM;
+                case BOOM -> MAINSAIL;
+                case MAINSAIL -> JIBSAIl;
+                case JIBSAIl -> RAILINGS_STERN;
+                case RAILINGS_STERN -> RAILINGS_BOW;
+                case RAILINGS_BOW -> ANCHOR;
+                case ANCHOR -> RIGGING;
+                case RIGGING -> COMPLETE;
+                case COMPLETE -> throw new UnsupportedOperationException("Complete is the final construction stage");
+            };
+        }
+
+        @Override
+        public SloopConstructionStage end() {
+            return COMPLETE;
+        }
     }
 }

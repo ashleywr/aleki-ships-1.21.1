@@ -4,7 +4,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import com.alekiponi.alekiships.common.AlekiShipsRegistries;
-import com.alekiponi.alekiships.common.entity.SloopConstructionState;
 
 import net.minecraft.core.Holder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -28,7 +27,7 @@ public final class ConstructionSloopVariant {
             instance -> instance.group(
                             ResourceLocation.CODEC.fieldOf("texture").forGetter(sloopVariant -> sloopVariant.texture),
                             RegistryFileCodec.create(AlekiShipsRegistries.CONSTRUCTION_SLOOP_INPUT,
-                                            SloopConstructionState.SloopConstructionStage.INPUT_CODEC)
+                                            SloopUnderConstructionEntity.SloopConstructionStage.INPUT_CODEC)
                                     .fieldOf("construction_input")
                                     .forGetter(ConstructionSloopVariant::getConstructionInput))
                     .apply(instance, ConstructionSloopVariant::new));
@@ -39,7 +38,7 @@ public final class ConstructionSloopVariant {
     public static final StreamCodec<RegistryFriendlyByteBuf, ConstructionSloopVariant> DIRECT_STREAM_CODEC = StreamCodec.composite(
             ResourceLocation.STREAM_CODEC, sloopConstructionType -> sloopConstructionType.texture,
             ByteBufCodecs.holder(AlekiShipsRegistries.CONSTRUCTION_SLOOP_INPUT,
-                    SloopConstructionState.SloopConstructionStage.INPUT_STREAM_CODEC),
+                    SloopUnderConstructionEntity.SloopConstructionStage.INPUT_STREAM_CODEC),
             ConstructionSloopVariant::getConstructionInput, ConstructionSloopVariant::new);
 
     public static final StreamCodec<RegistryFriendlyByteBuf, Holder<ConstructionSloopVariant>> STREAM_CODEC = ByteBufCodecs.holder(
@@ -52,11 +51,11 @@ public final class ConstructionSloopVariant {
     @EqualsAndHashCode.Exclude
     private final ResourceLocation textureFull;
     @Getter
-    private final Holder<ConstructionInput<SloopConstructionState.SloopConstructionStage>> constructionInput;
+    private final Holder<ConstructionInput<SloopUnderConstructionEntity.SloopConstructionStage>> constructionInput;
 
     @Builder(toBuilder = true)
     public ConstructionSloopVariant(final ResourceLocation texture,
-            final Holder<ConstructionInput<SloopConstructionState.SloopConstructionStage>> constructionInput) {
+            final Holder<ConstructionInput<SloopUnderConstructionEntity.SloopConstructionStage>> constructionInput) {
         this.texture = texture;
         this.textureFull = BoatVariant.TEXTURE_ID_CONVERTER.idToFile(texture);
         this.constructionInput = constructionInput;

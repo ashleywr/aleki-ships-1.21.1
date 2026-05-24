@@ -40,7 +40,7 @@ public class ConstructionEntity extends AbstractPassthroughHelper {
      * @return A potentially empty array of accepted ItemStack inputs
      */
     public ItemStack[] getRequiredItems() {
-        if (this.getRootVehicle() instanceof AbstractUnderConstructionEntity<?, ?> constructionEntity) {
+        if (this.getRootVehicle() instanceof AbstractUnderConstructionEntity<?> constructionEntity) {
             return constructionEntity.getRequiredItems();
         }
         return new ItemStack[0];
@@ -48,7 +48,7 @@ public class ConstructionEntity extends AbstractPassthroughHelper {
 
     @Override
     public InteractionResult interact(final Player player, final InteractionHand hand) {
-        if (this.getRootVehicle() instanceof AbstractUnderConstructionEntity<?, ?> constructionEntity) {
+        if (this.getRootVehicle() instanceof AbstractUnderConstructionEntity<?> constructionEntity) {
             return constructionEntity.interactFromConstructionEntity(player, hand);
         }
         return InteractionResult.FAIL;

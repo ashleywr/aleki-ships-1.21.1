@@ -6,8 +6,8 @@ import com.alekiponi.alekiships.AlekiShips;
 import com.alekiponi.alekiships.common.AlekiShipsDataMaps;
 import com.alekiponi.alekiships.common.AlekiShipsRegistries;
 import com.alekiponi.alekiships.common.block.AlekiShipsBlocks;
-import com.alekiponi.alekiships.common.entity.ConstructionSloopInputs;
 import com.alekiponi.alekiships.common.entity.EntityInput;
+import com.alekiponi.alekiships.common.entity.SloopConstructionInputs;
 import com.alekiponi.alekiships.common.entity.vehicle.ConstructionSloopVariants;
 import com.alekiponi.alekiships.common.entity.vehicle.RowboatVariants;
 import com.alekiponi.alekiships.common.entity.vehicle.SloopVariants;
@@ -76,7 +76,7 @@ public final class DataGenerators {
                         .add(Registries.STRUCTURE_SET, AlekiShipsStructureSets::bootstrap)
                         .add(Registries.TEMPLATE_POOL, AlekiShipsTemplatePools::bootstrap)
                         .add(AlekiShipsRegistries.ENTITY_INPUT, EntityInput::bootstrap)
-                        .add(AlekiShipsRegistries.CONSTRUCTION_SLOOP_INPUT, ConstructionSloopInputs::bootstrapOverworld)
+                        .add(AlekiShipsRegistries.CONSTRUCTION_SLOOP_INPUT, SloopConstructionInputs::bootstrapOverworld)
                         .add(AlekiShipsRegistries.BOAT_MATERIAL, BoatMaterials::bootstrapOverworld)
                         .add(AlekiShipsRegistries.FRAME_MATERIAL, FrameMaterial::bootstrapOverworld)
                         .add(AlekiShipsRegistries.ROWBOAT_VARIANT, RowboatVariants::bootstrapOverworld)
@@ -126,7 +126,7 @@ public final class DataGenerators {
         final var netherRegistries = netherWoodsPack.addProvider(
                         output -> new DatapackBuiltinEntriesProvider(output, registries,
                                 new RegistrySetBuilder().add(AlekiShipsRegistries.CONSTRUCTION_SLOOP_INPUT,
-                                                ConstructionSloopInputs::bootstrapNether)
+                                                SloopConstructionInputs::bootstrapNether)
                                         .add(AlekiShipsRegistries.BOAT_MATERIAL, BoatMaterials::bootstrapNether)
                                         .add(AlekiShipsRegistries.FRAME_MATERIAL, FrameMaterial::bootstrapNether)
                                         .add(AlekiShipsRegistries.ROWBOAT_VARIANT, RowboatVariants::bootstrapNether)

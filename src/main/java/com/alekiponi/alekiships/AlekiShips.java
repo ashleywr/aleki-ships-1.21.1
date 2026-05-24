@@ -9,6 +9,7 @@ import com.alekiponi.alekiships.client.AlekiShipsClientForgeEvents;
 import com.alekiponi.alekiships.commands.AlekiShipsCommands;
 import com.alekiponi.alekiships.common.AlekiShipsBuiltInRegistries;
 import com.alekiponi.alekiships.common.AlekiShipsDataMaps;
+import com.alekiponi.alekiships.common.particles.AlekiShipsParticles;
 import com.alekiponi.alekiships.common.block.AlekiShipsBlocks;
 import com.alekiponi.alekiships.common.block.entity.AlekishipsBlockEntities;
 import com.alekiponi.alekiships.common.compartment.AlekiShipsChestCompartmentTypes;
@@ -23,8 +24,8 @@ import com.alekiponi.alekiships.common.recipe.entity.AlekiShipsEntityResultSeria
 import com.alekiponi.alekiships.common.recipe.ingredient.block.entity.AlekiShipsBlockEntityIngredientSerializers;
 import com.alekiponi.alekiships.common.sounds.AlekiShipsSounds;
 import com.alekiponi.alekiships.compat.weather2.Weather2WindModelSerializers;
-import com.alekiponi.alekiships.events.ForgeEventHandler;
 import com.alekiponi.alekiships.config.AlekiShipsConfig;
+import com.alekiponi.alekiships.events.ForgeEventHandler;
 import com.alekiponi.alekiships.network.AlekiShipsEntityDataSerializers;
 import com.alekiponi.alekiships.network.PacketHandler;
 import com.alekiponi.alekiships.util.advancements.AlekiShipsAdvancements;
@@ -80,6 +81,7 @@ public final class AlekiShips {
         AlekiShipsEntityResultSerializers.ENTITY_RESULT_SERIALIZERS.register(modBus);
         AlekiShipsSounds.SOUNDS.register(modBus);
         AlekiShipsAdvancements.TRIGGERS.register(modBus);
+        AlekiShipsParticles.PARTICLE_TYPES.register(modBus);
         AlekiShipsCompartmentPlaceableSerializers.COMPARTMENT_PLACEABLE_SERIALIZERS.register(modBus);
         AlekiShipsChestCompartmentTypes.CHEST_TYPES.register(modBus);
         AlekiShipsWindModelSerializers.WIND_MODEL_SERIALIZERS.register(modBus);

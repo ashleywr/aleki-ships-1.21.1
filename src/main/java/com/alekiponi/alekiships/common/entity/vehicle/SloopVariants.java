@@ -3,7 +3,7 @@ package com.alekiponi.alekiships.common.entity.vehicle;
 import com.alekiponi.alekiships.AlekiShips;
 import com.alekiponi.alekiships.common.AlekiShipsRegistries;
 import com.alekiponi.alekiships.common.block.AlekiShipsBlocks;
-import com.alekiponi.alekiships.common.entity.ConstructionSloopInputs;
+import com.alekiponi.alekiships.common.entity.SloopConstructionInputs;
 import com.alekiponi.alekiships.common.item.AlekiShipsItems;
 import com.alekiponi.alekiships.util.BoatMaterials;
 import com.alekiponi.alekiships.util.RepairMaterials;
@@ -40,7 +40,7 @@ public final class SloopVariants {
 
     public static final int FRAME_CAPACITY = 4;
     public static final int SLOOP_FRAMES = 24;
-    public static final int TOTAL_PLANKS = FRAME_CAPACITY * SLOOP_FRAMES + ConstructionSloopInputs.TOTAL_PLANKS;
+    public static final int TOTAL_PLANKS = FRAME_CAPACITY * SLOOP_FRAMES + SloopConstructionInputs.TOTAL_PLANKS;
 
     private static ResourceKey<SloopVariant> createKey(final String name) {
         return ResourceKey.create(AlekiShipsRegistries.SLOOP_VARIANT, AlekiShips.location(name));
@@ -156,16 +156,16 @@ public final class SloopVariants {
                         .repairSound(woodRepairSound)
                         .damageRange(RepairMaterials.DamageRange.max(SloopEntity.DAMAGE_THRESHOLD * 0.8F)))
                 .material(builder -> builder.repairIngredient(Ingredient.of(strippedLog))
-                        .repairAmount(SloopEntity.DAMAGE_THRESHOLD / ConstructionSloopInputs.TOTAL_STRIPPED_LOGS * 2F)
+                        .repairAmount(SloopEntity.DAMAGE_THRESHOLD / SloopConstructionInputs.TOTAL_STRIPPED_LOGS * 2F)
                         .repairSound(woodRepairSound)
                         .damageRange(RepairMaterials.DamageRange.of(SloopEntity.DAMAGE_THRESHOLD * 0.4F,
                                 SloopEntity.DAMAGE_THRESHOLD * 0.6F)))
                 .material(builder -> builder.repairIngredient(Ingredient.of(railingItem))
-                        .repairAmount(SloopEntity.DAMAGE_THRESHOLD / ConstructionSloopInputs.TOTAL_RAILINGS * 1.5F)
+                        .repairAmount(SloopEntity.DAMAGE_THRESHOLD / SloopConstructionInputs.TOTAL_RAILINGS * 1.5F)
                         .repairSound(woodRepairSound)
                         .damageRange(RepairMaterials.DamageRange.min(SloopEntity.DAMAGE_THRESHOLD * 0.6F)))
                 .material(builder -> builder.repairIngredient(Ingredient.of(Items.WHITE_WOOL))
-                        .repairAmount(SloopEntity.DAMAGE_THRESHOLD / ConstructionSloopInputs.TOTAL_WOOL * 1.5F)
+                        .repairAmount(SloopEntity.DAMAGE_THRESHOLD / SloopConstructionInputs.TOTAL_WOOL * 1.5F)
                         .repairSound(SoundEvents.WOOL_PLACE)
                         .damageRange(RepairMaterials.DamageRange.max(SloopEntity.DAMAGE_THRESHOLD * 0.2F)))
                 .material(builder -> builder.repairIngredient(Ingredient.of(AlekiShipsItems.ANCHOR))

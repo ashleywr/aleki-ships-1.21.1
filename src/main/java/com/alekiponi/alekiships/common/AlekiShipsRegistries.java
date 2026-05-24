@@ -3,12 +3,8 @@ package com.alekiponi.alekiships.common;
 import com.alekiponi.alekiships.AlekiShips;
 import com.alekiponi.alekiships.common.compartment.CompartmentPlaceableSerializer;
 import com.alekiponi.alekiships.common.entity.EntityInput;
-import com.alekiponi.alekiships.common.entity.SloopConstructionState;
 import com.alekiponi.alekiships.common.entity.compartment.vanilla.ChestCompartmentData;
-import com.alekiponi.alekiships.common.entity.vehicle.ConstructionInput;
-import com.alekiponi.alekiships.common.entity.vehicle.ConstructionSloopVariant;
-import com.alekiponi.alekiships.common.entity.vehicle.RowboatVariant;
-import com.alekiponi.alekiships.common.entity.vehicle.SloopVariant;
+import com.alekiponi.alekiships.common.entity.vehicle.*;
 import com.alekiponi.alekiships.common.recipe.entity.EntityResultSerializer;
 import com.alekiponi.alekiships.common.recipe.ingredient.block.entity.BlockEntityIngredientSerializer;
 import com.alekiponi.alekiships.util.BoatMaterial;
@@ -20,7 +16,7 @@ import net.minecraft.resources.ResourceKey;
 
 public class AlekiShipsRegistries {
     public static final ResourceKey<Registry<EntityInput>> ENTITY_INPUT = createRegistryKey("entity_input");
-    public static final ResourceKey<Registry<ConstructionInput<SloopConstructionState.SloopConstructionStage>>> CONSTRUCTION_SLOOP_INPUT = createRegistryKey(
+    public static final ResourceKey<Registry<ConstructionInput<SloopUnderConstructionEntity.SloopConstructionStage>>> CONSTRUCTION_SLOOP_INPUT = createRegistryKey(
             "construction/sloop");
     public static final ResourceKey<Registry<FrameMaterial>> FRAME_MATERIAL = createRegistryKey("frame_material");
     public static final ResourceKey<Registry<CompartmentPlaceableSerializer<?>>> COMPARTMENT_PLACEABLE_SERIALIZER = createRegistryKey(

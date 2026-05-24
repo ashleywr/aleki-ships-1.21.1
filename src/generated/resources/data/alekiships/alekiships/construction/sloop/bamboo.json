@@ -1,5 +1,8 @@
 {
-  "assemble_blockstate": "minecraft:bamboo_planks",
+  "assemble_particle": {
+    "type": "alekiships:construction",
+    "texture": "minecraft:block/bamboo_planks"
+  },
   "assemble_sound": "minecraft:block.wood.break",
   "constructed_entity": {
     "type": "alekiships:sloop",
@@ -12,44 +15,59 @@
         "item": "alekiships:anchor"
       },
       "progress_sound": "minecraft:block.metal.place",
-      "switch_blockstate": "minecraft:bamboo_planks",
-      "switch_sound": "minecraft:block.bamboo_wood.break"
+      "switch_particle": {
+        "type": "alekiships:construction",
+        "texture": "minecraft:block/bamboo_planks"
+      },
+      "switch_sound": "minecraft:block.wood.break"
     },
     "boom": {
       "input": {
         "count": 8,
         "item": "minecraft:stripped_bamboo_block"
       },
-      "progress_sound": "minecraft:block.bamboo_wood.place",
-      "switch_blockstate": "minecraft:bamboo_planks",
-      "switch_sound": "minecraft:block.bamboo_wood.break"
+      "progress_sound": "minecraft:block.wood.place",
+      "switch_particle": {
+        "type": "alekiships:construction",
+        "texture": "minecraft:block/bamboo_planks"
+      },
+      "switch_sound": "minecraft:block.wood.break"
     },
     "bow_railings": {
       "input": {
         "count": 8,
         "item": "minecraft:bamboo_fence"
       },
-      "progress_sound": "minecraft:block.bamboo_wood.place",
-      "switch_blockstate": "minecraft:bamboo_planks",
-      "switch_sound": "minecraft:block.bamboo_wood.break"
+      "progress_sound": "minecraft:block.wood.place",
+      "switch_particle": {
+        "type": "alekiships:construction",
+        "texture": "minecraft:block/bamboo_planks"
+      },
+      "switch_sound": "minecraft:block.wood.break"
     },
     "bowsprit": {
       "input": {
         "count": 6,
         "item": "minecraft:stripped_bamboo_block"
       },
-      "progress_sound": "minecraft:block.bamboo_wood.place",
-      "switch_blockstate": "minecraft:bamboo_planks",
-      "switch_sound": "minecraft:block.bamboo_wood.break"
+      "progress_sound": "minecraft:block.wood.place",
+      "switch_particle": {
+        "type": "alekiships:construction",
+        "texture": "minecraft:block/bamboo_planks"
+      },
+      "switch_sound": "minecraft:block.wood.break"
     },
     "deck": {
       "input": {
         "count": 20,
         "item": "minecraft:bamboo_planks"
       },
-      "progress_sound": "minecraft:block.bamboo_wood.place",
-      "switch_blockstate": "minecraft:bamboo_planks",
-      "switch_sound": "minecraft:block.bamboo_wood.break"
+      "progress_sound": "minecraft:block.wood.place",
+      "switch_particle": {
+        "type": "alekiships:construction",
+        "texture": "minecraft:block/bamboo_planks"
+      },
+      "switch_sound": "minecraft:block.wood.break"
     },
     "jibsail": {
       "input": {
@@ -57,7 +75,10 @@
         "item": "minecraft:white_wool"
       },
       "progress_sound": "minecraft:block.wool.place",
-      "switch_blockstate": "minecraft:white_wool",
+      "switch_particle": {
+        "type": "alekiships:construction",
+        "texture": "minecraft:block/bamboo_planks"
+      },
       "switch_sound": "minecraft:block.wool.break"
     },
     "keel": {
@@ -65,9 +86,12 @@
         "count": 8,
         "item": "minecraft:stripped_bamboo_block"
       },
-      "progress_sound": "minecraft:block.bamboo_wood.place",
-      "switch_blockstate": "minecraft:bamboo_planks",
-      "switch_sound": "minecraft:block.bamboo_wood.break"
+      "progress_sound": "minecraft:block.wood.place",
+      "switch_particle": {
+        "type": "alekiships:construction",
+        "texture": "minecraft:block/bamboo_planks"
+      },
+      "switch_sound": "minecraft:block.wood.break"
     },
     "mainsail": {
       "input": {
@@ -75,7 +99,10 @@
         "item": "minecraft:white_wool"
       },
       "progress_sound": "minecraft:block.wool.place",
-      "switch_blockstate": "minecraft:white_wool",
+      "switch_particle": {
+        "type": "alekiships:construction",
+        "texture": "minecraft:block/bamboo_planks"
+      },
       "switch_sound": "minecraft:block.wool.break"
     },
     "mast": {
@@ -83,9 +110,12 @@
         "count": 12,
         "item": "minecraft:stripped_bamboo_block"
       },
-      "progress_sound": "minecraft:block.bamboo_wood.place",
-      "switch_blockstate": "minecraft:bamboo_planks",
-      "switch_sound": "minecraft:block.bamboo_wood.break"
+      "progress_sound": "minecraft:block.wood.place",
+      "switch_particle": {
+        "type": "alekiships:construction",
+        "texture": "minecraft:block/bamboo_planks"
+      },
+      "switch_sound": "minecraft:block.wood.break"
     },
     "rigging": {
       "input": {
@@ -93,17 +123,23 @@
         "item": "minecraft:lead"
       },
       "progress_sound": "minecraft:entity.leash_knot.place",
-      "switch_blockstate": "minecraft:bamboo_planks",
-      "switch_sound": "minecraft:block.bamboo_wood.break"
+      "switch_particle": {
+        "type": "alekiships:construction",
+        "texture": "minecraft:block/bamboo_planks"
+      },
+      "switch_sound": "minecraft:block.wood.break"
     },
     "stern_railings": {
       "input": {
         "count": 8,
         "item": "minecraft:bamboo_fence"
       },
-      "progress_sound": "minecraft:block.bamboo_wood.place",
-      "switch_blockstate": "minecraft:bamboo_planks",
-      "switch_sound": "minecraft:block.bamboo_wood.break"
+      "progress_sound": "minecraft:block.wood.place",
+      "switch_particle": {
+        "type": "alekiships:construction",
+        "texture": "minecraft:block/bamboo_planks"
+      },
+      "switch_sound": "minecraft:block.wood.break"
     }
   }
 }

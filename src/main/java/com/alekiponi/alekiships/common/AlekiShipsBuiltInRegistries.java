@@ -3,10 +3,10 @@ package com.alekiponi.alekiships.common;
 import com.alekiponi.alekiships.AlekiShips;
 import com.alekiponi.alekiships.common.compartment.CompartmentPlaceableSerializer;
 import com.alekiponi.alekiships.common.entity.EntityInput;
-import com.alekiponi.alekiships.common.entity.SloopConstructionState;
 import com.alekiponi.alekiships.common.entity.compartment.vanilla.ChestCompartmentData;
 import com.alekiponi.alekiships.common.entity.vehicle.ConstructionSloopVariant;
 import com.alekiponi.alekiships.common.entity.vehicle.RowboatVariant;
+import com.alekiponi.alekiships.common.entity.vehicle.SloopUnderConstructionEntity;
 import com.alekiponi.alekiships.common.entity.vehicle.SloopVariant;
 import com.alekiponi.alekiships.common.recipe.entity.EntityResultSerializer;
 import com.alekiponi.alekiships.common.recipe.ingredient.block.entity.BlockEntityIngredientSerializer;
@@ -45,8 +45,8 @@ public final class AlekiShipsBuiltInRegistries {
     public static void registerDatapackRegistries(final DataPackRegistryEvent.NewRegistry event) {
         event.dataPackRegistry(AlekiShipsRegistries.ENTITY_INPUT, EntityInput.CODEC, EntityInput.CODEC);
         event.dataPackRegistry(AlekiShipsRegistries.CONSTRUCTION_SLOOP_INPUT,
-                SloopConstructionState.SloopConstructionStage.INPUT_CODEC,
-                SloopConstructionState.SloopConstructionStage.INPUT_CODEC);
+                SloopUnderConstructionEntity.SloopConstructionStage.INPUT_CODEC,
+                SloopUnderConstructionEntity.SloopConstructionStage.INPUT_CODEC);
         event.dataPackRegistry(AlekiShipsRegistries.BOAT_MATERIAL, BoatMaterial.DIRECT_CODEC,
                 BoatMaterial.DIRECT_CODEC);
         event.dataPackRegistry(AlekiShipsRegistries.FRAME_MATERIAL, FrameMaterial.DIRECT_CODEC,
