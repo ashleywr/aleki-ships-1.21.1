@@ -141,15 +141,14 @@ public class MastEntity extends AbstractPassthroughHelper {
     @Override
     protected void addAdditionalSaveData(final CompoundTag compound) {
         final var ops = this.registryAccess().createSerializationContext(NbtOps.INSTANCE);
-        AlekiShipsExtraCodecs.writeNullable(MastBanner.CODEC, ops, this.getBanner().orElse(null), compound,
-                BANNER_PATTERN_KEY);
+        AlekiShipsExtraCodecs.writeNullable(MastBanner.CODEC, ops, this.getBanner().orElse(null))
+                .ifPresent(tag -> compound.put(BANNER_PATTERN_KEY, tag));
     }
 
     @Override
     protected void readAdditionalSaveData(final CompoundTag compound) {
         final var ops = this.registryAccess().createSerializationContext(NbtOps.INSTANCE);
-        AlekiShipsExtraCodecs.read(MastBanner.CODEC, ops, compound.getCompound(BANNER_PATTERN_KEY))
-                .ifPresent(this::setBanner);
+        AlekiShipsExtraCodecs.read(MastBanner.CODEC, ops, compound.get(BANNER_PATTERN_KEY)).ifPresent(this::setBanner);
     }
 
     public record MastBanner(BannerPatternLayers patternLayers, DyeColor baseColor) {

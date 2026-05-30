@@ -9,8 +9,6 @@ import com.mojang.serialization.MapCodec;
 import it.unimi.dsi.fastutil.chars.CharSet;
 
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.level.block.Block;
@@ -172,19 +170,24 @@ public final class AlekiShipsExtraCodecs {
         codec.parse(ops, input).ifSuccess(setter);
     }
 
-    public static <T, I> Optional<T> read(final Codec<T> codec, final DynamicOps<I> ops, final I input) {
+    public static <T, I> Optional<T> read(final Codec<T> codec, final DynamicOps<I> ops, final @Nullable I input) {
+        if (input == null) return Optional.empty();
         return codec.parse(ops, input).result();
     }
 
     @Nullable
-    public static <T, I> T readNullable(final Codec<T> codec, final DynamicOps<I> ops, final I input) {
+    public static <T, I> T readNullable(final Codec<T> codec, final DynamicOps<I> ops, final @Nullable I input) {
         return read(codec, ops, input).orElse(null);
     }
 
-    public static <T> void writeNullable(final Codec<T> codec, final DynamicOps<Tag> ops, final @Nullable T input,
-            final CompoundTag tag, final String key) {
-        if (input == null) return;
-        codec.encodeStart(ops, input).result().ifPresent(t -> tag.put(key, t));
+    public static <T, I> Optional<I> writeNullable(final Codec<T> codec, final DynamicOps<I> ops,
+            final @Nullable T input) {
+        if (input == null) return Optional.empty();
+        return write(codec, ops, input);
+    }
+
+    public static <T, I> Optional<I> write(final Codec<T> codec, final DynamicOps<I> ops, final T input) {
+        return codec.encodeStart(ops, input).result();
     }
 
     /**
