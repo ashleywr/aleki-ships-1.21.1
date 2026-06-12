@@ -92,7 +92,6 @@ public final class RenderEventHandler {
         event.registerEntityRenderer(AlekiShipsEntities.CANNON_ENTITY.get(), CannonRenderer::new);
         event.registerEntityRenderer(AlekiShipsEntities.VEHICLE_CLEAT_ENTITY.get(), VehicleCleatRenderer::new);
         event.registerEntityRenderer(AlekiShipsEntities.ANCHOR_ENTITY.get(), AnchorRenderer::new);
-        event.registerEntityRenderer(AlekiShipsEntities.CONSTRUCTION_ENTITY.get(), ConstructionRenderer::new);
     }
 
     @SubscribeEvent

@@ -107,11 +107,6 @@ public class VehiclePart extends Entity {
             return;
         }
 
-        //Try adding a construction entity
-        if (vehicle instanceof IHaveConstructionEntities && tickAddConstruction((IHaveConstructionEntities) vehicle)) {
-            return;
-        }
-
         // Try adding a compartment
         if (tickAddCompartment(vehicle)) {
         }
@@ -240,28 +235,6 @@ public class VehiclePart extends Entity {
                     AlekiShips.LOGGER.error("New Mast: {} unable to ride Vehicle Part: {}", mast, this);
                 }
                 this.level().addFreshEntity(mast);
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    protected boolean tickAddConstruction(IHaveConstructionEntities vehicle) {
-        for (int i : vehicle.getConstructionIndices()) {
-            if (((AbstractVehicle) vehicle).getPassengers().get(i)
-                    .is(this) && !((AbstractVehicle) vehicle).getPassengers().get(i).isVehicle()) {
-
-                final ConstructionEntity constructionEntity = AlekiShipsEntities.CONSTRUCTION_ENTITY.get()
-                        .create(this.level());
-                assert constructionEntity != null;
-                constructionEntity.setPos(this.getX(), this.getY(), this.getZ());
-                constructionEntity.setYRot(this.getVehicle().getYRot());
-                if (!constructionEntity.startRiding(this)) {
-                    AlekiShips.LOGGER.error("New Construction Entity: {} unable to ride Vehicle Part: {}",
-                            constructionEntity, this);
-                }
-                this.level().addFreshEntity(constructionEntity);
                 return true;
             }
         }

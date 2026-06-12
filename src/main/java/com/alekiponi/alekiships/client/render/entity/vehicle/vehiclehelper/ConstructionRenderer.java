@@ -30,13 +30,10 @@ public class ConstructionRenderer extends EntityRenderer<ConstructionEntity> {
     @Override
     public void render(final ConstructionEntity entity, final float entityYaw, final float partialTicks,
             final PoseStack poseStack, final MultiBufferSource bufferSource, final int packedLight) {
-        if (entity.getVehicle() == null) return;
-        if (entity.getVehicle().getVehicle() == null) return;
-
         {
             final Minecraft mc = Minecraft.getInstance();
             assert mc.player != null;
-            if (mc.player.distanceTo(entity.getRootVehicle()) > 5) return;
+            if (mc.player.distanceTo(entity.getParent()) > 5) return;
         }
 
         poseStack.pushPose();

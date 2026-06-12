@@ -41,7 +41,7 @@ public final class ConstructionSloopResult implements EntityResult {
     public Optional<Entity> createEntity(final Level level) {
         final var constructionSloop = new SloopUnderConstructionEntity(AlekiShipsEntities.CONSTRUCTION_SLOOP.get(),
                 level);
-        constructionSloop.setConstructionVariant(this.constructionSloopVariant);
+        constructionSloop.setVariant(this.constructionSloopVariant);
         return Optional.of(constructionSloop);
     }
 }

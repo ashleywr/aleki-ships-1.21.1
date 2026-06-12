@@ -6,13 +6,16 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.alekiponi.alekiships.common.AlekiShipsRegistries;
 
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.RegistryFileCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.storage.loot.LootTable;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -21,15 +24,14 @@ import lombok.ToString;
 
 @ToString
 @EqualsAndHashCode
-public final class ConstructionSloopVariant {
+public final class ConstructionSloopVariant implements ConstructionVariant<SloopUnderConstructionEntity.SloopConstructionStage> {
 
     public static final Codec<ConstructionSloopVariant> DIRECT_CODEC = RecordCodecBuilder.create(
             instance -> instance.group(
                             ResourceLocation.CODEC.fieldOf("texture").forGetter(sloopVariant -> sloopVariant.texture),
-                            RegistryFileCodec.create(AlekiShipsRegistries.CONSTRUCTION_SLOOP_INPUT,
-                                            SloopUnderConstructionEntity.SloopConstructionStage.INPUT_CODEC)
-                                    .fieldOf("construction_input")
-                                    .forGetter(ConstructionSloopVariant::getConstructionInput))
+                            ConstructionVariant.getConstructionInputField(AlekiShipsRegistries.CONSTRUCTION_SLOOP_INPUT,
+                                    SloopUnderConstructionEntity.SloopConstructionStage.INPUT_CODEC),
+                            ConstructionVariant.lootTableField(), ConstructionVariant.nameField())
                     .apply(instance, ConstructionSloopVariant::new));
 
     public static final Codec<Holder<ConstructionSloopVariant>> CODEC = RegistryFileCodec.create(
@@ -39,12 +41,12 @@ public final class ConstructionSloopVariant {
             ResourceLocation.STREAM_CODEC, sloopConstructionType -> sloopConstructionType.texture,
             ByteBufCodecs.holder(AlekiShipsRegistries.CONSTRUCTION_SLOOP_INPUT,
                     SloopUnderConstructionEntity.SloopConstructionStage.INPUT_STREAM_CODEC),
-            ConstructionSloopVariant::getConstructionInput, ConstructionSloopVariant::new);
+            ConstructionSloopVariant::getConstructionInput, ResourceKey.streamCodec(Registries.LOOT_TABLE),
+            ConstructionSloopVariant::getLootTable, ComponentSerialization.STREAM_CODEC, ConstructionVariant::getName,
+            ConstructionSloopVariant::new);
 
     public static final StreamCodec<RegistryFriendlyByteBuf, Holder<ConstructionSloopVariant>> STREAM_CODEC = ByteBufCodecs.holder(
             AlekiShipsRegistries.CONSTRUCTION_SLOOP_VARIANT, DIRECT_STREAM_CODEC);
-
-    private static final Component UNKNOWN = Component.literal("Unknown");
 
     private final ResourceLocation texture;
     @ToString.Exclude
@@ -52,23 +54,20 @@ public final class ConstructionSloopVariant {
     private final ResourceLocation textureFull;
     @Getter
     private final Holder<ConstructionInput<SloopUnderConstructionEntity.SloopConstructionStage>> constructionInput;
+    @Getter
+    private final ResourceKey<LootTable> lootTable;
+    @Getter
+    private final Component name;
 
     @Builder(toBuilder = true)
     public ConstructionSloopVariant(final ResourceLocation texture,
-            final Holder<ConstructionInput<SloopUnderConstructionEntity.SloopConstructionStage>> constructionInput) {
+            final Holder<ConstructionInput<SloopUnderConstructionEntity.SloopConstructionStage>> constructionInput,
+            final ResourceKey<LootTable> lootTable, final Component name) {
         this.texture = texture;
         this.textureFull = BoatVariant.TEXTURE_ID_CONVERTER.idToFile(texture);
         this.constructionInput = constructionInput;
-    }
-
-    /**
-     * @return The name of the sloop construction variant
-     */
-    public static Component name(final Holder<ConstructionSloopVariant> variantHolder) {
-        return variantHolder.unwrapKey()
-                .map(ResourceKey::location)
-                .map(ConstructionSloopVariant::getDescriptionId)
-                .<Component>map(Component::translatable).orElse(UNKNOWN);
+        this.lootTable = lootTable;
+        this.name = name;
     }
 
     /**

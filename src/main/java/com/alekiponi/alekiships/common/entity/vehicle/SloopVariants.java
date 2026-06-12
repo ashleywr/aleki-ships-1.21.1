@@ -40,7 +40,8 @@ public final class SloopVariants {
 
     public static final int FRAME_CAPACITY = 4;
     public static final int SLOOP_FRAMES = 24;
-    public static final int TOTAL_PLANKS = FRAME_CAPACITY * SLOOP_FRAMES + SloopConstructionInputs.TOTAL_PLANKS;
+    public static final int TOTAL_STRUCTURE_PLANKS = FRAME_CAPACITY * SLOOP_FRAMES;
+    public static final int TOTAL_PLANKS = TOTAL_STRUCTURE_PLANKS + SloopConstructionInputs.TOTAL_PLANKS;
 
     private static ResourceKey<SloopVariant> createKey(final String name) {
         return ResourceKey.create(AlekiShipsRegistries.SLOOP_VARIANT, AlekiShips.location(name));

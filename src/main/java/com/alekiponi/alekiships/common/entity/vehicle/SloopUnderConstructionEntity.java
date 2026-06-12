@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 
 import com.alekiponi.alekiships.common.AlekiShipsRegistries;
 import com.alekiponi.alekiships.network.AlekiShipsEntityDataSerializers;
+import com.alekiponi.alekiships.util.AlekiShipsExtraCodecs;
 import com.alekiponi.alekiships.util.MutableVec3i;
 import com.alekiponi.alekiships.util.advancements.AlekiShipsAdvancements;
 
@@ -11,12 +12,11 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.StringRepresentable;
@@ -25,9 +25,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.Optional;
-
-public class SloopUnderConstructionEntity extends AbstractUnderConstructionEntity<SloopUnderConstructionEntity.SloopConstructionStage> {
+public class SloopUnderConstructionEntity extends AbstractUnderConstructionEntity<ConstructionSloopVariant, SloopUnderConstructionEntity.SloopConstructionStage> {
 
     public static final String SLOOP_CONSTRUCTION_TYPE_KEY = "sloop_construction_type";
 
@@ -42,36 +40,6 @@ public class SloopUnderConstructionEntity extends AbstractUnderConstructionEntit
     public SloopUnderConstructionEntity(final EntityType<? extends SloopUnderConstructionEntity> entityType,
             final Level level) {
         super(entityType, level, SloopConstructionStage.SIZE, CODEC);
-    }
-
-    @Override
-    public int[] getColliderIndices() {
-        return new int[0];
-    }
-
-    @Override
-    public int[] getConstructionIndices() {
-        return new int[]{0};
-    }
-
-    @Override
-    public float renderSizeForCompartments() {
-        return 0;
-    }
-
-    @Override
-    public int getCompartmentRotation(int i) {
-        return 0;
-    }
-
-    @Override
-    public float getPassengerSizeLimit() {
-        return 0;
-    }
-
-    @Override
-    public int[][] getCompartmentRotationsArray() {
-        return new int[0][];
     }
 
     @Override
@@ -100,19 +68,9 @@ public class SloopUnderConstructionEntity extends AbstractUnderConstructionEntit
     }
 
     @Override
-    public int[] getCompartmentIndices() {
-        return new int[0];
-    }
-
-    @Override
-    public boolean isFunctional() {
-        return true;
-    }
-
-    @Override
-    protected Vec3 positionRiderByIndex(int index) {
-        final var yOffset = (float) ((this.isRemoved() ? (double) 0.01F : this.getPassengersRidingOffset()));
-        return switch (this.getConstructionState().inputStage()) {
+    protected Vec3 getConstructionEntityPosition(final SloopConstructionStage stage) {
+        final var yOffset = this.isRemoved() ? 0.01F : 0;
+        return switch (stage) {
             case KEEL -> new Vec3(0, yOffset, 0);
             case DECK -> new Vec3(-1.0f, 0.5 + yOffset, 0);
             case BOWSPRIT -> new Vec3(4.0f, 0.7 + yOffset, 0);
@@ -134,23 +92,8 @@ public class SloopUnderConstructionEntity extends AbstractUnderConstructionEntit
     }
 
     @Override
-    public float getDeathDamageThreshold() {
-        return getDamageThreshold() * 1.25f;
-    }
-
-    @Override
-    public float getDamageRecovery() {
-        return 10;
-    }
-
-    @Override
-    protected Vec3 positionLocally(final Vec3 vec3) {
-        return vec3.yRot((float) Math.toRadians(-(this.getYRot() + 90)));
-    }
-
-    @Override
-    protected void switchConstructionStage(final ConstructionInput<SloopConstructionStage> constructionInput,
-            final SloopConstructionStage previousStage, final SloopConstructionStage currentStage) {
+    protected void progressConstructionStage(final ConstructionInput<SloopConstructionStage> constructionInput,
+            final SloopConstructionStage previousStage, final SloopConstructionStage nextStage) {
         this.playSound(constructionInput.getSwitchSound(previousStage));
 
         final var switchParticle = constructionInput.getSwitchParticle(previousStage);
@@ -201,31 +144,19 @@ public class SloopUnderConstructionEntity extends AbstractUnderConstructionEntit
 
     @Override
     protected void readAdditionalSaveData(final CompoundTag compoundTag) {
+        final var ops = this.registryAccess().createSerializationContext(NbtOps.INSTANCE);
+        AlekiShipsExtraCodecs.read(ConstructionSloopVariant.CODEC, ops, compoundTag.get(SLOOP_CONSTRUCTION_TYPE_KEY))
+                .ifPresent(this::setVariant);
+        // The variant must be set before the construction state is read
         super.readAdditionalSaveData(compoundTag);
-
-        Optional.ofNullable(ResourceLocation.tryParse(compoundTag.getString(SLOOP_CONSTRUCTION_TYPE_KEY)))
-                .map(resourceLocation -> ResourceKey.create(AlekiShipsRegistries.CONSTRUCTION_SLOOP_VARIANT,
-                        resourceLocation))
-                .flatMap(resourceKey -> this.registryAccess()
-                        .registryOrThrow(AlekiShipsRegistries.CONSTRUCTION_SLOOP_VARIANT)
-                        .getHolder(resourceKey)).ifPresent(this::setConstructionVariant);
     }
 
     @Override
     protected void addAdditionalSaveData(final CompoundTag compoundTag) {
         super.addAdditionalSaveData(compoundTag);
-
-        this.getSloopConstructionVariant()
-                .unwrapKey()
-                .ifPresent(resourceKey -> compoundTag.putString(SLOOP_CONSTRUCTION_TYPE_KEY,
-                        resourceKey.location().toString()));
-    }
-
-    @Override
-    protected Component getTypeName() {
-        // Dynamic name of <Sloop Variant Name> Construction Sloop
-        return Component.translatable(this.getType().getDescriptionId(),
-                ConstructionSloopVariant.name(this.getSloopConstructionVariant()));
+        final var ops = this.registryAccess().createSerializationContext(NbtOps.INSTANCE);
+        AlekiShipsExtraCodecs.write(ConstructionSloopVariant.CODEC, ops, this.getVariant())
+                .ifPresent(tag -> compoundTag.put(SLOOP_CONSTRUCTION_TYPE_KEY, tag));
     }
 
     @Override
@@ -240,17 +171,14 @@ public class SloopUnderConstructionEntity extends AbstractUnderConstructionEntit
     }
 
     @Override
-    public final Holder<ConstructionInput<SloopConstructionStage>> getConstructionInput() {
-        return this.getSloopConstructionVariant().value().getConstructionInput();
-    }
-
-    public final Holder<ConstructionSloopVariant> getSloopConstructionVariant() {
+    public final Holder<ConstructionSloopVariant> getVariant() {
         return this.entityData.get(DATA_ID_SLOOP_CONSTRUCTION_VARIANT);
     }
 
-    public final void setConstructionVariant(final Holder<ConstructionSloopVariant> constructionType) {
-        this.entityData.set(DATA_ID_SLOOP_CONSTRUCTION_VARIANT, constructionType);
-        final var ingredient = constructionType.value()
+    @Override
+    public final void setVariant(final Holder<ConstructionSloopVariant> variant) {
+        this.entityData.set(DATA_ID_SLOOP_CONSTRUCTION_VARIANT, variant);
+        final var ingredient = variant.value()
                 .getConstructionInput()
                 .value()
                 .getIngredient(SloopConstructionStage.START);
@@ -259,7 +187,7 @@ public class SloopUnderConstructionEntity extends AbstractUnderConstructionEntit
     }
 
     public ResourceLocation getTexture() {
-        return this.getSloopConstructionVariant().value().texture();
+        return this.getVariant().value().texture();
     }
 
     public enum SloopConstructionStage implements ConstructionInput.ConstructionStage<SloopConstructionStage> {

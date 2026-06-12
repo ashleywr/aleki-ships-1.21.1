@@ -141,8 +141,7 @@ public final class AlekiShipsEntities {
                     .clientTrackingRange(VEHICLE_HELPER_TRACKING).noSummon().fireImmune());
 
     public static final DeferredHolder<EntityType<?>, EntityType<ConstructionEntity>> CONSTRUCTION_ENTITY = register(
-            "vehicle_construction", EntityType.Builder.of(ConstructionEntity::new, MobCategory.MISC).sized(1, 1)
-                    .clientTrackingRange(VEHICLE_HELPER_TRACKING).noSummon().fireImmune());
+            "vehicle_construction", EntityType.Builder.createNothing(MobCategory.MISC));
 
     public static final DeferredHolder<EntityType<?>, EntityType<WindlassSwitchEntity>> WINDLASS_SWITCH_ENTITY = register(
             "vehicle_switch_windlass",
