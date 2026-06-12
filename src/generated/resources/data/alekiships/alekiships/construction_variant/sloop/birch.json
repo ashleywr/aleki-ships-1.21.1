@@ -1,4 +1,8 @@
 {
   "construction_input": "alekiships:birch",
+  "loot_table": "alekiships:entities/construction/sloop/birch",
+  "name": {
+    "translate": "sloop_construction_variant.alekiships.birch"
+  },
   "texture": "alekiships:entity/watercraft/sloop_construction/birch"
 }

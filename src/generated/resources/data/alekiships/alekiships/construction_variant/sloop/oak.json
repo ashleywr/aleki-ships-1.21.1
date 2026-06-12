@@ -1,4 +1,8 @@
 {
   "construction_input": "alekiships:oak",
+  "loot_table": "alekiships:entities/construction/sloop/oak",
+  "name": {
+    "translate": "sloop_construction_variant.alekiships.oak"
+  },
   "texture": "alekiships:entity/watercraft/sloop_construction/oak"
 }

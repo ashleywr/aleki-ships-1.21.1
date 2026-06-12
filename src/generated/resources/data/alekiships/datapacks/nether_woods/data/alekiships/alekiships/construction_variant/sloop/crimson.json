@@ -1,4 +1,8 @@
 {
   "construction_input": "alekiships:crimson",
+  "loot_table": "alekiships:entities/construction/sloop/crimson",
+  "name": {
+    "translate": "sloop_construction_variant.alekiships.crimson"
+  },
   "texture": "alekiships:entity/watercraft/sloop_construction/crimson"
 }

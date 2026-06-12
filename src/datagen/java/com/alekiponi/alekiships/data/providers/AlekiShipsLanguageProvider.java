@@ -12,6 +12,7 @@ import com.alekiponi.alekiships.common.AlekiShipsRegistries;
 import com.alekiponi.alekiships.common.block.AlekiShipsBlocks;
 import com.alekiponi.alekiships.common.entity.AlekiShipsEntities;
 import com.alekiponi.alekiships.common.entity.vehicle.ConstructionSloopVariant;
+import com.alekiponi.alekiships.common.entity.vehicle.SloopUnderConstructionEntity;
 import com.alekiponi.alekiships.common.item.AlekiShipsItems;
 import com.alekiponi.alekiships.common.item.AlekiShipsTabs;
 import com.alekiponi.alekiships.common.recipe.AlekiShipsRecipeTypes;
@@ -90,6 +91,7 @@ public class AlekiShipsLanguageProvider extends EnhancedLanguageProvider {
 
         this.simpleEnumTranslations(ClientConfig.RudderSchemes.values());
         this.simpleEnumTranslations(IngameOverlays.DebugDisplayUnits.values());
+        this.simpleEnumTranslations(SloopUnderConstructionEntity.SloopConstructionStage.values());
 
         this.addTranslationsForJei();
     }

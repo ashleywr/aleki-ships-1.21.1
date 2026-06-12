@@ -1,4 +1,8 @@
 {
   "construction_input": "alekiships:cherry",
+  "loot_table": "alekiships:entities/construction/sloop/cherry",
+  "name": {
+    "translate": "sloop_construction_variant.alekiships.cherry"
+  },
   "texture": "alekiships:entity/watercraft/sloop_construction/cherry"
 }

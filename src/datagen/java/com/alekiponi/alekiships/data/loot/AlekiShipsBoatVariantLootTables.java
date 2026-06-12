@@ -1,11 +1,14 @@
 package com.alekiponi.alekiships.data.loot;
 
+import com.alekiponi.alekiships.common.block.AlekiShipsBlocks;
+import com.alekiponi.alekiships.common.entity.vehicle.ConstructionSloopVariants;
 import com.alekiponi.alekiships.common.entity.vehicle.RowboatVariants;
 import com.alekiponi.alekiships.common.entity.vehicle.SloopVariants;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.storage.loot.LootTable;
 
@@ -15,6 +18,11 @@ import static com.alekiponi.alekiships.common.entity.vehicle.RowboatVariants.Loo
 import static com.alekiponi.alekiships.common.entity.vehicle.SloopVariants.Loot.createSloopLootTable;
 
 public record AlekiShipsBoatVariantLootTables(HolderLookup.Provider registries) implements LootTableSubProvider {
+
+    private static LootTable.Builder constructionSloopLootTable(final Item planksItem) {
+        return ConstructionSloopVariants.Loot.createConstructionSloopLootTable(AlekiShipsBlocks.BOAT_FRAME_ANGLED,
+                AlekiShipsBlocks.BOAT_FRAME_FLAT, planksItem);
+    }
 
     @Override
     public void generate(final BiConsumer<ResourceKey<LootTable>, LootTable.Builder> output) {
@@ -52,5 +60,17 @@ public record AlekiShipsBoatVariantLootTables(HolderLookup.Provider registries) 
                 createSloopLootTable(Items.STRIPPED_MANGROVE_LOG, Items.MANGROVE_PLANKS, Items.MANGROVE_FENCE));
         output.accept(SloopVariants.Loot.BAMBOO,
                 createSloopLootTable(Items.STRIPPED_BAMBOO_BLOCK, Items.BAMBOO_PLANKS, Items.BAMBOO_FENCE));
+
+        output.accept(ConstructionSloopVariants.Loot.OAK, constructionSloopLootTable(Items.OAK_PLANKS));
+        output.accept(ConstructionSloopVariants.Loot.SPRUCE, constructionSloopLootTable(Items.SPRUCE_PLANKS));
+        output.accept(ConstructionSloopVariants.Loot.BIRCH, constructionSloopLootTable(Items.BIRCH_PLANKS));
+        output.accept(ConstructionSloopVariants.Loot.ACACIA, constructionSloopLootTable(Items.ACACIA_PLANKS));
+        output.accept(ConstructionSloopVariants.Loot.CHERRY, constructionSloopLootTable(Items.CHERRY_PLANKS));
+        output.accept(ConstructionSloopVariants.Loot.JUNGLE, constructionSloopLootTable(Items.JUNGLE_PLANKS));
+        output.accept(ConstructionSloopVariants.Loot.DARK_OAK, constructionSloopLootTable(Items.DARK_OAK_PLANKS));
+        output.accept(ConstructionSloopVariants.Loot.CRIMSON, constructionSloopLootTable(Items.CRIMSON_PLANKS));
+        output.accept(ConstructionSloopVariants.Loot.WARPED, constructionSloopLootTable(Items.WARPED_PLANKS));
+        output.accept(ConstructionSloopVariants.Loot.MANGROVE, constructionSloopLootTable(Items.MANGROVE_PLANKS));
+        output.accept(ConstructionSloopVariants.Loot.BAMBOO, constructionSloopLootTable(Items.BAMBOO_PLANKS));
     }
 }

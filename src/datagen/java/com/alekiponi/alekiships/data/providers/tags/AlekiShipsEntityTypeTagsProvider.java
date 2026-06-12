@@ -31,8 +31,8 @@ public class AlekiShipsEntityTypeTagsProvider extends EnhancedEntityTagsProvider
                 .name("Vehicle Helpers")
                 .add(AlekiShipsEntities.VEHICLE_PART.get(), AlekiShipsEntities.VEHICLE_CLEAT_ENTITY.get(),
                         AlekiShipsEntities.VEHICLE_COLLIDER_ENTITY.get(), AlekiShipsEntities.SAIL_SWITCH_ENTITY.get(),
-                        AlekiShipsEntities.ANCHOR_ENTITY.get(), AlekiShipsEntities.CONSTRUCTION_ENTITY.get(),
-                        AlekiShipsEntities.WINDLASS_SWITCH_ENTITY.get(), AlekiShipsEntities.MAST_ENTITY.get());
+                        AlekiShipsEntities.ANCHOR_ENTITY.get(), AlekiShipsEntities.WINDLASS_SWITCH_ENTITY.get(),
+                        AlekiShipsEntities.MAST_ENTITY.get());
 
         // Compartments
         this.tag(AlekiShipsTags.Entities.COMPARTMENTS)

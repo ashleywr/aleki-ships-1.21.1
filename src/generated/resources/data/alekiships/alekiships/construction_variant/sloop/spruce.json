@@ -1,4 +1,8 @@
 {
   "construction_input": "alekiships:spruce",
+  "loot_table": "alekiships:entities/construction/sloop/spruce",
+  "name": {
+    "translate": "sloop_construction_variant.alekiships.spruce"
+  },
   "texture": "alekiships:entity/watercraft/sloop_construction/spruce"
 }

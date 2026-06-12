@@ -1,4 +1,8 @@
 {
   "construction_input": "alekiships:mangrove",
+  "loot_table": "alekiships:entities/construction/sloop/mangrove",
+  "name": {
+    "translate": "sloop_construction_variant.alekiships.mangrove"
+  },
   "texture": "alekiships:entity/watercraft/sloop_construction/mangrove"
 }

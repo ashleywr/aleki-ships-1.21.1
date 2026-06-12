@@ -1,4 +1,8 @@
 {
   "construction_input": "alekiships:jungle",
+  "loot_table": "alekiships:entities/construction/sloop/jungle",
+  "name": {
+    "translate": "sloop_construction_variant.alekiships.jungle"
+  },
   "texture": "alekiships:entity/watercraft/sloop_construction/jungle"
 }

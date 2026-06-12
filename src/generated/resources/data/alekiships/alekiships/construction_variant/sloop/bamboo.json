@@ -1,4 +1,8 @@
 {
   "construction_input": "alekiships:bamboo",
+  "loot_table": "alekiships:entities/construction/sloop/bamboo",
+  "name": {
+    "translate": "sloop_construction_variant.alekiships.bamboo"
+  },
   "texture": "alekiships:entity/watercraft/sloop_construction/bamboo"
 }

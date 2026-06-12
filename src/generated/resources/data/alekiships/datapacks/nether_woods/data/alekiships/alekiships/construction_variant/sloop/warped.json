@@ -1,4 +1,8 @@
 {
   "construction_input": "alekiships:warped",
+  "loot_table": "alekiships:entities/construction/sloop/warped",
+  "name": {
+    "translate": "sloop_construction_variant.alekiships.warped"
+  },
   "texture": "alekiships:entity/watercraft/sloop_construction/warped"
 }

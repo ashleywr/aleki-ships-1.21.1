@@ -1,4 +1,8 @@
 {
   "construction_input": "alekiships:acacia",
+  "loot_table": "alekiships:entities/construction/sloop/acacia",
+  "name": {
+    "translate": "sloop_construction_variant.alekiships.acacia"
+  },
   "texture": "alekiships:entity/watercraft/sloop_construction/acacia"
 }
