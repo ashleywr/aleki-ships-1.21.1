@@ -5,6 +5,7 @@ import snownee.jade.api.IWailaCommonRegistration;
 import snownee.jade.api.IWailaPlugin;
 import snownee.jade.api.WailaPlugin;
 
+import com.alekiponi.alekiships.client.render.entity.vehicle.UnderConstructionEntityRenderer;
 import com.alekiponi.alekiships.common.block.AngledWoodenBoatFrameBlock;
 import com.alekiponi.alekiships.common.block.FlatWoodenBoatFrameBlock;
 import com.alekiponi.alekiships.common.entity.compartment.BlockCompartmentEntity;
@@ -12,6 +13,7 @@ import com.alekiponi.alekiships.common.entity.compartment.vanilla.AbstractFurnac
 import com.alekiponi.alekiships.common.entity.compartment.vanilla.BrewingStandCompartmentEntity;
 import com.alekiponi.alekiships.common.entity.compartment.vanilla.JukeboxCompartmentEntity;
 import com.alekiponi.alekiships.common.entity.compartment.vanilla.NoteBlockCompartmentEntity;
+import com.alekiponi.alekiships.common.entity.vehicle.AbstractUnderConstructionEntity;
 import com.alekiponi.alekiships.common.entity.vehicle.AbstractVehicle;
 import com.alekiponi.alekiships.common.entity.vehiclehelper.ConstructionEntity;
 import com.alekiponi.alekiships.compat.waila.compartment.*;
@@ -32,7 +34,7 @@ public class JadeIntegration implements IWailaPlugin {
 
     @Override
     public void registerClient(final IWailaClientRegistration registry) {
-        registry.registerEntityComponent(ConstructionEntityProvider.INSTANCE, ConstructionEntity.class);
+        registry.registerEntityComponent(ConstructionEntityProvider.INSTANCE, AbstractUnderConstructionEntity.class);
         registry.registerEntityComponent(VehicleEntityDamageProvider.INSTANCE, AbstractVehicle.class);
         registry.addConfig(VehicleEntityDamageProvider.DECIMAL_PLACES, 2, 0, 5, true);
         registry.markAsClientFeature(VehicleEntityDamageProvider.DECIMAL_PLACES);
