@@ -91,6 +91,7 @@ public sealed interface MultiblockPatternMatchResult extends Comparable<Multiblo
                 }
             }
             matchedBlocks.forEach(blockPos -> {
+                levelAccessor.getChunk(blockPos).removeBlockEntity(blockPos);
                 final var blockState = levelAccessor.getBlockState(blockPos);
                 if (levelAccessor.setBlock(blockPos, blockState.getFluidState().createLegacyBlock(),
                         Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE)) {
