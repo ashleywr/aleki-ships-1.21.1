@@ -145,11 +145,6 @@ public class SloopEntity extends AbstractAlekiBoatEntity<SloopVariant> implement
     }
 
     @Override
-    public int getCompartmentRotation(int i) {
-        return COMPARTMENT_ROTATIONS[i][0];
-    }
-
-    @Override
     public int[][] getCompartmentRotationsArray() {
         return COMPARTMENT_ROTATIONS;
     }
@@ -603,8 +598,7 @@ public class SloopEntity extends AbstractAlekiBoatEntity<SloopVariant> implement
 
     @Override
     protected void tickTurnSpeedFactor() {
-        // TODO make this cleaner in the inheritance structure
-        // shouldn't be used for larger boats...
+        // Larger sailing vessels retain their own rudder response instead of the small-boat speed adjustment.
     }
 
     @Override

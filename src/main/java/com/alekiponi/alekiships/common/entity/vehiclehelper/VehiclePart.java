@@ -46,11 +46,8 @@ public class VehiclePart extends Entity {
 
             if (tickCount < 30) {
                 if (vehicle.getPassengers().size() == vehicle.getMaxPassengers()) {
-                    for (int[] i : vehicle.getCompartmentRotationsArray()) {
-                        if (vehicle.getPassengers().get(i[0]) == this) {
-                            this.setCompartmentRotation(i[1]);
-                        }
-                    }
+                    final int passengerIndex = vehicle.getPassengers().indexOf(this);
+                    this.setCompartmentRotation(vehicle.getCompartmentRotation(passengerIndex));
                 }
 
             }

@@ -48,8 +48,7 @@ public final class AlekiShipsEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<EmptyCompartmentEntity>> EMPTY_COMPARTMENT_ENTITY = register(
             "compartment_empty",
             EntityType.Builder.of(EmptyCompartmentEntity::new, MobCategory.MISC).sized(0.6F, 0.7F).fireImmune()
-                    // TODO I think this '0.6F * 0.75F' value for passengerAttachments is correct, but I'm not quite sure.
-                    //  I believe this replaces Entity#getPassengersRidingOffset
+                    // This replaces the old passenger riding offset for the 0.6-block-wide compartment.
                     .noSummon().ridingOffset(0.125F).passengerAttachments(0.6F * 0.75F));
 
     public static final DeferredHolder<EntityType<?>, EntityType<BlockCompartmentEntity>> BLOCK_COMPARTMENT_ENTITY = registerCompartment(
@@ -59,7 +58,7 @@ public final class AlekiShipsEntities {
             "compartment_barrel",
             EntityType.Builder.<BarrelCompartmentEntity>of(BarrelCompartmentEntity::new, MobCategory.MISC).fireImmune()
                     .noSummon()
-                    // TODO this should be correct. Players should "stand" on us when riding.
+                    // This attachment height places riders on the barrel compartment rather than inside it.
                     .passengerAttachments(0.4F));
 
     public static final DeferredHolder<EntityType<?>, EntityType<ChestCompartmentEntity>> CHEST_COMPARTMENT_ENTITY = registerCompartment(

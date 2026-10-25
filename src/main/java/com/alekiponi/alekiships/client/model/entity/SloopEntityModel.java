@@ -884,6 +884,8 @@ public class SloopEntityModel extends EntityModel<SloopEntity> {
         }
 
         if (pBoat.getJibsailActive()) {
+            float sailBlend = getJibsailBlend(windDifference);
+            boolean useMainsailLuff = sailBlend >= 0.9f;
             for (int zindex = 0; zindex < jibsail_horizontal_sections; zindex++) {
 
                 for (int yindex = 0; yindex < jibsail_vertical_sections; yindex++) {
@@ -891,38 +893,24 @@ public class SloopEntityModel extends EntityModel<SloopEntity> {
                         break;
                     }
 
-                    //TODO clean up the math
-
-                    float luffFunction = 5 * Mth.sin(
-                            (float) (0.1 * ((zindex * jibsail_section_widths) + animationTickFloat + yindex * jibsail_section_widths)));
-                    float squaredFunctionComponent = (float) Math.pow(zindex - 22f, 2);
+                    float sectionPhase = (zindex + yindex) * jibsail_section_widths + animationTickFloat;
+                    float luffFunction = 5 * Mth.sin(0.1f * sectionPhase);
+                    float distanceFromAirfoilPeak = zindex - 22f;
 
                     float falloff = 0.6f * (float) Math.log((zindex + 1.00f)) + 0.1f;
                     falloff = Mth.clamp(falloff, 0.0f, 1.0f);
 
-                    float airfoilFunction = (-0.032f * squaredFunctionComponent + 16) * airFoilDirection;
+                    float airfoilFunction = (-0.032f * distanceFromAirfoilPeak * distanceFromAirfoilPeak + 16) * airFoilDirection;
 
                     luffFunction = luffFunction * falloff;
                     airfoilFunction = airfoilFunction * falloff;
 
-                    float mixFunction = 0;
-                    if (windDifference > 30 && windDifference < 150) {
-                        mixFunction = 0.92f;
-                    } else if (windDifference > 150) {
-                        windDifference = Math.abs(windDifference - 180);
-                        mixFunction = windDifference / 30f;
-                    } else {
-                        mixFunction = windDifference / 30f;
-                    }
-
-                    if (mixFunction >= 0.9f) {
+                    if (useMainsailLuff) {
                         luffFunction = 5 * Mth.sin(
                                 (float) (0.1 * ((zindex * mainsail_section_widths) + animationTickFloat))) * falloff;
                     }
 
-                    mixFunction = Mth.clamp(mixFunction, 0, 0.92f);
-
-                    float finalfunction = ((airfoilFunction) * mixFunction + (luffFunction * (1.0f - mixFunction)));
+                    float finalfunction = airfoilFunction * sailBlend + luffFunction * (1.0f - sailBlend);
 
                     sails[zindex][yindex].x = (finalfunction);
                 }
@@ -1057,13 +1045,12 @@ public class SloopEntityModel extends EntityModel<SloopEntity> {
 
     private static void animateMainsheet(SloopEntity pBoat, float pPartialTicks, ModelPart sheet, ModelPart spiral,
             float boomRotation) {
-        //TODO clean up this absolute trashfire
         ModelPart mainsheet = sheet.getChild("mainsheet");
         ModelPart traveller = sheet.getChild("traveller");
         ModelPart connector = sheet.getChild("traveller_connector");
         if (pBoat.getMainsailActive()) {
-            double thing = Math.toDegrees(boomRotation);
-            float rotation = mainSheetRotationLookupCauseImBadAtMath((float) Math.toDegrees(boomRotation));
+            float boomRotationDegrees = (float) Math.toDegrees(boomRotation);
+            float rotation = mainSheetRotationLookupCauseImBadAtMath(boomRotationDegrees);
             if (boomRotation > 0) {
                 mainsheet.zRot = rotation;
                 mainsheet.xRot = boomRotation * 0.6f;
@@ -1072,45 +1059,11 @@ public class SloopEntityModel extends EntityModel<SloopEntity> {
                 mainsheet.zRot = rotation;
                 mainsheet.xRot = -1 * boomRotation * 0.6f;
             }
-            // oh my god this is bad
-            float scale = 0;
-            if (Math.abs(thing) < 5) {
-                scale = 1.0f;
-            } else if (Math.abs(thing) < 10) {
-                scale = 1.2f;
-            } else if (Math.abs(thing) < 12.5) {
-                scale = 1.3f;
-            } else if (Math.abs(thing) < 15) {
-                scale = 1.5f;
-            } else if (Math.abs(thing) < 20) {
-                scale = 1.7f;
-            } else if (Math.abs(thing) < 25) {
-                scale = 1.9f;
-            } else if (Math.abs(thing) < 30) {
-                scale = 2.2f;
-            } else if (Math.abs(thing) < 32.5) {
-                scale = 2.5f;
-            } else if (Math.abs(thing) < 35) {
-                scale = 2.7f;
-            } else if (Math.abs(thing) < 37.5) {
-                scale = 2.8f;
-            } else if (Math.abs(thing) < 40) {
-                scale = 3.0f;
-            } else if (Math.abs(thing) < 41) {
-                scale = 3.15f;
-            } else if (Math.abs(thing) < 42) {
-                scale = 3.25f;
-            } else if (Math.abs(thing) < 43) {
-                scale = 3.25f;
-            } else if (Math.abs(thing) < 44) {
-                scale = 3.3f;
-            } else if (Math.abs(thing) < 50) {
-                scale = 3.35f;
-            }
+            float scale = getMainsheetScale(boomRotationDegrees);
             mainsheet.yScale = Mth.lerp(pPartialTicks, mainsheet.yScale, scale);
             //sheet.yScale = ((float)Mth.clamp(Math.abs(thing), 15, 45)/45f)*3.85f;
-            mainsheet.x = Mth.rotLerp(pPartialTicks, mainsheet.x, (float) Math.toDegrees(boomRotation) / 3.53f);
-            traveller.x = Mth.rotLerp(pPartialTicks, traveller.x, (float) Math.toDegrees(boomRotation) / 3.8f - 12f);
+            mainsheet.x = Mth.rotLerp(pPartialTicks, mainsheet.x, boomRotationDegrees / 3.53f);
+            traveller.x = Mth.rotLerp(pPartialTicks, traveller.x, boomRotationDegrees / 3.8f - 12f);
             connector.xScale = Mth.lerp(pPartialTicks, connector.xScale,
                     (float) (1 + (-Math.toDegrees(boomRotation) / 45) * 0.5));
 
@@ -1137,6 +1090,36 @@ public class SloopEntityModel extends EntityModel<SloopEntity> {
             mainsheet.xRot = 0;
         }
 
+    }
+
+    private static float getJibsailBlend(float windDifference) {
+        if (windDifference > 30 && windDifference < 150) {
+            return 0.92f;
+        }
+        if (windDifference > 150) {
+            windDifference = Math.abs(windDifference - 180);
+        }
+        return Mth.clamp(windDifference / 30f, 0.0f, 0.92f);
+    }
+
+    private static float getMainsheetScale(float boomRotationDegrees) {
+        float magnitude = Math.abs(boomRotationDegrees);
+        if (magnitude < 5) return 1.0f;
+        if (magnitude < 10) return 1.2f;
+        if (magnitude < 12.5) return 1.3f;
+        if (magnitude < 15) return 1.5f;
+        if (magnitude < 20) return 1.7f;
+        if (magnitude < 25) return 1.9f;
+        if (magnitude < 30) return 2.2f;
+        if (magnitude < 32.5) return 2.5f;
+        if (magnitude < 35) return 2.7f;
+        if (magnitude < 37.5) return 2.8f;
+        if (magnitude < 40) return 3.0f;
+        if (magnitude < 41) return 3.15f;
+        if (magnitude < 43) return 3.25f;
+        if (magnitude < 44) return 3.3f;
+        if (magnitude < 50) return 3.35f;
+        return 0.0f;
     }
 
     private static float mainSheetRotationLookupCauseImBadAtMath(float angleDegrees) {

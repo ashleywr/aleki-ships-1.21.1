@@ -35,9 +35,8 @@ public final class AlekiShipsAdvancements {
 
     public static void checkDyeShipBlack(Player player, AbstractAlekiBoatEntity<?> boat) {
         if (boat instanceof IPaintable) {
-            //TODO make generic
             if (boat instanceof SloopEntity sloop) {
-                if (sloop.getMainsailDye().equals(DyeColor.BLACK) && sloop.getMainsailDye()
+                if (sloop.getMainsailDye().equals(DyeColor.BLACK) && sloop.getJibsailDye()
                         .equals(DyeColor.BLACK) && sloop.getPaintColor().isPresent() && sloop.getPaintColor().get()
                         .equals(DyeColor.BLACK)) {
                     if (sloop.getName().getString().equalsIgnoreCase("black pearl") || sloop.getName().getString()

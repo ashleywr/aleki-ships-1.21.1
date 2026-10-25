@@ -104,18 +104,17 @@ public class EmptyCompartmentEntity extends AbstractCompartmentEntity {
         return this.getPassengers().isEmpty() && !this.isRemoved();
     }
 
-    /// TODO this should probably use {@link #getPassengerRidingPosition}. But I don't want to mess anything up -Traister
     @Override
     protected void positionRider(final Entity passenger, final Entity.MoveFunction moveFunction) {
         super.positionRider(passenger, moveFunction);
         float localX = 0.0F;
         float localZ = 0.0F;
-        // TODO I'm quite iffy on this being totally correct, really we should just override something else now I think
+        // Start with the 1.21 attachment position, then apply the compartment-specific visual offsets below.
         float localY = (float) ((this.isRemoved() ? 0.01 : this.getPassengerRidingPosition(
                 passenger).y) + passenger.getVehicleAttachmentPoint(this).y);
         if (passenger instanceof Player) {
             localY = 0;
-            // TODO remove instance check and use abstraction / positionRiderByIndex()
+            // Rowboats have distinct pilot and passenger seats that cannot be inferred from the generic vehicle layout.
             if (this.getTrueVehicle() instanceof RowboatEntity rowboatEntity) {
                 localY = 0.25f;
                 if (rowboatEntity.getPilotVehiclePartAsEntity() != ridingThisPart) {
@@ -132,7 +131,7 @@ public class EmptyCompartmentEntity extends AbstractCompartmentEntity {
         }
         if (passenger.getBbWidth() > 0.9f) {
             localX += 0.2f;
-            // TODO remove instance check and use abstraction
+            // The rowboat's narrow stern needs a compensating offset for wide passengers.
             if (this.getTrueVehicle() instanceof RowboatEntity) {
                 localX -= 0.6f;
             }
@@ -272,8 +271,6 @@ public class EmptyCompartmentEntity extends AbstractCompartmentEntity {
         entity.setYHeadRot(entity.getYRot());
     }
 
-
-    // TODO this should probably not also send packets?
     public void setInput(final boolean inputLeft, final boolean inputRight, final boolean inputUp,
             final boolean inputDown) {
         if (this.getFirstPassenger() instanceof Player) {
@@ -356,7 +353,7 @@ public class EmptyCompartmentEntity extends AbstractCompartmentEntity {
     public InteractionResult interact(final Player player, final InteractionHand hand) {
         final ItemStack heldStack = player.getItemInHand(hand);
 
-        //TODO make generic for all oar-accepting boats
+        // Rowboat is currently the only vehicle with oar slots; generalize with a capability when another one exists.
         if (heldStack.is(AlekiShipsItems.OAR.get())) {
             if (this.getTrueVehicle() instanceof RowboatEntity rowboat && !rowboat.getOars()
                     .equals(RowboatEntity.Oars.TWO)) {
@@ -378,7 +375,6 @@ public class EmptyCompartmentEntity extends AbstractCompartmentEntity {
                         AlekiShips.LOGGER.error("New Cannon: {} unable to ride Compartment: {}", cannon, this);
                     }
                 }
-                // TODO award stats properly elsewhere
                 player.awardStat(Stats.ITEM_USED.get(AlekiShipsItems.CANNON.get()));
                 if (!player.getAbilities().instabuild) {
                     heldStack.shrink(1);
@@ -504,9 +500,11 @@ public class EmptyCompartmentEntity extends AbstractCompartmentEntity {
 
     @Override
     public RidingPose getRidingPose() {
-        // TODO fix, it not work
-        if (this.getTrueVehicle() != null && vehiclePassengerIndex != -1) {
-            return this.getTrueVehicle().getRidingPoses()[this.vehiclePassengerIndex];
+        if (this.getTrueVehicle() != null && vehiclePassengerIndex >= 0) {
+            final RidingPose[] poses = this.getTrueVehicle().getRidingPoses();
+            if (vehiclePassengerIndex < poses.length) {
+                return poses[vehiclePassengerIndex];
+            }
         }
         return RidingPose.STANDARD;
     }

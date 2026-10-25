@@ -75,23 +75,6 @@ public class SloopRenderer extends EntityRenderer<SloopEntity> {
 
         final VertexConsumer vertexconsumer = bufferSource.getBuffer(this.getRenderType(sloopEntity));
 
-        //TODO this is setup code for distance sail LODs
-
-        //TODO get the player from the minecraft instance instead
-
-        //TODO also cancel animation when LOD is triggered
-        /*
-        if(this.level().isClientSide()){
-            Player nearestPlayer = this.level().getNearestPlayer(this, 32*16);
-            if(nearestPlayer != null){
-                float distance = this.distanceTo(nearestPlayer);
-                if(distance > 4*16){
-                    //render the simple sail instead
-                }
-            }
-        }*/
-
-
         this.sloopModel.renderToBuffer(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY);
 
         if (sloopEntity.hasCustomName()) {
@@ -110,8 +93,7 @@ public class SloopRenderer extends EntityRenderer<SloopEntity> {
         } else {
             this.sloopModel.getMainsailFurledParts()
                     .render(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY);
-            // TODO we do need to render this twice as the sail is included in this model part.
-            //  change the model (or don't it's probably not that big of a deal)
+            // The furled geometry includes both the hull material and the dyed sail, so render its sail pass too.
             this.sloopModel.getMainsailFurledParts().render(poseStack,
                     bufferSource.getBuffer(RenderType.entityCutout(this.getMainsailTexture(sloopEntity))), packedLight,
                     OverlayTexture.NO_OVERLAY);

@@ -8,10 +8,16 @@ import java.util.ArrayList;
 public interface IHaveCompartments {
     int[] getCompartmentIndices();
 
-    // TODO make this into generic helper rotation
     int[][] getCompartmentRotationsArray();
 
-    int getCompartmentRotation(int i);
+    default int getCompartmentRotation(final int passengerIndex) {
+        for (final int[] rotation : this.getCompartmentRotationsArray()) {
+            if (rotation.length >= 2 && rotation[0] == passengerIndex) {
+                return rotation[1];
+            }
+        }
+        return 0;
+    }
 
     private ArrayList<AbstractCompartmentEntity> getCompartments(AbstractVehicle vehicle) {
         ArrayList<AbstractCompartmentEntity> list = new ArrayList<>();

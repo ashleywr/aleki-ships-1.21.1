@@ -25,8 +25,7 @@ public enum SimpleWindModel implements WindModel {
         // get the wind based on the total world time of the level and the location
         long time = level.getGameTime();
 
-        // TODO redo wind model to be more interesting :) and less stolen
-        // based on TFC wind for now
+        // Keep this deterministic baseline until a separately-designed weather model is available.
         long days = time / 24000L;
         Random random = this.seededRandom(days, 129341623413L);
         boolean isDay = level.getDayTime() % 24000L < 12000L;

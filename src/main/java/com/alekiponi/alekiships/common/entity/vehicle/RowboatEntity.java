@@ -205,11 +205,6 @@ public class RowboatEntity extends AbstractAlekiBoatEntity<RowboatVariant> imple
     }
 
     @Override
-    public int getCompartmentRotation(int i) {
-        return COMPARTMENT_ROTATIONS[i][0];
-    }
-
-    @Override
     public int[][] getCompartmentRotationsArray() {
         return COMPARTMENT_ROTATIONS;
     }

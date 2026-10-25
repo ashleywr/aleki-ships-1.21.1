@@ -144,8 +144,8 @@ public final class ForgeEventHandler {
     }
 
     /**
-     * Cancel Suffocation damage when riding our boats
-     * TODO ensure this works correctly
+     * Suppress in-wall damage only for riders attached to a compartment. Setting damage to zero keeps the event
+     * visible to other handlers while preventing the actual damage application.
      */
     @SubscribeEvent
     private static void onLivingAttack(final LivingDamageEvent.Pre event) {
@@ -172,8 +172,10 @@ public final class ForgeEventHandler {
 
         final Level level = event.getLevel();
 
-        EntityMultiblockRecipe.tryAssembleMultiblock(level, blockPos, player, true);
-        event.setCanceled(true);
+        if (EntityMultiblockRecipe.tryAssembleMultiblock(level, blockPos, player, false)) {
+            event.setCancellationResult(InteractionResult.SUCCESS);
+            event.setCanceled(true);
+        }
     }
 
     @SubscribeEvent

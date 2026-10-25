@@ -53,8 +53,7 @@ public class CannonballEntity extends Projectile {
             return switch (entity) {
                 case AbstractAlekiBoatEntity<?> ignored -> 100;
                 case Boat ignored -> 10_000;
-                // TODO this seems stupid but should be the same behavior as in the previous custom Explosion class
-                //  so don't blame me -Traister
+                // Preserve the legacy cannonball balance: players take a small hit while boats are heavily damaged.
                 case Player ignored -> 1;
                 default -> super.getEntityDamageAmount(explosion, entity);
             };

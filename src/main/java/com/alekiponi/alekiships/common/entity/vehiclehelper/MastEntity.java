@@ -54,7 +54,8 @@ public class MastEntity extends AbstractPassthroughHelper {
             final var playersToMoveWithMast = this.level()
                     .getEntities(this, this.getBoundingBox(), EntitySelector.NO_SPECTATORS);
 
-            // TODO better, consistent, propagation of movement to entities
+            // Client-side correction keeps the local player from clipping through a moving mast; full movement
+            // propagation remains intentionally owned by the vehicle/passenger system.
             for (final var entity : playersToMoveWithMast) {
                 if ((entity instanceof LocalPlayer player)) {
                     Vec3 vehicleMovement = this.getRootVehicle().getDeltaMovement();

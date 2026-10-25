@@ -11,7 +11,6 @@ import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
 
-// TODO, ensure this works as expected when relying on Leashable
 public class CleatEntity extends AbstractPassthroughHelper implements Leashable {
 
     protected int lerpSteps;
@@ -64,7 +63,7 @@ public class CleatEntity extends AbstractPassthroughHelper implements Leashable 
 
     @Override
     protected void readAdditionalSaveData(CompoundTag pCompound) {
-        this.writeLeashData(pCompound, this.leashData);
+        this.leashData = this.readLeashData(pCompound);
     }
 
     @Override
@@ -74,7 +73,7 @@ public class CleatEntity extends AbstractPassthroughHelper implements Leashable 
 
     @Override
     protected void addAdditionalSaveData(CompoundTag pCompound) {
-        this.leashData = this.readLeashData(pCompound);
+        this.writeLeashData(pCompound, this.leashData);
     }
 
     @Override

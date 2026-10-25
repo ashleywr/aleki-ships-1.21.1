@@ -993,33 +993,9 @@ public abstract class AbstractVehicle extends Entity implements IHaveColliders, 
 
     @Override
     protected Vec3 collide(Vec3 pVec) {
-        // TODO make this work by applying the angular velocity to each collider and by making collision affect deltaRotation
-        Vec3 originalCollision = super.collide(pVec);
-        /*
-        if(originalCollision.horizontalDistance() == 0){
-            return originalCollision;
-        }
-        ArrayList<Vec3> addedCollisions = new ArrayList<>();
-        for(VehicleCollisionEntity collider : this.getColliders()){
-            // apply angular velocity to pVec
-            // apply collision to deltaRotation
-
-            AABB aabb = collider.getBoundingBox();
-            List<VoxelShape> list = collider.level().getEntityCollisions(collider, aabb.expandTowards(pVec));
-            Vec3 vec3 = pVec.lengthSqr() == 0.0D ? pVec : collideBoundingBox(collider, pVec, aabb, this.level(), list);
-
-            addedCollisions.add(vec3);
-        }
-
-        // resolve collisions
-        //addedCollisions.add(originalCollision);
-        Vec3 finalCollision = new Vec3(Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE);
-        for(Vec3 collision : addedCollisions){
-            if(collision.horizontalDistance() < finalCollision.horizontalDistance()){
-                finalCollision = collision;
-            }
-        }*/
-        return originalCollision;
+        // A complete angular-collision solver must update both colliders and rotation atomically; use vanilla
+        // translation collision until that feature has a dedicated physics design and regression coverage.
+        return super.collide(pVec);
     }
 
     public int getCompartmentBlockLight() {

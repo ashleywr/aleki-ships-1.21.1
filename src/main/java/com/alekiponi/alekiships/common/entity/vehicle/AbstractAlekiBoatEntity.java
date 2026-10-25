@@ -2,6 +2,7 @@ package com.alekiponi.alekiships.common.entity.vehicle;
 
 import com.alekiponi.alekiships.common.entity.vehiclecapability.IHaveAnchorWindlass;
 import com.alekiponi.alekiships.common.entity.vehiclecapability.IHaveCleats;
+import com.alekiponi.alekiships.config.AlekiShipsConfig;
 import com.alekiponi.alekiships.network.AlekiShipsEntityDataSerializers;
 import com.alekiponi.alekiships.util.ClientHelper;
 import com.alekiponi.alekiships.util.BoatMaterial;
@@ -170,11 +171,9 @@ public abstract class AbstractAlekiBoatEntity<T extends BoatVariant> extends Abs
     }
 
     protected void tickWindInput() {
-        if (this.status == MediumStatus.IN_WATER || this.status == MediumStatus.IN_AIR) {
+        if (AlekiShipsConfig.SERVER.windDrift.get() && (this.status == MediumStatus.IN_WATER || this.status == MediumStatus.IN_AIR)) {
             double windFunction = Mth.clamp(this.getLocalWindSpeed(), 0.001,
                     0.002 * this.getBoundingBox().getXsize()) * windDriftMultiplier();
-
-            // TODO add a config for enabling / disabling wind drift
 
             float windDifference = Mth.degreesDifference(this.getLocalWindAngle(), Mth.wrapDegrees(this.getYRot()));
 

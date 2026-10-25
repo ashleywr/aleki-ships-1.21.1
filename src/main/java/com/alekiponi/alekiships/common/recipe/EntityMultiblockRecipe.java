@@ -84,28 +84,32 @@ public class EntityMultiblockRecipe extends NoopRecipe {
      * @param blockPos The block pos to check for a multiblock
      * @param player   The player to inform of the result
      */
-    public static void tryAssembleMultiblock(final Level level, final BlockPos blockPos, @Nullable final Player player,
+    public static boolean tryAssembleMultiblock(final Level level, final BlockPos blockPos, @Nullable final Player player,
             final boolean reportNoMatch) {
-        if (level.isClientSide) return;
+        if (level.isClientSide) return false;
 
         final var bestMatch = getBestMatch(level, blockPos);
 
         final var profiler = level.getProfiler();
         profiler.push("entityMultiblockAssembly");
-        bestMatch.ifPresent(match -> {
+        try {
+            if (bestMatch.isEmpty()) return false;
+            final var match = bestMatch.get();
             if (match.success()) {
                 match.assemble(level);
                 if (player != null) {
                     player.sendSystemMessage(
                             Component.translatable(SUCCESSFULLY_ASSEMBLED, match.multiblockRecipe.toString()));
                 }
-                return;
+                return true;
             }
             if (reportNoMatch && player != null) {
                 player.sendSystemMessage(Component.translatable(FAILED_TO_ASEMBLE, match.multiblockRecipe.toString()));
             }
-        });
-        profiler.pop();
+            return false;
+        } finally {
+            profiler.pop();
+        }
     }
 
     /**

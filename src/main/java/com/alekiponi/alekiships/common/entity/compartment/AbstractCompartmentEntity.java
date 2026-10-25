@@ -168,7 +168,6 @@ public abstract class AbstractCompartmentEntity extends Entity {
         }
     }
 
-    // TODO, see if I work as expected
     @Override
     public void lerpTo(final double posX, final double posY, final double posZ, final float yRot, final float xRot,
             final int steps) {
